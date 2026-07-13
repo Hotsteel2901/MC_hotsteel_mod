@@ -1,0 +1,19 @@
+{
+  "parent": "hotsteel:steel_ingot",
+  "display": {
+    "icon": { "id": "hotsteel:hot_steel_ingot" },
+    "title": { "translate": "advancements.hotsteel.hot_steel_ingot.title" },
+    "description": { "translate": "advancements.hotsteel.hot_steel_ingot.description" },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "get_hot_steel_ingot": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": { "items": [ { "items": [ "hotsteel:hot_steel_ingot" ] } ] }
+    }
+  },
+  "requirements": [ [ "get_hot_steel_ingot" ] ]
+}

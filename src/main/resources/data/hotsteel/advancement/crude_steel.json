@@ -1,0 +1,19 @@
+{
+  "display": {
+    "icon": { "id": "hotsteel:crude_steel" },
+    "title": { "translate": "advancements.hotsteel.crude_steel.title" },
+    "description": { "translate": "advancements.hotsteel.crude_steel.description" },
+    "frame": "task",
+    "background": "minecraft:textures/gui/advancements/backgrounds/stone.png",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "get_crude_steel": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": { "items": [ { "items": [ "hotsteel:crude_steel" ] } ] }
+    }
+  },
+  "requirements": [ [ "get_crude_steel" ] ]
+}

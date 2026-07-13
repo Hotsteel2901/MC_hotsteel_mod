@@ -1,0 +1,4 @@
+{
+    "parent": "item/generated",
+    "textures": { "layer0": "hotsteel:item/hot_steel_crossbow_pulling_0" }
+}

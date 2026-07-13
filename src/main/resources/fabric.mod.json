@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "id": "hotsteel",
+  "version": "${version}",
+
+  "name": "Hot Steel",
+  "description": "Adds a full Hot Steel equipment set, a steel processing chain, and super fire resistance.",
+  "authors": ["hotsteel"],
+  "license": "MIT",
+
+  "environment": "*",
+
+  "entrypoints": {
+    "main": ["com.hotsteel.HotSteel"],
+    "client": ["com.hotsteel.client.HotSteelClient"],
+    "fabric-datagen": ["com.hotsteel.datagen.HotSteelDataGen"]
+  },
+
+  "mixins": [
+    "hotsteel.mixins.json"
+  ],
+
+  "accessWidener": "hotsteel.accesswidener",
+
+  "depends": {
+    "fabricloader": ">=0.19.3",
+    "minecraft": "~1.21.1",
+    "java": ">=21",
+    "fabric-api": "*"
+  }
+}

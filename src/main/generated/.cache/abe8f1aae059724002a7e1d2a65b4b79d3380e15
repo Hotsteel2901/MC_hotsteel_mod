@@ -1,0 +1,23 @@
+// 1.21.1	2026-07-12T12:45:41.916166177	Hot Steel/Tags for minecraft:item
+4c22d330af9c616790910d48924dbfa7996357e1 data/minecraft/tags/item/enchantable/sharp_weapon.json
+c7c6d09e252d6c7d8439df576974121cb488d34e data/minecraft/tags/item/enchantable/fire_aspect.json
+05ce00ea539b349f51ef91030f443fb3d07cfc12 data/minecraft/tags/item/enchantable/head_armor.json
+c7c6d09e252d6c7d8439df576974121cb488d34e data/minecraft/tags/item/swords.json
+c98abc8b1fefb3a6ca1768a83104f8f762fa2646 data/minecraft/tags/item/pickaxes.json
+7696a93d43663297933ab9b3fc68fc6cbbade28a data/minecraft/tags/item/enchantable/armor.json
+ae96f649941d65855fe857ccdd74aba5031c057f data/minecraft/tags/item/enchantable/crossbow.json
+4c22d330af9c616790910d48924dbfa7996357e1 data/minecraft/tags/item/enchantable/weapon.json
+7b3502f521883d694c852107e7ea3db301368a23 data/minecraft/tags/item/enchantable/foot_armor.json
+7696a93d43663297933ab9b3fc68fc6cbbade28a data/minecraft/tags/item/enchantable/equippable.json
+a8fb5e8ec43f7f952094b85b7084ba7461d24b2d data/minecraft/tags/item/enchantable/durability.json
+1b669cf952f10c67ef77f24ef544dd810ceb6655 data/minecraft/tags/item/enchantable/mining.json
+2f8e75c33d7ecf7844b14a80c1317b1b0499bd9b data/minecraft/tags/item/axes.json
+233c15feaf91051032a2e47990f1fc14b47045c0 data/minecraft/tags/item/enchantable/leg_armor.json
+cefa67e72320217e174d7d7d0128e8f873308418 data/minecraft/tags/item/enchantable/bow.json
+b96db3186dde8beb60467fce0e920f462200c9d0 data/minecraft/tags/item/enchantable/trident.json
+8e97f16d8ce5c3ed29f042fc5f7e01659daf4245 data/minecraft/tags/item/enchantable/chest_armor.json
+c7c6d09e252d6c7d8439df576974121cb488d34e data/minecraft/tags/item/enchantable/sword.json
+e0c2c05c6e3da76e61cd5a533acd6b5c6ac9cac7 data/minecraft/tags/item/shovels.json
+a8fb5e8ec43f7f952094b85b7084ba7461d24b2d data/minecraft/tags/item/enchantable/vanishing.json
+f3094c97ca437d8cbb3c749a6dd7f0b71ea59a36 data/minecraft/tags/item/hoes.json
+1b669cf952f10c67ef77f24ef544dd810ceb6655 data/minecraft/tags/item/enchantable/mining_loot.json

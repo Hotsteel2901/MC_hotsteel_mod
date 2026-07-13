@@ -1,0 +1,18 @@
+{
+  "parent": "hotsteel:hot_steel_ingot",
+  "display": {
+    "icon": { "id": "hotsteel:hot_steel_chestplate" },
+    "title": { "translate": "advancements.hotsteel.full_armor.title" },
+    "description": { "translate": "advancements.hotsteel.full_armor.description" },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "wear_full_set": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "requirements": [ [ "wear_full_set" ] ]
+}

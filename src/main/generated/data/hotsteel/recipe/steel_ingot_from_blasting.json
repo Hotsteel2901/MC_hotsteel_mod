@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:blasting",
+  "category": "misc",
+  "cookingtime": 100,
+  "experience": 1.0,
+  "ingredient": {
+    "item": "hotsteel:crude_steel_block"
+  },
+  "result": {
+    "id": "hotsteel:steel_ingot"
+  }
+}

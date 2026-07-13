@@ -1,0 +1,10 @@
+.gradle/
+build/
+run/
+session-*.md
+*.iml
+.idea/
+.vscode/
+*.log
+__pycache__/
+*.pyc

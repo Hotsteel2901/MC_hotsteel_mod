@@ -1,0 +1,4 @@
+accessWidener	v2	named
+
+# Allow mods to register item model property predicates (bow/crossbow pull, etc.)
+accessible	method	net/minecraft/client/renderer/item/ItemProperties	register	(Lnet/minecraft/world/item/Item;Lnet/minecraft/resources/ResourceLocation;Lnet/minecraft/client/renderer/item/ClampedItemPropertyFunction;)V

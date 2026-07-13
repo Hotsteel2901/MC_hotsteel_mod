@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "I": {
+      "item": "hotsteel:hot_steel_ingot"
+    },
+    "R": {
+      "item": "minecraft:string"
+    }
+  },
+  "pattern": [
+    " IR",
+    "I R",
+    " IR"
+  ],
+  "result": {
+    "count": 1,
+    "id": "hotsteel:hot_steel_bow"
+  }
+}
