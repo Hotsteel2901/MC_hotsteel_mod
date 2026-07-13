@@ -14,14 +14,19 @@ import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.minecraft.ChatFormatting;
 import net.minecraft.advancements.AdvancementHolder;
+import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.DamageTypeTags;
+import net.minecraft.tags.FluidTags;
+import net.minecraft.util.Mth;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.AABB;
 
 /**
  * Drives "Super Fire Resistance": full Hot Steel armor set + fire environment (lava / on fire)
@@ -39,6 +44,40 @@ public final class SuperFireResistanceHandler {
     /** Client-safe check: driven by the auto-synced marker effect. */
     public static boolean isActive(LivingEntity entity) {
         return entity.hasEffect(ModEffects.SUPER_FIRE_RESISTANCE);
+    }
+
+    /**
+     * Returns true if any part of the entity's bounding box intersects a lava block.
+     * <p>
+     * Vanilla {@link LivingEntity#isInLava()} only checks the fluid at the entity's eye level,
+     * which causes rapid on/off toggling when the player bobs at the lava surface (water physics
+     * lifts them up, eyes leave lava, physics reverts, player sinks, eyes re-enter lava, ...).
+     * Checking the whole bounding box keeps the swim flag, the marker effect, and the water-physics
+     * redirect stable across that bobbing so the player smoothly swims in lava like in water.
+     */
+    public static boolean isBodyTouchingLava(LivingEntity entity) {
+        if (entity.isInLava()) {
+            return true; // fast path: eye-level check is enough when fully submerged
+        }
+        AABB box = entity.getBoundingBox();
+        Level level = entity.level();
+        int minX = Mth.floor(box.minX);
+        int minY = Mth.floor(box.minY);
+        int minZ = Mth.floor(box.minZ);
+        int maxX = Mth.floor(box.maxX);
+        int maxY = Mth.floor(box.maxY);
+        int maxZ = Mth.floor(box.maxZ);
+        BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos();
+        for (int y = minY; y <= maxY; y++) {
+            for (int x = minX; x <= maxX; x++) {
+                for (int z = minZ; z <= maxZ; z++) {
+                    if (level.getFluidState(pos.set(x, y, z)).is(FluidTags.LAVA)) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
     }
 
     public static void register() {
@@ -80,8 +119,10 @@ public final class SuperFireResistanceHandler {
                 Component.translatable("message.hotsteel.super_fire_off").withStyle(ChatFormatting.RED), false);
         }
 
-        // Fire / lava protection.
-        boolean inFire = player.isInLava() || player.isOnFire();
+        // Fire / lava protection. Use the body-touching check (not just eye level) so the
+        // effect stays granted while the player bobs at the lava surface — otherwise the
+        // rapid grant/remove cycle causes the swim pose to twitch every tick.
+        boolean inFire = isBodyTouchingLava(player) || player.isOnFire();
         if (fullSet && inFire) {
             int elapsed = TIMER.getOrDefault(id, 0) + 1;
             TIMER.put(id, elapsed);
