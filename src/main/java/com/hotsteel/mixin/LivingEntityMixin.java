@@ -18,6 +18,8 @@ public abstract class LivingEntityMixin {
     /**
      * While Super Fire Resistance is active, treat lava as water inside {@code travel()} so the
      * player swims through lava with water physics instead of the sluggish lava branch.
+     * Uses the body-touching-lava check so water physics stays applied while the player bobs at
+     * the lava surface — keeps them moving smoothly instead of sink-rise-sink-rise cycling.
      */
     @Redirect(
         method = "travel",
@@ -25,7 +27,7 @@ public abstract class LivingEntityMixin {
     private boolean hotsteel$lavaAsWater(LivingEntity self) {
         if (self instanceof Player
             && SuperFireResistanceHandler.isActive(self)
-            && self.isInLava()) {
+            && SuperFireResistanceHandler.isBodyTouchingLava(self)) {
             return true;
         }
         return self.isInWater();
@@ -44,7 +46,7 @@ public abstract class LivingEntityMixin {
     private boolean hotsteel$lavaSwimAmountUseFlag(LivingEntity self) {
         if (self instanceof Player player
             && SuperFireResistanceHandler.isActive(self)
-            && self.isInLava()) {
+            && SuperFireResistanceHandler.isBodyTouchingLava(self)) {
             return player.isSwimming();
         }
         return self.isVisuallySwimming();
