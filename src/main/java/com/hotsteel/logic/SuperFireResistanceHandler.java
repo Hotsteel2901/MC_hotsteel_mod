@@ -22,6 +22,7 @@ import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -120,9 +121,9 @@ public final class SuperFireResistanceHandler {
         }
 
         // Fire / lava protection. Use the body-touching check (not just eye level) so the
-        // effect stays granted while the player bobs at the lava surface — otherwise the
-        // rapid grant/remove cycle causes the swim pose to twitch every tick.
-        boolean inFire = isBodyTouchingLava(player) || player.isOnFire();
+        // effect stays granted while the player bobs at the lava surface.
+        boolean inLava = isBodyTouchingLava(player);
+        boolean inFire = inLava || player.isOnFire();
         if (fullSet && inFire) {
             int elapsed = TIMER.getOrDefault(id, 0) + 1;
             TIMER.put(id, elapsed);
@@ -131,13 +132,26 @@ public final class SuperFireResistanceHandler {
                 int remaining = MAX_TICKS - elapsed + 1;
                 player.addEffect(new MobEffectInstance(ModEffects.SUPER_FIRE_RESISTANCE,
                     remaining, 0, true, false, true));
+                // Speed boost: while submerged in lava, apply Dolphin's Grace so the player
+                // moves through lava faster than normal water swimming. The travel() redirect
+                // in LivingEntityMixin makes the water-physics branch (which checks for
+                // Dolphin's Grace) run for lava, so this effect actually takes hold.
+                // No particles, no icon — invisible speed boost.
+                if (inLava) {
+                    player.addEffect(new MobEffectInstance(MobEffects.DOLPHINS_GRACE,
+                        remaining, 1, false, false, false));
+                }
             } else {
                 player.removeEffect(ModEffects.SUPER_FIRE_RESISTANCE);
+                player.removeEffect(MobEffects.DOLPHINS_GRACE);
             }
         } else {
             TIMER.remove(id);
             if (player.hasEffect(ModEffects.SUPER_FIRE_RESISTANCE)) {
                 player.removeEffect(ModEffects.SUPER_FIRE_RESISTANCE);
+            }
+            if (player.hasEffect(MobEffects.DOLPHINS_GRACE)) {
+                player.removeEffect(MobEffects.DOLPHINS_GRACE);
             }
         }
     }

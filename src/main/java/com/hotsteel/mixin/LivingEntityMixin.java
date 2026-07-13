@@ -17,9 +17,13 @@ public abstract class LivingEntityMixin {
 
     /**
      * While Super Fire Resistance is active, treat lava as water inside {@code travel()} so the
-     * player swims through lava with water physics instead of the sluggish lava branch.
-     * Uses the body-touching-lava check so water physics stays applied while the player bobs at
-     * the lava surface — keeps them moving smoothly instead of sink-rise-sink-rise cycling.
+     * player moves through lava with water physics (buoyancy + horizontal momentum) instead of the
+     * sluggish vanilla lava physics. A Dolphin's-Grace effect applied by
+     * {@link SuperFireResistanceHandler} then makes the movement noticeably faster than water.
+     * <p>
+     * The redirect is scoped to {@code travel()} only, so vanilla {@code updateSwimming()} and
+     * {@code updatePlayerPose()} still see the real {@code isInWater()} (false for lava) — the
+     * player keeps a normal standing pose in lava, no swim-pose twitch.
      */
     @Redirect(
         method = "travel",
@@ -31,25 +35,6 @@ public abstract class LivingEntityMixin {
             return true;
         }
         return self.isInWater();
-    }
-
-    /**
-     * While Super Fire Resistance is active in lava, drive the swim-amount interpolation from the
-     * freshly-set swimming flag instead of {@code hasPose(SWIMMING)}. Vanilla calls
-     * {@code updateSwimAmount()} BEFORE {@code updatePlayerPose()} in the tick, so the pose lags
-     * the flag by one tick — without this redirect, the arms lower when you start sprinting and
-     * keep rising the tick you stop sprinting, which reads as a twitch at every transition.
-     */
-    @Redirect(
-        method = "updateSwimAmount",
-        at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;isVisuallySwimming()Z"))
-    private boolean hotsteel$lavaSwimAmountUseFlag(LivingEntity self) {
-        if (self instanceof Player player
-            && SuperFireResistanceHandler.isActive(self)
-            && SuperFireResistanceHandler.isBodyTouchingLava(self)) {
-            return player.isSwimming();
-        }
-        return self.isVisuallySwimming();
     }
 
     /** A Hot Steel shield sets the attacker on fire when it blocks a melee hit. */
