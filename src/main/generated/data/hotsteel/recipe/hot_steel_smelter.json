@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "H": {
+      "item": "hotsteel:hot_steel_block"
+    },
+    "I": {
+      "item": "minecraft:iron_ingot"
+    }
+  },
+  "pattern": [
+    "HHH",
+    "HIH",
+    "HHH"
+  ],
+  "result": {
+    "count": 1,
+    "id": "hotsteel:hot_steel_smelter"
+  }
+}

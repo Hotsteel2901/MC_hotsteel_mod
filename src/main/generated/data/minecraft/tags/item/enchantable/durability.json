@@ -7,13 +7,16 @@
     "hotsteel:hot_steel_sword",
     "hotsteel:hot_steel_mace",
     "hotsteel:hot_steel_knife",
+    "hotsteel:hot_steel_sickle",
     "hotsteel:hot_steel_pickaxe",
     "hotsteel:hot_steel_axe",
     "hotsteel:hot_steel_shovel",
     "hotsteel:hot_steel_hoe",
+    "hotsteel:hot_steel_paxel",
     "hotsteel:hot_steel_bow",
     "hotsteel:hot_steel_crossbow",
     "hotsteel:hot_steel_trident",
-    "hotsteel:hot_steel_shield"
+    "hotsteel:hot_steel_shield",
+    "hotsteel:hot_steel_fishing_rod"
   ]
 }

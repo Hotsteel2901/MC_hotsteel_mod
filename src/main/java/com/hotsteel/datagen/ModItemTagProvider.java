@@ -29,10 +29,10 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
         // Tool type tags
         this.tag(ItemTags.SWORDS).add(k(ModItems.HOT_STEEL_SWORD)).add(k(ModItems.HOT_STEEL_KNIFE));
         this.tag(ItemTags.MACE_ENCHANTABLE).add(k(ModItems.HOT_STEEL_MACE));
-        this.tag(ItemTags.PICKAXES).add(k(ModItems.HOT_STEEL_PICKAXE));
-        this.tag(ItemTags.AXES).add(k(ModItems.HOT_STEEL_AXE));
-        this.tag(ItemTags.SHOVELS).add(k(ModItems.HOT_STEEL_SHOVEL));
-        this.tag(ItemTags.HOES).add(k(ModItems.HOT_STEEL_HOE));
+        this.tag(ItemTags.PICKAXES).add(k(ModItems.HOT_STEEL_PICKAXE)).add(k(ModItems.HOT_STEEL_PAXEL));
+        this.tag(ItemTags.AXES).add(k(ModItems.HOT_STEEL_AXE)).add(k(ModItems.HOT_STEEL_PAXEL));
+        this.tag(ItemTags.SHOVELS).add(k(ModItems.HOT_STEEL_SHOVEL)).add(k(ModItems.HOT_STEEL_PAXEL));
+        this.tag(ItemTags.HOES).add(k(ModItems.HOT_STEEL_HOE)).add(k(ModItems.HOT_STEEL_SICKLE));
 
         // Melee enchantability
         this.tag(ItemTags.SWORD_ENCHANTABLE).add(k(ModItems.HOT_STEEL_SWORD)).add(k(ModItems.HOT_STEEL_KNIFE));
@@ -45,15 +45,18 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
         // Mining enchantability
         this.tag(ItemTags.MINING_ENCHANTABLE)
             .add(k(ModItems.HOT_STEEL_PICKAXE)).add(k(ModItems.HOT_STEEL_AXE))
-            .add(k(ModItems.HOT_STEEL_SHOVEL)).add(k(ModItems.HOT_STEEL_HOE));
+            .add(k(ModItems.HOT_STEEL_SHOVEL)).add(k(ModItems.HOT_STEEL_HOE))
+            .add(k(ModItems.HOT_STEEL_SICKLE)).add(k(ModItems.HOT_STEEL_PAXEL));
         this.tag(ItemTags.MINING_LOOT_ENCHANTABLE)
             .add(k(ModItems.HOT_STEEL_PICKAXE)).add(k(ModItems.HOT_STEEL_AXE))
-            .add(k(ModItems.HOT_STEEL_SHOVEL)).add(k(ModItems.HOT_STEEL_HOE));
+            .add(k(ModItems.HOT_STEEL_SHOVEL)).add(k(ModItems.HOT_STEEL_HOE))
+            .add(k(ModItems.HOT_STEEL_SICKLE)).add(k(ModItems.HOT_STEEL_PAXEL));
 
         // Ranged / trident
         this.tag(ItemTags.BOW_ENCHANTABLE).add(k(ModItems.HOT_STEEL_BOW));
         this.tag(ItemTags.CROSSBOW_ENCHANTABLE).add(k(ModItems.HOT_STEEL_CROSSBOW));
         this.tag(ItemTags.TRIDENT_ENCHANTABLE).add(k(ModItems.HOT_STEEL_TRIDENT));
+        this.tag(ItemTags.FISHING_ENCHANTABLE).add(k(ModItems.HOT_STEEL_FISHING_ROD));
         // Arrows usable by bows / dispensers
         this.tag(ItemTags.ARROWS).add(k(ModItems.HOT_STEEL_ARROW));
 
@@ -74,17 +77,23 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
             .add(k(ModItems.HOT_STEEL_HELMET)).add(k(ModItems.HOT_STEEL_CHESTPLATE))
             .add(k(ModItems.HOT_STEEL_LEGGINGS)).add(k(ModItems.HOT_STEEL_BOOTS))
             .add(k(ModItems.HOT_STEEL_SWORD)).add(k(ModItems.HOT_STEEL_MACE)).add(k(ModItems.HOT_STEEL_KNIFE))
+            .add(k(ModItems.HOT_STEEL_SICKLE))
             .add(k(ModItems.HOT_STEEL_PICKAXE))
             .add(k(ModItems.HOT_STEEL_AXE)).add(k(ModItems.HOT_STEEL_SHOVEL)).add(k(ModItems.HOT_STEEL_HOE))
+            .add(k(ModItems.HOT_STEEL_PAXEL))
             .add(k(ModItems.HOT_STEEL_BOW)).add(k(ModItems.HOT_STEEL_CROSSBOW))
-            .add(k(ModItems.HOT_STEEL_TRIDENT)).add(k(ModItems.HOT_STEEL_SHIELD));
+            .add(k(ModItems.HOT_STEEL_TRIDENT)).add(k(ModItems.HOT_STEEL_SHIELD))
+            .add(k(ModItems.HOT_STEEL_FISHING_ROD));
         this.tag(ItemTags.VANISHING_ENCHANTABLE)
             .add(k(ModItems.HOT_STEEL_HELMET)).add(k(ModItems.HOT_STEEL_CHESTPLATE))
             .add(k(ModItems.HOT_STEEL_LEGGINGS)).add(k(ModItems.HOT_STEEL_BOOTS))
             .add(k(ModItems.HOT_STEEL_SWORD)).add(k(ModItems.HOT_STEEL_MACE)).add(k(ModItems.HOT_STEEL_KNIFE))
+            .add(k(ModItems.HOT_STEEL_SICKLE))
             .add(k(ModItems.HOT_STEEL_PICKAXE))
             .add(k(ModItems.HOT_STEEL_AXE)).add(k(ModItems.HOT_STEEL_SHOVEL)).add(k(ModItems.HOT_STEEL_HOE))
+            .add(k(ModItems.HOT_STEEL_PAXEL))
             .add(k(ModItems.HOT_STEEL_BOW)).add(k(ModItems.HOT_STEEL_CROSSBOW))
-            .add(k(ModItems.HOT_STEEL_TRIDENT)).add(k(ModItems.HOT_STEEL_SHIELD));
+            .add(k(ModItems.HOT_STEEL_TRIDENT)).add(k(ModItems.HOT_STEEL_SHIELD))
+            .add(k(ModItems.HOT_STEEL_FISHING_ROD));
     }
 }

@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/ladder",
+  "textures": {
+    "particle": "hotsteel:block/hot_steel_ladder",
+    "texture": "hotsteel:block/hot_steel_ladder"
+  }
+}

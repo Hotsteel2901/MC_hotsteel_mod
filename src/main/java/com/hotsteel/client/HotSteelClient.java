@@ -5,6 +5,7 @@ import com.hotsteel.registry.ModItems;
 
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
+import net.minecraft.client.renderer.entity.ThrownItemRenderer;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
@@ -18,6 +19,9 @@ public class HotSteelClient implements ClientModInitializer {
     public void onInitializeClient() {
         EntityRendererRegistry.register(ModEntities.HOT_STEEL_TRIDENT, HotSteelTridentRenderer::new);
         EntityRendererRegistry.register(ModEntities.HOT_STEEL_ARROW, HotSteelArrowRenderer::new);
+        EntityRendererRegistry.register(ModEntities.LAVA_BOTTLE, ThrownItemRenderer::new);
+        EntityRendererRegistry.register(ModEntities.LAVA_GOLEM, LavaGolemRenderer::new);
+        EntityRendererRegistry.register(ModEntities.FIRE_WRAITH, FireWraithRenderer::new);
 
         ResourceLocation pull = ResourceLocation.withDefaultNamespace("pull");
         ResourceLocation pulling = ResourceLocation.withDefaultNamespace("pulling");

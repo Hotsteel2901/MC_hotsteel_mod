@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "axis=x": {
+      "model": "hotsteel:block/hot_steel_chain",
+      "x": 90,
+      "y": 90
+    },
+    "axis=y": {
+      "model": "hotsteel:block/hot_steel_chain"
+    },
+    "axis=z": {
+      "model": "hotsteel:block/hot_steel_chain",
+      "x": 90
+    }
+  }
+}

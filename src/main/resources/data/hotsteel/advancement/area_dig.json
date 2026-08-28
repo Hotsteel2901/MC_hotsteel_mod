@@ -1,0 +1,18 @@
+{
+  "parent": "hotsteel:hot_steel_ingot",
+  "display": {
+    "icon": { "id": "hotsteel:hot_steel_shovel" },
+    "title": { "translate": "advancements.hotsteel.area_dig.title" },
+    "description": { "translate": "advancements.hotsteel.area_dig.description" },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "dig_3x3": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "requirements": [ [ "dig_3x3" ] ]
+}

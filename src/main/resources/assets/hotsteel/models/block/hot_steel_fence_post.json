@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/fence_post",
+  "textures": {
+    "texture": "hotsteel:block/hot_steel_block"
+  }
+}

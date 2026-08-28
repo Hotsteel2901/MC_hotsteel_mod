@@ -30,7 +30,23 @@ public final class ModCreativeTab {
                 output.accept(ModItems.STEEL_INGOT);
                 output.accept(ModBlocks.STEEL_BLOCK);
                 output.accept(ModItems.HOT_STEEL_INGOT);
+                output.accept(ModItems.HOT_STEEL_NUGGET);
+                output.accept(ModItems.MOLTEN_CORE);
+                output.accept(ModItems.HOT_STEEL_APPLE);
                 output.accept(ModBlocks.HOT_STEEL_BLOCK);
+                output.accept(ModBlocks.HOT_STEEL_STAIRS);
+                output.accept(ModBlocks.HOT_STEEL_SLAB);
+                output.accept(ModBlocks.HOT_STEEL_WALL);
+                output.accept(ModBlocks.HOT_STEEL_BRICKS);
+                output.accept(ModBlocks.HOT_STEEL_DOOR);
+                output.accept(ModBlocks.HOT_STEEL_TRAPDOOR);
+                output.accept(ModBlocks.HOT_STEEL_FENCE);
+                output.accept(ModBlocks.HOT_STEEL_CHAIN);
+                output.accept(ModBlocks.HOT_STEEL_LADDER);
+                output.accept(ModBlocks.HOT_STEEL_PRESSURE_PLATE);
+                output.accept(ModBlocks.HOT_STEEL_FORGE);
+                output.accept(ModBlocks.HOT_STEEL_SMELTER);
+                output.accept(ModBlocks.HOT_STEEL_LANTERN);
 
                 output.accept(ModItems.HOT_STEEL_HELMET);
                 output.accept(ModItems.HOT_STEEL_CHESTPLATE);
@@ -40,16 +56,23 @@ public final class ModCreativeTab {
                 output.accept(ModItems.HOT_STEEL_SWORD);
                 output.accept(ModItems.HOT_STEEL_MACE);
                 output.accept(ModItems.HOT_STEEL_KNIFE);
+                output.accept(ModItems.HOT_STEEL_SICKLE);
                 output.accept(ModItems.HOT_STEEL_PICKAXE);
                 output.accept(ModItems.HOT_STEEL_AXE);
                 output.accept(ModItems.HOT_STEEL_SHOVEL);
                 output.accept(ModItems.HOT_STEEL_HOE);
+                output.accept(ModItems.HOT_STEEL_PAXEL);
 
                 output.accept(ModItems.HOT_STEEL_BOW);
                 output.accept(ModItems.HOT_STEEL_CROSSBOW);
                 output.accept(ModItems.HOT_STEEL_TRIDENT);
                 output.accept(ModItems.HOT_STEEL_SHIELD);
+                output.accept(ModItems.HOT_STEEL_FISHING_ROD);
                 output.accept(ModItems.HOT_STEEL_ARROW);
+                output.accept(ModItems.HOT_STEEL_FIREBALL);
+                output.accept(ModItems.LAVA_BOTTLE);
+                output.accept(ModItems.LAVA_GOLEM_SPAWN_EGG);
+                output.accept(ModItems.FIRE_WRAITH_SPAWN_EGG);
             })
             .build());
 

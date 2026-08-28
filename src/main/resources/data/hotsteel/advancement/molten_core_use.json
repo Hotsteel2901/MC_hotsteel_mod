@@ -1,0 +1,18 @@
+{
+  "parent": "hotsteel:molten_core",
+  "display": {
+    "icon": { "id": "hotsteel:molten_core" },
+    "title": { "translate": "advancements.hotsteel.molten_core_use.title" },
+    "description": { "translate": "advancements.hotsteel.molten_core_use.description" },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "use_molten_core": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "requirements": [ [ "use_molten_core" ] ]
+}

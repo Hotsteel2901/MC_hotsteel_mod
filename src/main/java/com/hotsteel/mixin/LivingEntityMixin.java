@@ -7,6 +7,7 @@ import com.hotsteel.registry.ModItems;
 
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -54,11 +55,9 @@ public abstract class LivingEntityMixin {
         return self.isInWater();
     }
 
-    /**
-     * Hot Steel melee weapons set the target on fire. Fires only on actual melee damage
+    /** Hot Steel melee weapons set the target on fire. Fires only on actual melee damage
      * (direct attacker is a Player holding a Hot Steel weapon, damage type is melee) and only
-     * when the hit actually landed (return value true).
-     */
+     * when the hit actually landed (return value true). */
     @Inject(method = "hurt", at = @At("TAIL"))
     private void hotsteel$igniteOnHotSteelHit(DamageSource source, float amount,
                                               CallbackInfoReturnable<Boolean> cir) {
@@ -74,6 +73,23 @@ public abstract class LivingEntityMixin {
             return;
         }
         self.setRemainingFireTicks(Math.max(self.getRemainingFireTicks(), IGNITE_TICKS));
+    }
+
+    /** Wearing the Hot Steel chestplate sets whoever melee-hits you on fire (fiery thorns). */
+    @Inject(method = "hurt", at = @At("TAIL"))
+    private void hotsteel$igniteOnChestplateHit(DamageSource source, float amount,
+                                                CallbackInfoReturnable<Boolean> cir) {
+        if (!Boolean.TRUE.equals(cir.getReturnValue())) {
+            return;
+        }
+        LivingEntity self = (LivingEntity) (Object) this;
+        if (self.level().isClientSide()
+            || !self.getItemBySlot(EquipmentSlot.CHEST).is(ModItems.HOT_STEEL_CHESTPLATE)) {
+            return;
+        }
+        if (source.getDirectEntity() instanceof LivingEntity attacker && attacker != self) {
+            attacker.setRemainingFireTicks(Math.max(attacker.getRemainingFireTicks(), IGNITE_TICKS));
+        }
     }
 
     /** A Hot Steel shield sets the attacker on fire when it blocks a melee hit. */

@@ -795,6 +795,534 @@ def t_hot_steel_arrow_entity():
     return c
 
 
+def t_forge():
+    """16x16 Hot Steel forge block: dark furnace face with a glowing molten mouth."""
+    c = Canvas(16, 16)
+    DARK = (0x2b, 0x12, 0x06)
+    c.rect(0, 0, 15, 15, DARK)
+    # hot steel frame border
+    c.hline(0, 15, 0, HOT)
+    c.hline(0, 15, 15, HOT_D)
+    c.vline(0, 0, 15, HOT)
+    c.vline(15, 0, 15, HOT_D)
+    c.hline(0, 15, 1, HOT_L); c.hline(0, 15, 14, HOT)
+    # rivets at corners
+    for (rx, ry) in [(2, 2), (13, 2), (2, 13), (13, 13)]:
+        c.set(rx, ry, HOT_H)
+    # glowing mouth (molten opening)
+    mouth = [(3, 5), (12, 5), (12, 12), (3, 12)]
+    c.poly(mouth, (0x1a, 0x08, 0x02))
+    # molten lava inside the mouth
+    c.rect(4, 7, 11, 10, HOT)
+    c.hline(4, 11, 7, HOT_L)
+    c.hline(4, 11, 10, HOT_D)
+    c.set(5, 8, HOT_H); c.set(9, 9, HOT_H); c.set(7, 8, HOT_L)
+    # radiating glow above the mouth
+    c.set(5, 3, HOT_L); c.set(6, 3, HOT_L); c.set(7, 2, HOT_L)
+    c.set(8, 2, HOT_L); c.set(9, 3, HOT_L); c.set(10, 3, HOT_L)
+    # chimney glow dots
+    c.set(7, 4, HOT); c.set(8, 4, HOT)
+    return c
+
+
+def t_lava_bottle():
+    """16x16 Lava Bottle item: glass bottle filled with glowing lava."""
+    c = Canvas(16, 16)
+    # bottle body
+    body = [(5, 5), (11, 5), (11, 13), (5, 13)]
+    c.poly(body, (0xb8, 0xd0, 0xd8, 180))   # translucent glass
+    c.outline(body, (0x8a, 0x9f, 0xa8))
+    # neck
+    c.rect(6, 2, 10, 4, (0xb8, 0xd0, 0xd8, 180))
+    c.vline(6, 2, 4, (0x8a, 0x9f, 0xa8))
+    c.vline(10, 2, 4, (0x8a, 0x9f, 0xa8))
+    c.hline(6, 10, 2, (0x8a, 0x9f, 0xa8))
+    # cork
+    c.rect(6, 1, 10, 2, WOOD)
+    c.hline(6, 10, 1, WOOD_L)
+    # lava inside
+    c.rect(6, 6, 10, 12, HOT)
+    c.hline(6, 10, 6, HOT_L)
+    c.hline(6, 10, 12, HOT_D)
+    # glowing bubbles
+    c.set(7, 8, HOT_H); c.set(9, 10, HOT_H); c.set(8, 7, HOT_L)
+    # glass shine highlight
+    c.vline(5, 6, 10, (0xff, 0xff, 0xff, 120))
+    # drips / sparks
+    c.set(3, 6, HOT_L); c.set(12, 5, HOT_H)
+    return c
+
+
+def _molten(r, g, b, crack):
+    """Map an iron-golem pixel to the molten palette. crack=glowing crack overlay brightness."""
+    lum = (0.299 * r + 0.587 * g + 0.114 * b) / 255.0
+    if crack > 0.6:
+        # glowing crack -> near-white yellow
+        return (0xff, 0xe7, 0x9c, 255)
+    if lum > 0.85:
+        return (0xff, 0xe7, 0x9c, 255)
+    if lum > 0.62:
+        return (0xff, 0xc2, 0x4a, 255)
+    if lum > 0.42:
+        return (0xe0, 0x61, 0x1f, 255)
+    if lum > 0.22:
+        return (0x9a, 0x3a, 0x10, 255)
+    return (0x3d, 0x17, 0x07, 255)
+
+
+def t_lava_golem():
+    """128x128 Lava Golem entity texture: molten recolor of the vanilla iron golem
+    with glowing cracks. Falls back to a procedural golem if the vanilla texture
+    cannot be found."""
+    import os
+    ref = "/tmp/vanillatex/assets/minecraft/textures/entity/iron_golem"
+    base_path = os.path.join(ref, "iron_golem.png")
+    crack_path = os.path.join(ref, "iron_golem_crackiness_high.png")
+    if os.path.exists(base_path):
+        base = Image.open(base_path).convert("RGBA")
+        crack = Image.open(crack_path).convert("L") if os.path.exists(crack_path) else None
+        px = base.load()
+        cp = crack.load() if crack else None
+        for y in range(128):
+            for x in range(128):
+                r, g, b, a = px[x, y]
+                if a == 0:
+                    continue
+                cv = 0.0
+                if cp is not None:
+                    cv = cp[x, y] / 255.0
+                px[x, y] = _molten(r, g, b, cv)
+        return base
+    # Procedural fallback: a simple molten golem silhouette.
+    c = Canvas(128, 128)
+    c.rect(0, 0, 127, 127, (0, 0, 0, 0))
+    # big body block
+    c.rect(40, 40, 88, 96, HOT)
+    c.rect(42, 42, 86, 94, HOT_L)
+    # head
+    c.rect(52, 24, 76, 40, HOT)
+    c.rect(54, 26, 74, 38, HOT_L)
+    # arms
+    c.rect(28, 40, 40, 90, HOT)
+    c.rect(88, 40, 100, 90, HOT)
+    # legs
+    c.rect(42, 96, 60, 116, HOT)
+    c.rect(68, 96, 86, 116, HOT)
+    # face
+    c.rect(56, 28, 60, 34, (0xff, 0xe7, 0x9c))
+    c.rect(68, 28, 72, 34, (0xff, 0xe7, 0x9c))
+    return c
+
+
+def t_hot_steel_nugget():
+    """16x16 Hot Steel nugget: a small molten glob with a bright specular."""
+    c = Canvas(16, 16)
+    pts = [(5, 8), (6, 6), (9, 5), (12, 6), (13, 8), (12, 11), (9, 12), (6, 11)]
+    c.poly(pts, HOT)
+    c.poly([(7, 7), (9, 6), (11, 7), (9, 8)], HOT_L)
+    c.poly([(8, 8), (9, 7), (10, 8), (9, 9)], HOT_H)
+    c.outline(pts, HOT_D)
+    # molten drips
+    c.set(5, 12, HOT); c.set(12, 12, HOT)
+    c.set(4, 11, HOT_D); c.set(13, 11, HOT_D)
+    return c
+
+
+def t_molten_core():
+    """16x16 Molten Core: a glowing fiery heart/crystal."""
+    c = Canvas(16, 16)
+    # dark rocky shell
+    shell = [(4, 6), (6, 3), (10, 3), (12, 6), (12, 10), (10, 13), (6, 13), (4, 10)]
+    c.poly(shell, (0x2a, 0x12, 0x06))
+    c.outline(shell, HOT_D)
+    # molten heart
+    heart = [(6, 6), (8, 5), (10, 6), (10, 9), (8, 11), (6, 9)]
+    c.poly(heart, HOT)
+    c.poly([(7, 7), (8, 6), (9, 7), (8, 9)], HOT_L)
+    c.poly([(8, 8), (9, 8), (9, 9), (8, 9)], HOT_H)
+    # crack glow
+    c.line(6, 4, 4, 6, HOT_L)
+    c.line(10, 4, 12, 6, HOT_L)
+    # floating sparks
+    c.set(3, 3, HOT_L); c.set(13, 3, HOT_L)
+    c.set(2, 8, HOT); c.set(14, 9, HOT)
+    c.set(5, 14, HOT_L); c.set(11, 14, HOT_L)
+    return c
+
+
+def t_fishing_rod():
+    """16x16 Hot Steel fishing rod: hot-steel rod with a taut string and bobber."""
+    c = Canvas(16, 16)
+    # rod shaft (diagonal from bottom-left up to top-right)
+    pts = [(4, 15), (5, 14), (14, 5), (14, 7), (5, 15)]
+    c.poly(pts, GRAY)
+    c.hline(5, 13, 15, GRAY_L)   # top edge highlight
+    # hot steel band at the grip end
+    c.poly([(4, 13), (6, 13), (6, 15), (4, 15)], HOT)
+    c.set(5, 13, HOT_L)
+    # line running from the tip down
+    c.line(14, 6, 9, 11, STR)
+    # bobber at the end
+    c.poly([(8, 10), (10, 10), (10, 12), (8, 12)], HOT)
+    c.set(9, 10, HOT_L)
+    c.set(8, 12, HOT_D); c.set(10, 12, HOT_D)
+    # reel
+    c.rect(3, 10, 5, 12, WOOD_D)
+    c.set(4, 11, WOOD_L)
+    return c
+
+
+def t_sickle():
+    """16x16 Hot Steel sickle: curved blade on a short handle."""
+    c = Canvas(16, 16)
+    draw_handle(c, x=6, y0=10, y1=14)
+    # curved crescent blade
+    arc = [(11, 2), (13, 4), (14, 7), (14, 9), (13, 11), (11, 13), (9, 14), (8, 13), (10, 12), (12, 10), (13, 8), (13, 6), (12, 4), (10, 3)]
+    c.outline(arc, GRAY)
+    c.poly(arc, GRAY)
+    # inner edge highlight (the cutting edge)
+    inner = [(10, 3), (12, 4), (13, 6), (13, 8), (12, 10), (10, 12), (9, 12), (10, 10), (11, 8), (11, 6), (10, 4)]
+    c.poly(inner, GRAY_L)
+    # hot steel glow on the blade
+    c.line(11, 4, 12, 8, HOT_L)
+    c.line(12, 8, 11, 11, HOT)
+    # blade tip sparkle
+    c.set(11, 2, HOT_H); c.set(12, 3, HOT_L)
+    return c
+
+
+def t_smelter():
+    """16x16 Hot Steel smelter block: a molten-hot metal plate face."""
+    c = Canvas(16, 16)
+    DARK = (0x2b, 0x12, 0x06)
+    c.rect(0, 0, 15, 15, DARK)
+    # hot steel frame
+    c.hline(0, 15, 0, HOT); c.hline(0, 15, 15, HOT_D)
+    c.vline(0, 0, 15, HOT); c.vline(15, 0, 15, HOT_D)
+    c.hline(0, 15, 1, HOT_L); c.hline(0, 15, 14, HOT)
+    # rivets at corners
+    for (rx, ry) in [(2, 2), (13, 2), (2, 13), (13, 13)]:
+        c.set(rx, ry, HOT_H)
+    # molten pool in the middle
+    pool = [(3, 5), (12, 5), (12, 11), (3, 11)]
+    c.poly(pool, (0x1a, 0x08, 0x02))
+    c.rect(4, 6, 11, 10, HOT)
+    c.hline(4, 11, 6, HOT_L)
+    c.hline(4, 11, 10, HOT_D)
+    # glowing bubbles
+    c.set(5, 7, HOT_H); c.set(9, 8, HOT_H); c.set(7, 9, HOT_L); c.set(10, 7, HOT_L)
+    # heat shimmer
+    c.set(6, 3, HOT_L); c.set(9, 3, HOT_L); c.set(7, 4, HOT)
+    c.set(5, 12, HOT); c.set(10, 12, HOT)
+    return c
+
+
+def t_door():
+    """16x16 Hot Steel door item: a metal door panel with hot glow rivets."""
+    c = Canvas(16, 16)
+    c.rect(2, 1, 13, 15, GRAY)
+    # frame
+    c.hline(2, 13, 1, GRAY_L); c.hline(2, 13, 15, GRAY_D)
+    c.vline(2, 1, 15, GRAY_L); c.vline(13, 1, 15, GRAY_D)
+    # horizontal panels
+    for y in (4, 9, 13):
+        c.hline(4, 11, y, GRAY_D)
+        c.hline(4, 11, y - 1, GRAY)
+    # hot steel glow strip
+    c.hline(4, 11, 6, HOT)
+    c.hline(4, 11, 7, HOT_L)
+    # rivets
+    for (rx, ry) in [(4, 2), (11, 2), (4, 12), (11, 12)]:
+        c.set(rx, ry, HOT_H)
+    # handle
+    c.rect(10, 7, 11, 9, HOT_L)
+    c.set(10, 7, HOT_H)
+    return c
+
+
+def t_door_top():
+    """16x16 upper half of the hot steel door."""
+    c = Canvas(16, 16)
+    c.rect(2, 1, 13, 15, GRAY)
+    c.hline(2, 13, 1, GRAY_L); c.hline(2, 13, 15, GRAY_D)
+    c.vline(2, 1, 15, GRAY_L); c.vline(13, 1, 15, GRAY_D)
+    # window / lattice
+    c.hline(4, 11, 4, GRAY_D); c.hline(4, 11, 9, GRAY_D)
+    c.vline(7, 4, 9, GRAY_D)
+    # glow trim
+    c.hline(4, 11, 10, HOT)
+    c.hline(4, 11, 11, HOT_L)
+    # rivets
+    for (rx, ry) in [(4, 3), (11, 3)]:
+        c.set(rx, ry, HOT_H)
+    return c
+
+
+def t_door_bottom():
+    """16x16 lower half of the hot steel door."""
+    c = Canvas(16, 16)
+    c.rect(2, 1, 13, 15, GRAY)
+    c.hline(2, 13, 1, GRAY_L); c.hline(2, 13, 15, GRAY_D)
+    c.vline(2, 1, 15, GRAY_L); c.vline(13, 1, 15, GRAY_D)
+    # solid lower panel with glow rivets
+    c.hline(4, 11, 4, GRAY_D)
+    for y in (6, 10, 13):
+        c.hline(4, 11, y, GRAY)
+        c.hline(4, 11, y + 1, GRAY_D)
+    c.hline(4, 11, 5, HOT)
+    c.hline(4, 11, 6, HOT_L)
+    # rivets
+    for (rx, ry) in [(4, 3), (11, 3), (4, 12), (11, 12)]:
+        c.set(rx, ry, HOT_H)
+    return c
+
+
+def t_trapdoor():
+    """16x16 Hot Steel trapdoor block face."""
+    c = Canvas(16, 16)
+    c.rect(0, 0, 15, 15, GRAY)
+    # plank / metal plate structure
+    for x in (3, 7, 11):
+        c.vline(x, 0, 15, GRAY_D)
+        c.vline(x + 1, 0, 15, GRAY)
+    # hot steel cross brace
+    c.hline(1, 14, 6, HOT); c.hline(1, 14, 7, HOT_L)
+    c.hline(1, 14, 9, HOT); c.hline(1, 14, 10, HOT_L)
+    # edge bevels
+    c.hline(0, 15, 0, GRAY_L); c.hline(0, 15, 15, GRAY_D)
+    c.vline(0, 0, 15, GRAY_L); c.vline(15, 0, 15, GRAY_D)
+    # rivets
+    for (rx, ry) in [(2, 2), (13, 2), (2, 13), (13, 13)]:
+        c.set(rx, ry, HOT_H)
+    return c
+
+
+def t_fence():
+    """16x16 Hot Steel fence item: vertical bars with a hot glow."""
+    c = Canvas(16, 16)
+    # three vertical posts
+    for x in (3, 7, 11):
+        c.vline(x, 1, 14, GRAY)
+        c.set(x, 1, GRAY_L); c.set(x, 14, GRAY_D)
+    # horizontal rails
+    c.hline(3, 11, 5, GRAY)
+    c.hline(3, 11, 10, GRAY)
+    # hot glow highlight on center post
+    c.vline(7, 3, 12, HOT)
+    c.set(7, 6, HOT_L); c.set(7, 9, HOT_L)
+    # base
+    c.hline(2, 12, 15, GRAY_D)
+    c.hline(2, 12, 14, GRAY)
+    return c
+
+
+def t_pressure_plate():
+    """16x16 Hot Steel pressure plate block face."""
+    c = Canvas(16, 16)
+    c.rect(1, 1, 14, 14, GRAY)
+    # plate bevel
+    c.hline(1, 14, 1, GRAY_L); c.vline(1, 1, 14, GRAY_L)
+    c.hline(1, 14, 14, GRAY_D); c.vline(14, 1, 14, GRAY_D)
+    # inner plate with hot steel inlay
+    c.rect(3, 3, 12, 12, shade(GRAY, GRAY_D, GRAY_L, 0.15))
+    c.hline(3, 12, 3, GRAY); c.hline(3, 12, 12, GRAY_D)
+    c.vline(3, 3, 12, GRAY); c.vline(12, 3, 12, GRAY_D)
+    # hot steel hot-spot in the middle
+    c.rect(6, 6, 9, 9, HOT)
+    c.set(7, 7, HOT_L); c.set(8, 7, HOT_L); c.set(7, 8, HOT_L); c.set(8, 8, HOT_H)
+    # corner rivets
+    for (rx, ry) in [(2, 2), (13, 2), (2, 13), (13, 13)]:
+        c.set(rx, ry, HOT_H)
+    return c
+
+
+def t_bricks():
+    """16x16 Hot Steel bricks: offset brick pattern with hot mortar."""
+    c = Canvas(16, 16)
+    c.rect(0, 0, 15, 15, (0x3d, 0x17, 0x07))
+    # brick rows (each 8 wide, offset each row)
+    rows = [(0, 0, 7), (8, 0, 15), (0, 4, 7), (8, 4, 15),
+            (0, 8, 7), (8, 8, 15), (0, 12, 7), (8, 12, 15)]
+    for (x0, y0, x1) in rows:
+        c.hline(x0, x1, y0, shade(HOT, HOT_D, HOT_L, 0.3)[:3])
+        c.hline(x0, x1, y0 + 3, HOT_D)
+    # vertical mortar joints
+    for x in (3, 7, 11, 15):
+        for y in (0, 4, 8, 12):
+            c.set(x, y, shade(HOT, HOT_D, HOT_L, 0.3)[:3])
+    # bright speculars
+    c.set(1, 1, HOT_L); c.set(9, 5, HOT_L); c.set(2, 13, HOT_L)
+    return c
+
+
+def t_lantern():
+    """16x16 Hot Steel lantern block texture: hot-steel cage with a glowing core."""
+    c = Canvas(16, 16)
+    # outer cage (dark metal)
+    c.rect(4, 4, 11, 11, (0x3d, 0x17, 0x07))
+    # frame corners
+    c.set(4, 4, GRAY); c.set(11, 4, GRAY)
+    c.set(4, 11, GRAY_D); c.set(11, 11, GRAY_D)
+    # hot steel cage bars
+    c.vline(5, 4, 11, HOT)
+    c.vline(10, 4, 11, HOT)
+    c.hline(4, 11, 5, HOT)
+    c.hline(4, 11, 10, HOT)
+    # glowing core
+    c.rect(6, 6, 9, 9, HOT_H)
+    c.rect(7, 7, 8, 8, (0xff, 0xff, 0xff))
+    c.set(6, 6, HOT_L); c.set(9, 6, HOT_L)
+    c.set(6, 9, HOT); c.set(9, 9, HOT)
+    # hanging top
+    c.hline(5, 10, 3, GRAY)
+    c.set(5, 3, GRAY_L); c.set(10, 3, GRAY_L)
+    c.vline(7, 1, 2, GRAY_L); c.vline(8, 1, 2, GRAY_L)
+    # bottom detail
+    c.hline(5, 10, 12, GRAY_D)
+    return c
+
+
+def t_fire_wraith():
+    """64x32 Fire Wraith entity texture: a blazing recolor of the vanilla Blaze
+    texture with hot-orange flames. Falls back to a procedural wraith if the
+    vanilla texture cannot be found."""
+    import os
+    ref = "/tmp/vanillatex/assets/minecraft/textures/entity/blaze.png"
+    if os.path.exists(ref):
+        base = Image.open(ref).convert("RGBA")
+        px = base.load()
+        w, h = base.size
+        for y in range(h):
+            for x in range(w):
+                r, g, b, a = px[x, y]
+                if a == 0:
+                    continue
+                lum = (0.299 * r + 0.587 * g + 0.114 * b) / 255.0
+                if lum > 0.8:
+                    px[x, y] = (0xff, 0xe7, 0x9c, 255)
+                elif lum > 0.55:
+                    px[x, y] = (0xff, 0xc2, 0x4a, 255)
+                elif lum > 0.3:
+                    px[x, y] = (0xe0, 0x61, 0x1f, 255)
+                else:
+                    px[x, y] = (0x9a, 0x3a, 0x10, 255)
+        return base
+    # Procedural fallback: a simple blazing wraith (Blaze model uses a 64x32 atlas).
+    c = Canvas(64, 32)
+    # core body (head region centered)
+    body = [(26, 10), (38, 10), (40, 26), (32, 32), (24, 26)]
+    c.poly(body, HOT)
+    c.poly([(28, 13), (36, 13), (37, 22), (32, 27), (27, 22)], HOT_L)
+    c.poly([(30, 15), (34, 15), (34, 20), (32, 22), (30, 20)], HOT_H)
+    # eyes
+    c.poly([(27, 15), (30, 15), (30, 18), (27, 18)], (0xff, 0xff, 0xff))
+    c.poly([(34, 15), (37, 15), (37, 18), (34, 18)], (0xff, 0xff, 0xff))
+    # flame arms
+    for (sx, sy) in [(20, 17), (44, 17)]:
+        c.line(sx, sy, sx + (2 if sx < 32 else -2), sy + 8, HOT)
+        c.line(sx, sy, sx + (4 if sx < 32 else -4), sy + 6, HOT_L)
+    # flame wisp on top
+    c.poly([(30, 8), (34, 8), (32, 1)], HOT_L)
+    c.poly([(31, 7), (33, 7), (32, 2)], HOT_H)
+    # trail below
+    c.poly([(28, 28), (36, 28), (32, 31)], HOT)
+    return c
+
+
+def t_paxel():
+    """16x16 Hot Steel paxel: pickaxe head merged with an axe blade and a
+    shovel scoop — a glowing three-in-one multitool."""
+    c = Canvas(16, 16)
+    draw_handle(c, x=7, y0=6, y1=14)
+    # pickaxe head band
+    pts = [(2, 6), (4, 4), (12, 4), (14, 6), (13, 7), (8, 5), (3, 7)]
+    c.poly(pts, GRAY)
+    c.hline(4, 12, 4, GRAY_L)
+    c.set(3, 5, GRAY_D); c.set(13, 5, GRAY_D)
+    c.set(2, 6, GRAY_D); c.set(14, 6, GRAY_D)
+    # axe blade on the right
+    axe = [(7, 4), (13, 4), (14, 7), (13, 9), (8, 9), (7, 8)]
+    c.poly(axe, HOT)
+    c.hline(8, 13, 4, HOT_L)
+    c.vline(13, 5, 8, HOT_H)
+    # shovel scoop on the left
+    c.poly([(2, 6), (6, 6), (6, 9), (5, 10), (3, 10), (2, 9)], GRAY)
+    c.hline(3, 5, 6, GRAY_L)
+    c.set(6, 7, GRAY_D); c.set(6, 8, GRAY_D)
+    # glowing core rivet
+    c.set(8, 5, HOT_H)
+    return c
+
+
+def t_apple():
+    """16x16 Hot Steel apple: a molten-hot red-orange apple with a glowing core."""
+    c = Canvas(16, 16)
+    # apple body
+    body = [(5, 5), (6, 3), (8, 2), (11, 3), (12, 5), (13, 8), (12, 11), (10, 13), (6, 13), (4, 11), (3, 8)]
+    c.poly(body, (0xd8, 0x32, 0x1e))
+    c.poly([(6, 5), (8, 4), (11, 5), (12, 8), (11, 11), (8, 12), (5, 11), (4, 8)], HOT)
+    c.poly([(7, 7), (9, 6), (10, 8), (9, 10), (7, 10), (6, 8)], HOT_H)
+    c.poly([(8, 8), (9, 8), (9, 9), (8, 9)], (0xff, 0xff, 0xff))
+    # hot steel rim band
+    c.poly([(3, 9), (4, 12), (6, 13), (8, 13), (5, 12), (4, 10)], HOT_D)
+    c.outline(body, (0x7a, 0x14, 0x08))
+    # stem
+    c.line(8, 2, 8, 1, WOOD_D)
+    c.set(8, 1, WOOD)
+    c.set(7, 2, WOOD)
+    # leaf
+    c.poly([(9, 2), (12, 1), (13, 3), (11, 4)], (0x4f, 0x8f, 0x2f))
+    c.set(10, 2, (0x6f, 0xb5, 0x45))
+    # sparkles
+    c.set(2, 6, HOT_L); c.set(14, 7, HOT_L)
+    c.set(5, 4, HOT_H); c.set(11, 12, HOT_L)
+    return c
+
+
+def t_chain():
+    """16x16 Hot Steel chain block texture: overlapping molten metal links."""
+    c = Canvas(16, 16)
+    c.rect(0, 0, 15, 15, (0, 0, 0, 0))
+    # diagonal links (two interlocking ovals)
+    for oy in range(-16, 16, 8):
+        for ox in range(-16, 16, 8):
+            c.outline([(ox + 2, oy + 1), (ox + 6, oy + 1), (ox + 7, oy + 4), (ox + 6, oy + 7),
+                       (ox + 2, oy + 7), (ox + 1, oy + 4)], HOT_D)
+            c.outline([(ox + 3, oy + 2), (ox + 5, oy + 2), (ox + 6, oy + 4), (ox + 5, oy + 6),
+                       (ox + 3, oy + 6), (ox + 2, oy + 4)], HOT)
+            c.set(ox + 4, oy + 3, HOT_L)
+            c.set(ox + 4, oy + 5, HOT)
+    # bright highlights
+    for x in range(16):
+        for y in range(16):
+            if x % 2 == 0 and y % 4 == 2:
+                c.set(x, y, HOT_H)
+    return c
+
+
+def t_ladder():
+    """16x16 Hot Steel ladder block texture: two glowing rails with rungs."""
+    c = Canvas(16, 16)
+    # rails (left and right)
+    for y in range(0, 16):
+        c.set(2, y, GRAY_D)
+        c.set(3, y, GRAY)
+        c.set(12, y, GRAY)
+        c.set(13, y, GRAY_D)
+    # rungs every 3px
+    for y in (0, 3, 6, 9, 12, 15):
+        for x in range(3, 13):
+            c.set(x, y, GRAY)
+            c.set(x, y + 1, GRAY_L)
+        c.set(3, y, HOT); c.set(12, y, HOT)   # hot steel rivets where rung meets rail
+        c.set(3, y + 1, HOT_L); c.set(12, y + 1, HOT_L)
+    # hot glow down the rails
+    for y in range(0, 16):
+        if y % 3 == 1:
+            c.set(4, y, HOT_L); c.set(11, y, HOT_L)
+    return c
+
+
 # ---------------------------------------------------------------------------
 # Dispatch
 # ---------------------------------------------------------------------------
@@ -832,6 +1360,25 @@ TEXTURES = [
     ("item/hot_steel_shield.png",    t_shield),
     ("entity/hot_steel_trident.png", t_trident_entity),
     ("entity/hot_steel_arrow.png",   t_hot_steel_arrow_entity),
+    ("entity/lava_golem.png",        t_lava_golem),
+    ("entity/fire_wraith.png",       t_fire_wraith),
+    ("block/hot_steel_forge.png",    t_forge),
+    ("block/hot_steel_smelter.png",  t_smelter),
+    ("block/hot_steel_bricks.png",   t_bricks),
+    ("block/hot_steel_door_top.png", t_door_top),
+    ("block/hot_steel_door_bottom.png", t_door_bottom),
+    ("block/hot_steel_trapdoor.png", t_trapdoor),
+    ("block/hot_steel_lantern.png",  t_lantern),
+    ("item/lava_bottle.png",         t_lava_bottle),
+    ("item/hot_steel_nugget.png",    t_hot_steel_nugget),
+    ("item/molten_core.png",         t_molten_core),
+    ("item/hot_steel_fishing_rod.png", t_fishing_rod),
+    ("item/hot_steel_sickle.png",    t_sickle),
+    ("item/hot_steel_door.png",      t_door),
+    ("item/hot_steel_paxel.png",     t_paxel),
+    ("item/hot_steel_apple.png",     t_apple),
+    ("block/hot_steel_chain.png",    t_chain),
+    ("block/hot_steel_ladder.png",   t_ladder),
     ("mob_effect/super_fire_resistance.png", t_effect_icon),
     ("models/armor/hot_steel_layer_1.png", lambda: t_armor_layer(64, 32, GRAY, GRAY_D, GRAY_L)),
     ("models/armor/hot_steel_layer_2.png", lambda: t_armor_layer(64, 32, GRAY, GRAY_D, GRAY_L)),
@@ -843,8 +1390,14 @@ def main():
     for rel, fn in TEXTURES:
         path = os.path.join(root, rel)
         canvas = fn()
-        canvas.save(path)
-        print(f"  wrote {path}  ({canvas.w}x{canvas.h})")
+        if isinstance(canvas, Image.Image):
+            os.makedirs(os.path.dirname(path), exist_ok=True)
+            canvas.save(path, "PNG", optimize=True)
+            w, h = canvas.size
+        else:
+            canvas.save(path)
+            w, h = canvas.w, canvas.h
+        print(f"  wrote {path}  ({w}x{h})")
     print(f"\nRegenerated {len(TEXTURES)} textures.")
 
 

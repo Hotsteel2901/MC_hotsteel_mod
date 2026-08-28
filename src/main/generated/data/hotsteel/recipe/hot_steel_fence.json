@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "B": {
+      "item": "hotsteel:hot_steel_block"
+    }
+  },
+  "pattern": [
+    "B B",
+    "B B"
+  ],
+  "result": {
+    "count": 3,
+    "id": "hotsteel:hot_steel_fence"
+  }
+}

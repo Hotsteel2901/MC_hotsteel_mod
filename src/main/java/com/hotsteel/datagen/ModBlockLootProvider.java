@@ -19,5 +19,18 @@ public class ModBlockLootProvider extends FabricBlockLootTableProvider {
         this.dropSelf(ModBlocks.CRUDE_STEEL_BLOCK);
         this.dropSelf(ModBlocks.STEEL_BLOCK);
         this.dropSelf(ModBlocks.HOT_STEEL_BLOCK);
+        this.dropSelf(ModBlocks.HOT_STEEL_STAIRS);
+        this.dropSelf(ModBlocks.HOT_STEEL_SLAB);
+        this.dropSelf(ModBlocks.HOT_STEEL_WALL);
+        this.dropSelf(ModBlocks.HOT_STEEL_FORGE);
+        this.dropSelf(ModBlocks.HOT_STEEL_SMELTER);
+        this.dropSelf(ModBlocks.HOT_STEEL_DOOR);
+        this.dropSelf(ModBlocks.HOT_STEEL_TRAPDOOR);
+        this.dropSelf(ModBlocks.HOT_STEEL_FENCE);
+        this.dropSelf(ModBlocks.HOT_STEEL_BRICKS);
+        this.dropSelf(ModBlocks.HOT_STEEL_PRESSURE_PLATE);
+        this.dropSelf(ModBlocks.HOT_STEEL_LANTERN);
+        this.dropSelf(ModBlocks.HOT_STEEL_CHAIN);
+        this.dropSelf(ModBlocks.HOT_STEEL_LADDER);
     }
 }

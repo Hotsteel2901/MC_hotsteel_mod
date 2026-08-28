@@ -1,0 +1,18 @@
+{
+  "parent": "hotsteel:hot_steel_ingot",
+  "display": {
+    "icon": { "id": "hotsteel:hot_steel_sickle" },
+    "title": { "translate": "advancements.hotsteel.sickle_harvest.title" },
+    "description": { "translate": "advancements.hotsteel.sickle_harvest.description" },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "harvest_5x5": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "requirements": [ [ "harvest_5x5" ] ]
+}

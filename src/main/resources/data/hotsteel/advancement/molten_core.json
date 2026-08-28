@@ -1,0 +1,19 @@
+{
+  "parent": "hotsteel:fire_wraith",
+  "display": {
+    "icon": { "id": "hotsteel:molten_core" },
+    "title": { "translate": "advancements.hotsteel.molten_core.title" },
+    "description": { "translate": "advancements.hotsteel.molten_core.description" },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "get_molten_core": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": { "items": [ { "items": [ "hotsteel:molten_core" ] } ] }
+    }
+  },
+  "requirements": [ [ "get_molten_core" ] ]
+}

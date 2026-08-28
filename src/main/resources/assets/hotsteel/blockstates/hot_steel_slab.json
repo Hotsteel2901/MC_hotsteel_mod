@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "hotsteel:block/hot_steel_slab"
+    },
+    "type=double": {
+      "model": "hotsteel:block/hot_steel_block"
+    },
+    "type=top": {
+      "model": "hotsteel:block/hot_steel_slab_top"
+    }
+  }
+}

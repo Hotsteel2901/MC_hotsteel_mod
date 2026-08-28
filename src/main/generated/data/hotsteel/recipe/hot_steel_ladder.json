@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "I": {
+      "item": "hotsteel:hot_steel_ingot"
+    }
+  },
+  "pattern": [
+    "I I",
+    "III",
+    "I I"
+  ],
+  "result": {
+    "count": 4,
+    "id": "hotsteel:hot_steel_ladder"
+  }
+}
