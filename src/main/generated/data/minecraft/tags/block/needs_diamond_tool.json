@@ -1,5 +1,17 @@
 {
   "values": [
-    "hotsteel:hot_steel_block"
+    "hotsteel:hot_steel_block",
+    "hotsteel:hot_steel_stairs",
+    "hotsteel:hot_steel_slab",
+    "hotsteel:hot_steel_wall",
+    "hotsteel:hot_steel_forge",
+    "hotsteel:hot_steel_smelter",
+    "hotsteel:hot_steel_door",
+    "hotsteel:hot_steel_trapdoor",
+    "hotsteel:hot_steel_fence",
+    "hotsteel:hot_steel_bricks",
+    "hotsteel:hot_steel_pressure_plate",
+    "hotsteel:hot_steel_lantern",
+    "hotsteel:hot_steel_chain"
   ]
 }

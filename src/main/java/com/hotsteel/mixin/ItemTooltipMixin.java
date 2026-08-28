@@ -2,15 +2,18 @@ package com.hotsteel.mixin;
 
 import java.util.List;
 
+import com.hotsteel.registry.ModBlocks;
 import com.hotsteel.registry.ModItems;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ArmorItem;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.level.block.Block;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -32,14 +35,58 @@ public abstract class ItemTooltipMixin {
         if (item == ModItems.HOT_STEEL_PICKAXE) {
             tooltip.add(Component.translatable("item.hotsteel.hot_steel_pickaxe.lore")
                 .withStyle(ChatFormatting.GOLD));
-        } else if (item == ModItems.HOT_STEEL_SWORD || item == ModItems.HOT_STEEL_KNIFE
-            || item == ModItems.HOT_STEEL_AXE || item == ModItems.HOT_STEEL_MACE
+        } else if (item == ModItems.HOT_STEEL_SWORD) {
+            tooltip.add(Component.translatable("item.hotsteel.hot_steel_sword.lore")
+                .withStyle(ChatFormatting.GOLD));
+        } else if (item == ModItems.HOT_STEEL_AXE) {
+            tooltip.add(Component.translatable("item.hotsteel.hot_steel_axe.lore")
+                .withStyle(ChatFormatting.GOLD));
+        } else if (item == ModItems.HOT_STEEL_SHOVEL) {
+            tooltip.add(Component.translatable("item.hotsteel.hot_steel_shovel.lore")
+                .withStyle(ChatFormatting.GOLD));
+        } else if (item == ModItems.HOT_STEEL_HOE) {
+            tooltip.add(Component.translatable("item.hotsteel.hot_steel_hoe.lore")
+                .withStyle(ChatFormatting.GOLD));
+        } else if (item == ModItems.HOT_STEEL_KNIFE || item == ModItems.HOT_STEEL_MACE
             || item == ModItems.HOT_STEEL_TRIDENT) {
             tooltip.add(Component.translatable("item.hotsteel.melee.lore")
                 .withStyle(ChatFormatting.GOLD));
         } else if (item == ModItems.HOT_STEEL_ARROW) {
             tooltip.add(Component.translatable("item.hotsteel.hot_steel_arrow.lore")
                 .withStyle(ChatFormatting.GOLD));
+        } else if (item == ModItems.HOT_STEEL_FIREBALL) {
+            tooltip.add(Component.translatable("item.hotsteel.hot_steel_fireball.lore")
+                .withStyle(ChatFormatting.GOLD));
+        } else if (item == ModItems.LAVA_BOTTLE) {
+            tooltip.add(Component.translatable("item.hotsteel.lava_bottle.lore")
+                .withStyle(ChatFormatting.GOLD));
+        } else if (item == ModItems.LAVA_GOLEM_SPAWN_EGG) {
+            tooltip.add(Component.translatable("item.hotsteel.lava_golem_spawn_egg.lore")
+                .withStyle(ChatFormatting.GOLD));
+        } else if (item == ModItems.FIRE_WRAITH_SPAWN_EGG) {
+            tooltip.add(Component.translatable("item.hotsteel.fire_wraith_spawn_egg.lore")
+                .withStyle(ChatFormatting.GOLD));
+        } else if (item == ModItems.HOT_STEEL_FISHING_ROD) {
+            tooltip.add(Component.translatable("item.hotsteel.hot_steel_fishing_rod.lore")
+                .withStyle(ChatFormatting.GOLD));
+        } else if (item == ModItems.HOT_STEEL_SICKLE) {
+            tooltip.add(Component.translatable("item.hotsteel.hot_steel_sickle.lore")
+                .withStyle(ChatFormatting.GOLD));
+        } else if (item == ModItems.MOLTEN_CORE) {
+            tooltip.add(Component.translatable("item.hotsteel.molten_core.lore")
+                .withStyle(ChatFormatting.GOLD));
+        } else if (item instanceof BlockItem blockItem) {
+            Block block = blockItem.getBlock();
+            if (block == ModBlocks.HOT_STEEL_FORGE) {
+                tooltip.add(Component.translatable("block.hotsteel.hot_steel_forge.lore")
+                    .withStyle(ChatFormatting.GOLD));
+            } else if (block == ModBlocks.HOT_STEEL_SMELTER) {
+                tooltip.add(Component.translatable("block.hotsteel.hot_steel_smelter.lore")
+                    .withStyle(ChatFormatting.GOLD));
+            } else if (block == ModBlocks.HOT_STEEL_PRESSURE_PLATE) {
+                tooltip.add(Component.translatable("block.hotsteel.hot_steel_pressure_plate.lore")
+                    .withStyle(ChatFormatting.GOLD));
+            }
         } else if (item instanceof ArmorItem armor) {
             if (armor.getEquipmentSlot() == EquipmentSlot.HEAD
                 || armor.getEquipmentSlot() == EquipmentSlot.CHEST

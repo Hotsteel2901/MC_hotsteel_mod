@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "I": {
+      "item": "hotsteel:hot_steel_ingot"
+    },
+    "L": {
+      "item": "minecraft:lava_bucket"
+    }
+  },
+  "pattern": [
+    "III",
+    "ILI",
+    "III"
+  ],
+  "result": {
+    "count": 1,
+    "id": "hotsteel:hot_steel_forge"
+  }
+}

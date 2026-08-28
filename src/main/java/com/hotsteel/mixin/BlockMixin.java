@@ -43,7 +43,7 @@ public abstract class BlockMixin {
     private static void hotsteel$autoSmelt(BlockState state, ServerLevel level, BlockPos pos,
                                            BlockEntity blockEntity, Entity entity, ItemStack tool,
                                            CallbackInfoReturnable<List<ItemStack>> cir) {
-        if (!tool.is(ModItems.HOT_STEEL_PICKAXE)) {
+        if (!tool.is(ModItems.HOT_STEEL_PICKAXE) && !tool.is(ModItems.HOT_STEEL_PAXEL)) {
             return;
         }
         List<ItemStack> original = cir.getReturnValue();

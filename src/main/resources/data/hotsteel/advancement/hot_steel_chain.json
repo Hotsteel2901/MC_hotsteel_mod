@@ -1,0 +1,19 @@
+{
+  "parent": "hotsteel:hot_steel_ingot",
+  "display": {
+    "icon": { "id": "hotsteel:hot_steel_chain" },
+    "title": { "translate": "advancements.hotsteel.hot_steel_chain.title" },
+    "description": { "translate": "advancements.hotsteel.hot_steel_chain.description" },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "get_chain": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": { "items": [ { "items": [ "hotsteel:hot_steel_chain" ] } ] }
+    }
+  },
+  "requirements": [ [ "get_chain" ] ]
+}

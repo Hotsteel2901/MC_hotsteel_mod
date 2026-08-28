@@ -1,0 +1,18 @@
+{
+  "parent": "hotsteel:hot_steel_ingot",
+  "display": {
+    "icon": { "id": "hotsteel:hot_steel_axe" },
+    "title": { "translate": "advancements.hotsteel.tree_felling.title" },
+    "description": { "translate": "advancements.hotsteel.tree_felling.description" },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "fell_tree": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "requirements": [ [ "fell_tree" ] ]
+}

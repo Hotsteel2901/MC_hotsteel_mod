@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "A": {
+      "item": "hotsteel:hot_steel_axe"
+    },
+    "I": {
+      "item": "hotsteel:hot_steel_ingot"
+    },
+    "P": {
+      "item": "hotsteel:hot_steel_pickaxe"
+    },
+    "S": {
+      "item": "minecraft:stick"
+    }
+  },
+  "pattern": [
+    "IPI",
+    "SAS",
+    " S "
+  ],
+  "result": {
+    "count": 1,
+    "id": "hotsteel:hot_steel_paxel"
+  }
+}

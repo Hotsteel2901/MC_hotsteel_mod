@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/stairs",
+  "textures": {
+    "bottom": "hotsteel:block/hot_steel_block",
+    "top": "hotsteel:block/hot_steel_block",
+    "side": "hotsteel:block/hot_steel_block"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "parent": "hotsteel:hot_steel_ingot",
+  "display": {
+    "icon": { "id": "hotsteel:lava_golem_spawn_egg" },
+    "title": { "translate": "advancements.hotsteel.lava_golem.title" },
+    "description": { "translate": "advancements.hotsteel.lava_golem.description" },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "summon_golem": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "requirements": [ [ "summon_golem" ] ]
+}

@@ -1,0 +1,18 @@
+{
+  "parent": "hotsteel:hot_steel_ingot",
+  "display": {
+    "icon": { "id": "hotsteel:fire_wraith_spawn_egg" },
+    "title": { "translate": "advancements.hotsteel.fire_wraith.title" },
+    "description": { "translate": "advancements.hotsteel.fire_wraith.description" },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "kill_wraith": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "requirements": [ [ "kill_wraith" ] ]
+}

@@ -1,0 +1,18 @@
+{
+  "parent": "hotsteel:hot_steel_ingot",
+  "display": {
+    "icon": { "id": "hotsteel:hot_steel_forge" },
+    "title": { "translate": "advancements.hotsteel.forge_repair.title" },
+    "description": { "translate": "advancements.hotsteel.forge_repair.description" },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "repair_gear": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "requirements": [ [ "repair_gear" ] ]
+}

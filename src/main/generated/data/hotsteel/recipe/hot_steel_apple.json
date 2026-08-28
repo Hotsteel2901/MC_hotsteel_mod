@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {
+      "item": "minecraft:apple"
+    },
+    "I": {
+      "item": "hotsteel:hot_steel_ingot"
+    }
+  },
+  "pattern": [
+    "III",
+    "IAI",
+    "III"
+  ],
+  "result": {
+    "count": 1,
+    "id": "hotsteel:hot_steel_apple"
+  }
+}

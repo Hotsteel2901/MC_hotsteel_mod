@@ -8,3 +8,5 @@ session-*.md
 *.log
 __pycache__/
 *.pyc
+.hs_*
+tools/vanilla_refs/
