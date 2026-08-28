@@ -18,6 +18,8 @@ public class ModModelProvider extends FabricModelProvider {
     @Override
     public void generateBlockStateModels(BlockModelGenerators gen) {
         gen.createTrivialCube(ModBlocks.CRUDE_STEEL_BLOCK);
+        gen.createTrivialCube(ModBlocks.STEEL_BLOCK);
+        gen.createTrivialCube(ModBlocks.HOT_STEEL_BLOCK);
     }
 
     @Override
@@ -32,11 +34,13 @@ public class ModModelProvider extends FabricModelProvider {
         gen.generateFlatItem(ModItems.HOT_STEEL_BOOTS, ModelTemplates.FLAT_ITEM);
 
         gen.generateFlatItem(ModItems.HOT_STEEL_SWORD, ModelTemplates.FLAT_HANDHELD_ITEM);
+        gen.generateFlatItem(ModItems.HOT_STEEL_MACE, ModelTemplates.FLAT_HANDHELD_ITEM);
         gen.generateFlatItem(ModItems.HOT_STEEL_KNIFE, ModelTemplates.FLAT_HANDHELD_ITEM);
         gen.generateFlatItem(ModItems.HOT_STEEL_PICKAXE, ModelTemplates.FLAT_HANDHELD_ITEM);
         gen.generateFlatItem(ModItems.HOT_STEEL_AXE, ModelTemplates.FLAT_HANDHELD_ITEM);
         gen.generateFlatItem(ModItems.HOT_STEEL_SHOVEL, ModelTemplates.FLAT_HANDHELD_ITEM);
         gen.generateFlatItem(ModItems.HOT_STEEL_HOE, ModelTemplates.FLAT_HANDHELD_ITEM);
+        gen.generateFlatItem(ModItems.HOT_STEEL_ARROW, ModelTemplates.FLAT_ITEM);
 
         // bow / crossbow / trident / shield item models are hand-written (with overrides)
     }

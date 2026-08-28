@@ -17,6 +17,7 @@ public class HotSteelClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         EntityRendererRegistry.register(ModEntities.HOT_STEEL_TRIDENT, HotSteelTridentRenderer::new);
+        EntityRendererRegistry.register(ModEntities.HOT_STEEL_ARROW, HotSteelArrowRenderer::new);
 
         ResourceLocation pull = ResourceLocation.withDefaultNamespace("pull");
         ResourceLocation pulling = ResourceLocation.withDefaultNamespace("pulling");

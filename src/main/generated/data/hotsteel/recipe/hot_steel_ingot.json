@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "hotsteel:hot_steel_block"
+    }
+  ],
+  "result": {
+    "count": 9,
+    "id": "hotsteel:hot_steel_ingot"
+  }
+}

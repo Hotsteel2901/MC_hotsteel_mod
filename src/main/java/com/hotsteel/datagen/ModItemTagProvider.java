@@ -28,6 +28,7 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
     protected void addTags(HolderLookup.Provider registries) {
         // Tool type tags
         this.tag(ItemTags.SWORDS).add(k(ModItems.HOT_STEEL_SWORD)).add(k(ModItems.HOT_STEEL_KNIFE));
+        this.tag(ItemTags.MACE_ENCHANTABLE).add(k(ModItems.HOT_STEEL_MACE));
         this.tag(ItemTags.PICKAXES).add(k(ModItems.HOT_STEEL_PICKAXE));
         this.tag(ItemTags.AXES).add(k(ModItems.HOT_STEEL_AXE));
         this.tag(ItemTags.SHOVELS).add(k(ModItems.HOT_STEEL_SHOVEL));
@@ -53,6 +54,8 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
         this.tag(ItemTags.BOW_ENCHANTABLE).add(k(ModItems.HOT_STEEL_BOW));
         this.tag(ItemTags.CROSSBOW_ENCHANTABLE).add(k(ModItems.HOT_STEEL_CROSSBOW));
         this.tag(ItemTags.TRIDENT_ENCHANTABLE).add(k(ModItems.HOT_STEEL_TRIDENT));
+        // Arrows usable by bows / dispensers
+        this.tag(ItemTags.ARROWS).add(k(ModItems.HOT_STEEL_ARROW));
 
         // Armor
         this.tag(ItemTags.ARMOR_ENCHANTABLE)
@@ -70,14 +73,16 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
         this.tag(ItemTags.DURABILITY_ENCHANTABLE)
             .add(k(ModItems.HOT_STEEL_HELMET)).add(k(ModItems.HOT_STEEL_CHESTPLATE))
             .add(k(ModItems.HOT_STEEL_LEGGINGS)).add(k(ModItems.HOT_STEEL_BOOTS))
-            .add(k(ModItems.HOT_STEEL_SWORD)).add(k(ModItems.HOT_STEEL_KNIFE)).add(k(ModItems.HOT_STEEL_PICKAXE))
+            .add(k(ModItems.HOT_STEEL_SWORD)).add(k(ModItems.HOT_STEEL_MACE)).add(k(ModItems.HOT_STEEL_KNIFE))
+            .add(k(ModItems.HOT_STEEL_PICKAXE))
             .add(k(ModItems.HOT_STEEL_AXE)).add(k(ModItems.HOT_STEEL_SHOVEL)).add(k(ModItems.HOT_STEEL_HOE))
             .add(k(ModItems.HOT_STEEL_BOW)).add(k(ModItems.HOT_STEEL_CROSSBOW))
             .add(k(ModItems.HOT_STEEL_TRIDENT)).add(k(ModItems.HOT_STEEL_SHIELD));
         this.tag(ItemTags.VANISHING_ENCHANTABLE)
             .add(k(ModItems.HOT_STEEL_HELMET)).add(k(ModItems.HOT_STEEL_CHESTPLATE))
             .add(k(ModItems.HOT_STEEL_LEGGINGS)).add(k(ModItems.HOT_STEEL_BOOTS))
-            .add(k(ModItems.HOT_STEEL_SWORD)).add(k(ModItems.HOT_STEEL_KNIFE)).add(k(ModItems.HOT_STEEL_PICKAXE))
+            .add(k(ModItems.HOT_STEEL_SWORD)).add(k(ModItems.HOT_STEEL_MACE)).add(k(ModItems.HOT_STEEL_KNIFE))
+            .add(k(ModItems.HOT_STEEL_PICKAXE))
             .add(k(ModItems.HOT_STEEL_AXE)).add(k(ModItems.HOT_STEEL_SHOVEL)).add(k(ModItems.HOT_STEEL_HOE))
             .add(k(ModItems.HOT_STEEL_BOW)).add(k(ModItems.HOT_STEEL_CROSSBOW))
             .add(k(ModItems.HOT_STEEL_TRIDENT)).add(k(ModItems.HOT_STEEL_SHIELD));

@@ -28,7 +28,9 @@ public final class ModCreativeTab {
                 output.accept(ModItems.CRUDE_STEEL);
                 output.accept(ModBlocks.CRUDE_STEEL_BLOCK);
                 output.accept(ModItems.STEEL_INGOT);
+                output.accept(ModBlocks.STEEL_BLOCK);
                 output.accept(ModItems.HOT_STEEL_INGOT);
+                output.accept(ModBlocks.HOT_STEEL_BLOCK);
 
                 output.accept(ModItems.HOT_STEEL_HELMET);
                 output.accept(ModItems.HOT_STEEL_CHESTPLATE);
@@ -36,6 +38,7 @@ public final class ModCreativeTab {
                 output.accept(ModItems.HOT_STEEL_BOOTS);
 
                 output.accept(ModItems.HOT_STEEL_SWORD);
+                output.accept(ModItems.HOT_STEEL_MACE);
                 output.accept(ModItems.HOT_STEEL_KNIFE);
                 output.accept(ModItems.HOT_STEEL_PICKAXE);
                 output.accept(ModItems.HOT_STEEL_AXE);
@@ -46,6 +49,7 @@ public final class ModCreativeTab {
                 output.accept(ModItems.HOT_STEEL_CROSSBOW);
                 output.accept(ModItems.HOT_STEEL_TRIDENT);
                 output.accept(ModItems.HOT_STEEL_SHIELD);
+                output.accept(ModItems.HOT_STEEL_ARROW);
             })
             .build());
 

@@ -11,6 +11,7 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
+import net.minecraft.data.recipes.ShapelessRecipeBuilder;
 import net.minecraft.data.recipes.SimpleCookingRecipeBuilder;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -43,6 +44,25 @@ public class ModRecipeProvider extends FabricRecipeProvider {
             .unlockedBy("has_crude_steel_block", has(ModBlocks.CRUDE_STEEL_BLOCK))
             .save(exporter, "steel_ingot_from_blasting");
 
+        // ---- Storage blocks ----
+        // 9 steel ingot <-> steel block
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, ModBlocks.STEEL_BLOCK)
+            .pattern("SSS").pattern("SSS").pattern("SSS")
+            .define('S', ModItems.STEEL_INGOT)
+            .unlockedBy("has_steel_ingot", has(ModItems.STEEL_INGOT)).save(exporter);
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.STEEL_INGOT, 9)
+            .requires(ModBlocks.STEEL_BLOCK)
+            .unlockedBy("has_steel_block", has(ModBlocks.STEEL_BLOCK)).save(exporter);
+
+        // 9 hot steel ingot <-> hot steel block
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, ModBlocks.HOT_STEEL_BLOCK)
+            .pattern("III").pattern("III").pattern("III")
+            .define('I', ModItems.HOT_STEEL_INGOT)
+            .unlockedBy("has_hot_steel_ingot", has(ModItems.HOT_STEEL_INGOT)).save(exporter);
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.HOT_STEEL_INGOT, 9)
+            .requires(ModBlocks.HOT_STEEL_BLOCK)
+            .unlockedBy("has_hot_steel_block", has(ModBlocks.HOT_STEEL_BLOCK)).save(exporter);
+
         // ---- Equipment from hot steel ingot ----
         // Armor
         ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.HOT_STEEL_HELMET)
@@ -70,6 +90,10 @@ public class ModRecipeProvider extends FabricRecipeProvider {
         ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.HOT_STEEL_KNIFE)
             .pattern("I").pattern("S")
             .define('I', ModItems.HOT_STEEL_INGOT).define('S', Items.STICK)
+            .unlockedBy("has_hot_steel_ingot", has(ModItems.HOT_STEEL_INGOT)).save(exporter);
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.HOT_STEEL_MACE)
+            .pattern(" I ").pattern("III").pattern(" I ")
+            .define('I', ModItems.HOT_STEEL_INGOT)
             .unlockedBy("has_hot_steel_ingot", has(ModItems.HOT_STEEL_INGOT)).save(exporter);
         ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, ModItems.HOT_STEEL_PICKAXE)
             .pattern("III").pattern(" S ").pattern(" S ")
@@ -105,6 +129,12 @@ public class ModRecipeProvider extends FabricRecipeProvider {
         ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.HOT_STEEL_SHIELD)
             .pattern("I I").pattern("III").pattern(" I ")
             .define('I', ModItems.HOT_STEEL_INGOT)
+            .unlockedBy("has_hot_steel_ingot", has(ModItems.HOT_STEEL_INGOT)).save(exporter);
+
+        // 4 arrows + 1 hot steel ingot -> 4 hot steel arrows
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.HOT_STEEL_ARROW, 4)
+            .requires(Items.ARROW, 4)
+            .requires(ModItems.HOT_STEEL_INGOT)
             .unlockedBy("has_hot_steel_ingot", has(ModItems.HOT_STEEL_INGOT)).save(exporter);
     }
 }

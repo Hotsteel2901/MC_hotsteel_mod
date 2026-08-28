@@ -1,5 +1,7 @@
 {
   "values": [
-    "hotsteel:crude_steel_block"
+    "hotsteel:crude_steel_block",
+    "hotsteel:steel_block",
+    "hotsteel:hot_steel_block"
   ]
 }
