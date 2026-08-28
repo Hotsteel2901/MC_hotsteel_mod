@@ -1,4 +1,4 @@
-// 1.21.1	2026-08-28T15:16:57.066764367	Hot Steel/Tags for minecraft:block
+// 1.21.1	2026-08-28T16:11:12.165491383	Hot Steel/Tags for minecraft:block
 d9b4a620f0db8d84303062b77e23af8bdf7d4066 data/minecraft/tags/block/fences.json
 9ad509e7b86fdceeb5717cab33cb75d61cf7c289 data/minecraft/tags/block/needs_stone_tool.json
 628b3fccee1d6db34fde018ae40b65d8b4a1ed18 data/minecraft/tags/block/needs_diamond_tool.json
@@ -6,7 +6,7 @@ f44b184d6b4dc63fbd1b4be73c4c059a7137bea0 data/minecraft/tags/block/mineable/axe.
 4f94d09c1f0aab0ca38b9639cd237dc0c260ca0a data/minecraft/tags/block/walls.json
 8b5769beaa3b1f7441a54d54d28106440af5f8e1 data/minecraft/tags/block/mineable/pickaxe.json
 d74b8b2eabb6829a686c789d2060ec7bd18d0e5b data/minecraft/tags/block/beacon_base_blocks.json
-d9b4a620f0db8d84303062b77e23af8bdf7d4066 data/minecraft/tags/block/fence_gates.json
+f44b184d6b4dc63fbd1b4be73c4c059a7137bea0 data/minecraft/tags/block/climbable.json
 38b0a09162f612453d90d99061fd36c0e0f0fbcc data/minecraft/tags/block/stairs.json
 07ce633b4040ae9897c650666f3077a2f224a1c5 data/minecraft/tags/block/trapdoors.json
 e83131d42127ced8ca8086fa96f5d189d107f387 data/minecraft/tags/block/slabs.json

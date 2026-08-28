@@ -1,4 +1,4 @@
-// 1.21.1	2026-08-28T15:16:57.065782502	Hot Steel/Model Definitions
+// 1.21.1	2026-08-28T16:11:12.164590839	Hot Steel/Model Definitions
 6d2b4320ce6d582923e4af83f92ac68e4e5af6b3 assets/hotsteel/models/item/hot_steel_paxel.json
 4f8cf74f809ca07a136216b6c6b1cf2832bd4262 assets/hotsteel/models/item/hot_steel_axe.json
 23c2155ca2bf4d653aa18cbc42677504ef00bdab assets/hotsteel/models/item/hot_steel_smelter.json
@@ -34,4 +34,3 @@ e28a1a66f7907d1845fcde75c6a2ba48ca9a6937 assets/hotsteel/models/item/steel_block
 e977343385d30f73c777731bc919dc9639d5e317 assets/hotsteel/models/item/hot_steel_nugget.json
 50269d0d644c922e6603377ef6f215934ecbaa28 assets/hotsteel/models/item/hot_steel_arrow.json
 0b236a10f6e03a19618b73ef35a33edf411b90cb assets/hotsteel/models/item/hot_steel_shovel.json
-c806f6b707791b6aa29c9e09508f67aa86ab903a assets/hotsteel/models/item/hot_steel_fishing_rod.json

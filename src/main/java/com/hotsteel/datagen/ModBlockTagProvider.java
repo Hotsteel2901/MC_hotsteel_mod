@@ -42,6 +42,9 @@ public class ModBlockTagProvider extends FabricTagProvider.BlockTagProvider {
             .add(key(ModBlocks.HOT_STEEL_CHAIN));
         this.tag(BlockTags.MINEABLE_WITH_AXE)
             .add(key(ModBlocks.HOT_STEEL_LADDER));
+        // Ladders must be in the climbable tag or the player cannot climb them.
+        this.tag(BlockTags.CLIMBABLE)
+            .add(key(ModBlocks.HOT_STEEL_LADDER));
         this.tag(BlockTags.NEEDS_STONE_TOOL)
             .add(key(ModBlocks.CRUDE_STEEL_BLOCK))
             .add(key(ModBlocks.STEEL_BLOCK));
@@ -69,6 +72,5 @@ public class ModBlockTagProvider extends FabricTagProvider.BlockTagProvider {
         this.tag(BlockTags.DOORS).add(key(ModBlocks.HOT_STEEL_DOOR));
         this.tag(BlockTags.TRAPDOORS).add(key(ModBlocks.HOT_STEEL_TRAPDOOR));
         this.tag(BlockTags.FENCES).add(key(ModBlocks.HOT_STEEL_FENCE));
-        this.tag(BlockTags.FENCE_GATES).add(key(ModBlocks.HOT_STEEL_FENCE));
     }
 }
