@@ -24,7 +24,15 @@ public class ModBlockTagProvider extends FabricTagProvider.BlockTagProvider {
 
     @Override
     protected void addTags(HolderLookup.Provider registries) {
-        this.tag(BlockTags.MINEABLE_WITH_PICKAXE).add(key(ModBlocks.CRUDE_STEEL_BLOCK));
-        this.tag(BlockTags.NEEDS_STONE_TOOL).add(key(ModBlocks.CRUDE_STEEL_BLOCK));
+        this.tag(BlockTags.MINEABLE_WITH_PICKAXE)
+            .add(key(ModBlocks.CRUDE_STEEL_BLOCK))
+            .add(key(ModBlocks.STEEL_BLOCK))
+            .add(key(ModBlocks.HOT_STEEL_BLOCK));
+        this.tag(BlockTags.NEEDS_STONE_TOOL)
+            .add(key(ModBlocks.CRUDE_STEEL_BLOCK))
+            .add(key(ModBlocks.STEEL_BLOCK));
+        this.tag(BlockTags.NEEDS_DIAMOND_TOOL).add(key(ModBlocks.HOT_STEEL_BLOCK));
+        // Hot steel block can power beacons like the vanilla metal blocks.
+        this.tag(BlockTags.BEACON_BASE_BLOCKS).add(key(ModBlocks.HOT_STEEL_BLOCK));
     }
 }

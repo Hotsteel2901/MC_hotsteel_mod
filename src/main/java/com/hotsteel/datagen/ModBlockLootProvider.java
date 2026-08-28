@@ -17,5 +17,7 @@ public class ModBlockLootProvider extends FabricBlockLootTableProvider {
     @Override
     public void generate() {
         this.dropSelf(ModBlocks.CRUDE_STEEL_BLOCK);
+        this.dropSelf(ModBlocks.STEEL_BLOCK);
+        this.dropSelf(ModBlocks.HOT_STEEL_BLOCK);
     }
 }

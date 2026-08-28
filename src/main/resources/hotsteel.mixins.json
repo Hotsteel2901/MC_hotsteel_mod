@@ -4,7 +4,9 @@
   "package": "com.hotsteel.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
+    "BlockMixin",
     "ItemEntityMixin",
+    "ItemTooltipMixin",
     "LivingEntityMixin"
   ],
   "injectors": {

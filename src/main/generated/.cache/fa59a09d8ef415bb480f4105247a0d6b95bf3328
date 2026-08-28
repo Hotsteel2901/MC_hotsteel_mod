@@ -1,3 +1,5 @@
-// 1.21.1	2026-07-12T12:45:41.916932739	Hot Steel/Tags for minecraft:block
-c49aff5bc05974a9984cf526feec833b8742dbbc data/minecraft/tags/block/mineable/pickaxe.json
-c49aff5bc05974a9984cf526feec833b8742dbbc data/minecraft/tags/block/needs_stone_tool.json
+// 1.21.1	2026-08-28T12:56:16.249246534	Hot Steel/Tags for minecraft:block
+9ad509e7b86fdceeb5717cab33cb75d61cf7c289 data/minecraft/tags/block/needs_stone_tool.json
+d74b8b2eabb6829a686c789d2060ec7bd18d0e5b data/minecraft/tags/block/needs_diamond_tool.json
+db879ed7ed71faa6deccf3b98513769a8d5ea83b data/minecraft/tags/block/mineable/pickaxe.json
+d74b8b2eabb6829a686c789d2060ec7bd18d0e5b data/minecraft/tags/block/beacon_base_blocks.json

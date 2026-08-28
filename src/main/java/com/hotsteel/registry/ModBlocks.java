@@ -24,6 +24,24 @@ public final class ModBlocks {
             .sound(SoundType.METAL)
             .requiresCorrectToolForDrops()));
 
+    /** Storage block for steel ingots. */
+    public static final Block STEEL_BLOCK = registerBlock("steel_block",
+        new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.IRON_BLOCK)
+            .mapColor(MapColor.METAL)
+            .strength(6.0f, 8.0f)
+            .sound(SoundType.METAL)
+            .requiresCorrectToolForDrops()));
+
+    /** Storage block for hot steel ingots — near-netherite toughness, beacon-compatible,
+     *  glows like an active forge. */
+    public static final Block HOT_STEEL_BLOCK = registerBlock("hot_steel_block",
+        new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.NETHERITE_BLOCK)
+            .mapColor(MapColor.FIRE)
+            .strength(50.0f, 1200.0f)
+            .sound(SoundType.NETHERITE_BLOCK)
+            .lightLevel(state -> 15)
+            .requiresCorrectToolForDrops()));
+
     private static Block registerBlock(String name, Block block) {
         ResourceLocation id = HotSteel.id(name);
         Registry.register(BuiltInRegistries.ITEM, id, new BlockItem(block, new Item.Properties()));

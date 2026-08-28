@@ -1,8 +1,10 @@
 package com.hotsteel.registry;
 
 import com.hotsteel.HotSteel;
+import com.hotsteel.item.HotSteelArrowItem;
 import com.hotsteel.item.HotSteelBowItem;
 import com.hotsteel.item.HotSteelCrossbowItem;
+import com.hotsteel.item.HotSteelMaceItem;
 import com.hotsteel.item.HotSteelShieldItem;
 import com.hotsteel.item.HotSteelTridentItem;
 import com.hotsteel.item.KnifeItem;
@@ -78,6 +80,11 @@ public final class ModItems {
         new KnifeItem(ModMaterials.HotSteelTier.INSTANCE, new Item.Properties().fireResistant()
             .attributes(SwordItem.createAttributes(ModMaterials.HotSteelTier.INSTANCE, 1, -2.0f))));
 
+    // ---- New weapon: mace (heavy smash) ----
+    public static final Item HOT_STEEL_MACE = register("hot_steel_mace",
+        new HotSteelMaceItem(new Item.Properties().fireResistant()
+            .attributes(HotSteelMaceItem.createAttributes())));
+
     // ---- Ranged / special ----
     public static final Item HOT_STEEL_BOW = register("hot_steel_bow",
         new HotSteelBowItem(new Item.Properties().fireResistant().durability(1000)));
@@ -91,6 +98,10 @@ public final class ModItems {
 
     public static final Item HOT_STEEL_SHIELD = register("hot_steel_shield",
         new HotSteelShieldItem(new Item.Properties().fireResistant().durability(500)));
+
+    // ---- New ammunition: igniting arrows ----
+    public static final Item HOT_STEEL_ARROW = register("hot_steel_arrow",
+        new HotSteelArrowItem(new Item.Properties().fireResistant()));
 
     private static Item register(String name, Item item) {
         return Registry.register(BuiltInRegistries.ITEM, HotSteel.id(name), item);

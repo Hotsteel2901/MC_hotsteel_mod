@@ -1,0 +1,18 @@
+{
+  "parent": "hotsteel:hot_steel_ingot",
+  "display": {
+    "icon": { "id": "hotsteel:hot_steel_pickaxe" },
+    "title": { "translate": "advancements.hotsteel.auto_smelt.title" },
+    "description": { "translate": "advancements.hotsteel.auto_smelt.description" },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "smelt_ore": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "requirements": [ [ "smelt_ore" ] ]
+}

@@ -702,12 +702,107 @@ def t_trident_entity():
     return c
 
 
+def t_block_hot():
+    """16x16 hot steel block: dark charcoal base with glowing orange veins and
+    bright molten-hot ingots (emissive look)."""
+    c = Canvas(16, 16)
+    DARK = (0x3d, 0x17, 0x07)
+    c.rect(0, 0, 15, 15, DARK)
+    # glowing cracks / veins
+    for x in (1, 5, 9, 13):
+        c.vline(x, 1, 14, shade(HOT, HOT_D, HOT_L, 0.1)[:3])
+    for y in (3, 7, 11):
+        c.hline(2, 14, y, shade(HOT, HOT_D, HOT_L, -0.2)[:3])
+    # four molten ingots in a 2x2 grid
+    for (ox, oy) in [(2, 2), (8, 2), (2, 8), (8, 8)]:
+        c.rect(ox, oy, ox + 3, oy + 3, HOT)
+        c.hline(ox, ox + 3, oy, HOT_L)
+        c.hline(ox, ox + 3, oy + 3, HOT_D)
+        c.vline(ox, oy, oy + 3, HOT_H)
+        c.vline(ox + 3, oy, oy + 3, HOT_D)
+        c.set(ox + 1, oy + 1, HOT_H)
+        c.set(ox + 2, oy + 2, HOT_L)
+    # bright outer glow rim
+    c.hline(0, 15, 0, HOT_L)
+    c.vline(0, 0, 15, HOT_L)
+    c.hline(0, 15, 15, HOT_D)
+    c.vline(15, 0, 15, HOT_D)
+    # center spark
+    c.set(7, 7, HOT_H); c.set(8, 7, HOT_L); c.set(7, 8, HOT_L); c.set(8, 8, HOT_H)
+    return c
+
+
+def t_mace():
+    """16x16 heavy Hot Steel mace: spiked hexagonal head on a wood handle with
+    a glowing hot band."""
+    c = Canvas(16, 16)
+    # head
+    head = [(5, 2), (11, 2), (12, 4), (11, 6), (5, 6), (4, 4)]
+    c.poly(head, GRAY)
+    c.hline(5, 11, 2, GRAY_L)
+    c.outline(head, GRAY_D)
+    # spikes on top
+    c.set(5, 1, GRAY_D); c.set(8, 1, GRAY_D); c.set(11, 1, GRAY_D)
+    c.set(6, 1, GRAY_L); c.set(10, 1, GRAY_L)
+    # glowing hot band around the head
+    c.hline(4, 12, 5, HOT)
+    c.hline(4, 12, 4, HOT_D)
+    c.set(4, 4, HOT_L); c.set(12, 4, HOT_L)
+    # face rivets
+    c.set(7, 3, GRAY_H); c.set(8, 4, GRAY_H); c.set(7, 5, GRAY_D)
+    # handle
+    draw_handle(c, x=7, y0=7, y1=14)
+    # pommel cap
+    c.set(7, 15, WOOD_D); c.set(8, 15, WOOD_D)
+    return c
+
+
+def t_hot_steel_arrow():
+    """16x16 Hot Steel arrow item: diagonal arrow with a molten-hot head."""
+    c = Canvas(16, 16)
+    # shaft (bottom-left -> upper-right)
+    c.line(3, 13, 10, 6, WOOD)
+    c.line(4, 13, 11, 6, WOOD_L)
+    # head (hot steel triangle pointing up-right)
+    c.line(10, 6, 14, 2, GRAY_H)
+    c.line(14, 2, 13, 7, HOT_D)
+    c.line(10, 6, 13, 7, HOT)
+    c.set(14, 2, HOT_H); c.set(14, 3, HOT_L); c.set(13, 3, HOT_L)
+    # fletching (three feathers)
+    c.set(2, 13, STR); c.set(3, 14, STR_D); c.set(2, 14, STR_D)
+    c.set(1, 12, STR_D); c.set(2, 12, STR); c.set(3, 12, STR_D)
+    c.set(3, 13, STR_D); c.set(4, 12, STR_D)
+    return c
+
+
+def t_hot_steel_arrow_entity():
+    """32x32 Hot Steel arrow entity atlas (projectile model texture)."""
+    c = Canvas(32, 32)
+    # shaft
+    c.line(6, 26, 20, 12, WOOD)
+    c.line(7, 26, 21, 12, WOOD_L)
+    # head (hot steel)
+    c.line(20, 12, 28, 4, GRAY_H)
+    c.line(28, 4, 26, 14, HOT_D)
+    c.line(20, 12, 26, 14, HOT)
+    c.set(28, 4, HOT_H); c.set(28, 5, HOT_L); c.set(26, 5, HOT_L)
+    c.set(27, 6, HOT_L); c.set(24, 8, HOT); c.set(25, 9, HOT)
+    # fletching
+    for (fx, fy) in [(3, 26), (5, 28), (2, 24), (4, 27)]:
+        c.set(fx, fy, STR_D)
+    c.set(4, 26, STR); c.set(5, 27, STR); c.set(3, 25, STR)
+    c.set(6, 28, STR_D); c.set(7, 27, STR_D)
+    return c
+
+
 # ---------------------------------------------------------------------------
 # Dispatch
 # ---------------------------------------------------------------------------
 TEXTURES = [
     # (path_relative, function)
     ("block/crude_steel_block.png", lambda: t_block(BLUE, BLUE_D, BLUE_L)),
+    ("block/steel_block.png",       lambda: t_block(BLUE, BLUE_D, BLUE_L)),
+    ("block/hot_steel_block.png",   t_block_hot),
     ("item/crude_steel.png",         lambda: t_ingot(CRUDE, CRUDE_D, CRUDE_L)),
     ("item/steel_ingot.png",         lambda: t_ingot(BLUE, BLUE_D, BLUE_L)),
     ("item/hot_steel_ingot.png",     lambda: t_ingot(HOT, HOT_D, HOT_L, with_glow=True)),
@@ -717,6 +812,8 @@ TEXTURES = [
     ("item/hot_steel_shovel.png",    t_shovel),
     ("item/hot_steel_hoe.png",       t_hoe),
     ("item/hot_steel_knife.png",     t_knife),
+    ("item/hot_steel_mace.png",      t_mace),
+    ("item/hot_steel_arrow.png",     t_hot_steel_arrow),
     ("item/hot_steel_helmet.png",    t_helmet),
     ("item/hot_steel_chestplate.png",t_chestplate),
     ("item/hot_steel_leggings.png",  t_leggings),
@@ -734,6 +831,7 @@ TEXTURES = [
     ("item/hot_steel_trident.png",   t_trident_item),
     ("item/hot_steel_shield.png",    t_shield),
     ("entity/hot_steel_trident.png", t_trident_entity),
+    ("entity/hot_steel_arrow.png",   t_hot_steel_arrow_entity),
     ("mob_effect/super_fire_resistance.png", t_effect_icon),
     ("models/armor/hot_steel_layer_1.png", lambda: t_armor_layer(64, 32, GRAY, GRAY_D, GRAY_L)),
     ("models/armor/hot_steel_layer_2.png", lambda: t_armor_layer(64, 32, GRAY, GRAY_D, GRAY_L)),

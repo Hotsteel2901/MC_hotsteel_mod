@@ -24,6 +24,8 @@ public class ModEnglishLangProvider extends FabricLanguageProvider {
         tb.add(ModItems.STEEL_INGOT, "Steel Ingot");
         tb.add(ModItems.HOT_STEEL_INGOT, "Hot Steel Ingot");
         tb.add(ModBlocks.CRUDE_STEEL_BLOCK, "Block of Crude Steel");
+        tb.add(ModBlocks.STEEL_BLOCK, "Block of Steel");
+        tb.add(ModBlocks.HOT_STEEL_BLOCK, "Block of Hot Steel");
 
         tb.add(ModItems.HOT_STEEL_HELMET, "Hot Steel Helmet");
         tb.add(ModItems.HOT_STEEL_CHESTPLATE, "Hot Steel Chestplate");
@@ -31,6 +33,7 @@ public class ModEnglishLangProvider extends FabricLanguageProvider {
         tb.add(ModItems.HOT_STEEL_BOOTS, "Hot Steel Boots");
 
         tb.add(ModItems.HOT_STEEL_SWORD, "Hot Steel Sword");
+        tb.add(ModItems.HOT_STEEL_MACE, "Hot Steel Mace");
         tb.add(ModItems.HOT_STEEL_KNIFE, "Hot Steel Knife");
         tb.add(ModItems.HOT_STEEL_PICKAXE, "Hot Steel Pickaxe");
         tb.add(ModItems.HOT_STEEL_AXE, "Hot Steel Axe");
@@ -41,10 +44,17 @@ public class ModEnglishLangProvider extends FabricLanguageProvider {
         tb.add(ModItems.HOT_STEEL_CROSSBOW, "Hot Steel Crossbow");
         tb.add(ModItems.HOT_STEEL_TRIDENT, "Hot Steel Trident");
         tb.add(ModItems.HOT_STEEL_SHIELD, "Hot Steel Shield");
+        tb.add(ModItems.HOT_STEEL_ARROW, "Hot Steel Arrow");
 
         tb.add(ModEntities.HOT_STEEL_TRIDENT, "Hot Steel Trident");
         tb.add(ModEffects.SUPER_FIRE_RESISTANCE.value(), "Super Fire Resistance");
         tb.add(ModCreativeTab.HOT_STEEL_TAB_KEY, "Hot Steel");
+
+        // Lore
+        tb.add("item.hotsteel.hot_steel_pickaxe.lore", "Auto-smelts mined ores into ingots");
+        tb.add("item.hotsteel.melee.lore", "Scorching blade: ignites targets on hit");
+        tb.add("item.hotsteel.hot_steel_arrow.lore", "Scorching bolt: ignites targets on impact");
+        tb.add("item.hotsteel.armor.lore", "Set bonus: 2 pieces = fire immunity, 4 pieces = Super Fire Resistance");
 
         // Advancements (kept punchy & a little tongue-in-cheek)
         tb.add("advancements.hotsteel.crude_steel.title", "Is This... Steel?");
@@ -57,8 +67,20 @@ public class ModEnglishLangProvider extends FabricLanguageProvider {
         tb.add("advancements.hotsteel.full_armor.description", "Suit up in a full set of Hot Steel armor. Lava? Never heard of her.");
         tb.add("advancements.hotsteel.hot_steel_hoe.title", "The Ultimate Ultimate Dedication");
         tb.add("advancements.hotsteel.hot_steel_hoe.description", "Craft a Hot Steel Hoe. The mod's best material... on a hoe. Respect.");
+        tb.add("advancements.hotsteel.steel_block.title", "Shelf Life");
+        tb.add("advancements.hotsteel.steel_block.description", "Store your steel in a Block of Steel.");
+        tb.add("advancements.hotsteel.hot_steel_block.title", "Fiery Foundation");
+        tb.add("advancements.hotsteel.hot_steel_block.description", "Forge a Block of Hot Steel. Good beacon material, honestly.");
+        tb.add("advancements.hotsteel.hot_steel_mace.title", "Hot Steel Smash");
+        tb.add("advancements.hotsteel.hot_steel_mace.description", "Craft a Hot Steel Mace. Fall from great heights for extra damage.");
+        tb.add("advancements.hotsteel.auto_smelt.title", "Lava-Forged Mining");
+        tb.add("advancements.hotsteel.auto_smelt.description", "Mine an ore with a Hot Steel Pickaxe and get the ingot right away.");
+        tb.add("advancements.hotsteel.set_bonus_2.title", "Flame Ward");
+        tb.add("advancements.hotsteel.set_bonus_2.description", "Wear 2 pieces of Hot Steel armor to shrug off fire.");
 
         // Chat messages
+        tb.add("message.hotsteel.flame_ward_on", "Flame Ward ONLINE — fire damage ignored!");
+        tb.add("message.hotsteel.flame_ward_off", "Flame Ward OFFLINE.");
         tb.add("message.hotsteel.super_fire_on", "Super Fire Resistance ONLINE!");
         tb.add("message.hotsteel.super_fire_off", "Super Fire Resistance OFFLINE!");
     }

@@ -1,0 +1,18 @@
+{
+  "parent": "hotsteel:hot_steel_ingot",
+  "display": {
+    "icon": { "id": "hotsteel:hot_steel_chestplate" },
+    "title": { "translate": "advancements.hotsteel.set_bonus_2.title" },
+    "description": { "translate": "advancements.hotsteel.set_bonus_2.description" },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "wear_two_pieces": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "requirements": [ [ "wear_two_pieces" ] ]
+}

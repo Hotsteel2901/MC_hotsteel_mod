@@ -1,6 +1,7 @@
 package com.hotsteel.registry;
 
 import com.hotsteel.HotSteel;
+import com.hotsteel.entity.HotSteelArrowEntity;
 import com.hotsteel.entity.HotSteelTridentEntity;
 
 import net.minecraft.core.Registry;
@@ -20,6 +21,14 @@ public final class ModEntities {
             .clientTrackingRange(4)
             .updateInterval(20)
             .build("hot_steel_trident"));
+
+    public static final EntityType<HotSteelArrowEntity> HOT_STEEL_ARROW = register(
+        "hot_steel_arrow",
+        EntityType.Builder.<HotSteelArrowEntity>of(HotSteelArrowEntity::new, MobCategory.MISC)
+            .sized(0.5f, 0.5f)
+            .clientTrackingRange(4)
+            .updateInterval(20)
+            .build("hot_steel_arrow"));
 
     private static <T extends Entity> EntityType<T> register(String name, EntityType<T> type) {
         return Registry.register(BuiltInRegistries.ENTITY_TYPE, HotSteel.id(name), type);

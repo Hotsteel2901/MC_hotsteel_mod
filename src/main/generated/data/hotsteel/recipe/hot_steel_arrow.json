@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    {
+      "item": "minecraft:arrow"
+    },
+    {
+      "item": "minecraft:arrow"
+    },
+    {
+      "item": "minecraft:arrow"
+    },
+    {
+      "item": "minecraft:arrow"
+    },
+    {
+      "item": "hotsteel:hot_steel_ingot"
+    }
+  ],
+  "result": {
+    "count": 4,
+    "id": "hotsteel:hot_steel_arrow"
+  }
+}
