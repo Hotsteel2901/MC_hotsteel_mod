@@ -5,6 +5,7 @@
   "compatibilityLevel": "JAVA_21",
   "mixins": [
     "BlockMixin",
+    "CarvedPumpkinMixin",
     "FishingHookMixin",
     "ItemEntityMixin",
     "ItemTooltipMixin",
