@@ -18,9 +18,11 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 /**
- * Hot Steel fishing rod: any raw fish caught with it is cooked instantly.
- * The {@code retrieve} method drops the catch into the player's inventory, so we
- * scan the inventory right after and upgrade raw fish to their cooked form.
+ * Hot Steel fishing rod: any raw fish caught with it is cooked instantly, and —
+ * critically — the bobber stays out. Vanilla {@code shouldStopFishing} only
+ * recognises {@code Items.FISHING_ROD}, so a bobber cast from any other rod is
+ * discarded the very next tick (it "shoots out and instantly disappears"). We
+ * teach it to also accept the Hot Steel rod.
  */
 @Mixin(FishingHook.class)
 public abstract class FishingHookMixin {
@@ -29,6 +31,17 @@ public abstract class FishingHookMixin {
     private static final Map<Item, Item> COOKED = Map.of(
         Items.COD, Items.COOKED_COD,
         Items.SALMON, Items.COOKED_SALMON);
+
+    /** Keep the bobber alive when cast from a Hot Steel rod (main or offhand). */
+    @Inject(method = "shouldStopFishing", at = @At("HEAD"), cancellable = true)
+    private void hotsteel$keepHookForHotSteelRod(Player player, CallbackInfoReturnable<Boolean> cir) {
+        boolean hasHotRod = player.getMainHandItem().is(ModItems.HOT_STEEL_FISHING_ROD)
+            || player.getOffhandItem().is(ModItems.HOT_STEEL_FISHING_ROD);
+        if (hasHotRod && !player.isRemoved() && player.isAlive()
+            && ((FishingHook) (Object) this).distanceToSqr(player) <= 1024.0) {
+            cir.setReturnValue(false);
+        }
+    }
 
     @Inject(method = "retrieve", at = @At("TAIL"))
     private void hotsteel$cookFish(ItemStack stack, CallbackInfoReturnable<Integer> cir) {

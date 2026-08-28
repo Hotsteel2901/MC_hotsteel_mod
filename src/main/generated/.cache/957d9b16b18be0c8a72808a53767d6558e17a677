@@ -1,8 +1,9 @@
-// 1.21.1	2026-08-28T16:11:12.164590839	Hot Steel/Model Definitions
+// 1.21.1	2026-08-28T16:58:35.546571244	Hot Steel/Model Definitions
 6d2b4320ce6d582923e4af83f92ac68e4e5af6b3 assets/hotsteel/models/item/hot_steel_paxel.json
 4f8cf74f809ca07a136216b6c6b1cf2832bd4262 assets/hotsteel/models/item/hot_steel_axe.json
 23c2155ca2bf4d653aa18cbc42677504ef00bdab assets/hotsteel/models/item/hot_steel_smelter.json
 f896abdb55003ae6ef22586128ef46d923949f20 assets/hotsteel/models/item/hot_steel_hoe.json
+880c586cca3268726203d2ea5f5814b09446c9ae assets/hotsteel/models/item/hot_steel_fireball.json
 276f4092c7aedcafb4061c0f78c5f515e77158c3 assets/hotsteel/models/item/hot_steel_ingot.json
 19e900ca96a1b02594dd0257797d25eb08cdd5d9 assets/hotsteel/models/block/hot_steel_smelter.json
 7c0ffc8631c66393e11f245bd18c8f5d2a1e5e5a assets/hotsteel/models/item/hot_steel_sickle.json

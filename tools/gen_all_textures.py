@@ -1323,6 +1323,30 @@ def t_ladder():
     return c
 
 
+def t_fireball():
+    """16x16 Hot Steel fireball item: a molten-hot orb wrapped in flame."""
+    c = Canvas(16, 16)
+    # outer flame
+    flame = [(8, 1), (12, 3), (14, 7), (13, 11), (9, 14), (5, 14), (2, 10), (3, 5)]
+    c.poly(flame, HOT_D)
+    # inner fiery orb
+    orb = [(5, 4), (11, 4), (13, 8), (11, 12), (5, 12), (3, 8)]
+    c.poly(orb, HOT)
+    c.poly([(7, 6), (10, 6), (11, 9), (9, 11), (6, 11), (5, 8)], HOT_L)
+    c.poly([(8, 7), (9, 7), (9, 9), (8, 10), (7, 9), (7, 8)], HOT_H)
+    # white-hot core
+    c.set(8, 8, (0xff, 0xff, 0xff))
+    # flame tips
+    c.set(5, 2, HOT_L); c.set(11, 2, HOT_L)
+    c.set(2, 8, HOT); c.set(14, 9, HOT)
+    c.set(6, 15, HOT_L); c.set(10, 15, HOT)
+    c.set(8, 1, HOT_L)
+    # sparks
+    c.set(3, 3, HOT_H); c.set(13, 4, HOT_H)
+    c.set(4, 13, HOT_L); c.set(12, 12, HOT_L)
+    return c
+
+
 # ---------------------------------------------------------------------------
 # Dispatch
 # ---------------------------------------------------------------------------
@@ -1377,6 +1401,7 @@ TEXTURES = [
     ("item/hot_steel_door.png",      t_door),
     ("item/hot_steel_paxel.png",     t_paxel),
     ("item/hot_steel_apple.png",     t_apple),
+    ("item/hot_steel_fireball.png",  t_fireball),
     ("block/hot_steel_chain.png",    t_chain),
     ("block/hot_steel_ladder.png",   t_ladder),
     ("mob_effect/super_fire_resistance.png", t_effect_icon),
