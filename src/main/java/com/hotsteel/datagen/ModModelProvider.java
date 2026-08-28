@@ -49,6 +49,7 @@ public class ModModelProvider extends FabricModelProvider {
         gen.generateFlatItem(ModItems.HOT_STEEL_HOE, ModelTemplates.FLAT_HANDHELD_ITEM);
         gen.generateFlatItem(ModItems.HOT_STEEL_PAXEL, ModelTemplates.FLAT_HANDHELD_ITEM);
         gen.generateFlatItem(ModItems.HOT_STEEL_ARROW, ModelTemplates.FLAT_ITEM);
+        gen.generateFlatItem(ModItems.HOT_STEEL_FIREBALL, ModelTemplates.FLAT_ITEM);
 
         // bow / crossbow / trident / shield / fishing-rod item models are hand-written
     }

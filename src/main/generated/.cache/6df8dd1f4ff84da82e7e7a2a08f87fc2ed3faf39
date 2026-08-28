@@ -1,9 +1,9 @@
-// 1.21.1	2026-08-28T15:16:57.065482436	Hot Steel/Block Loot Tables
+// 1.21.1	2026-08-28T16:58:35.546238648	Hot Steel/Block Loot Tables
 44e7cf812d3aae2bd6c6df3e6412326c1dfe14be data/hotsteel/loot_table/blocks/hot_steel_trapdoor.json
 297283227e4095a79d9b56bd1afeebefc4b9f29a data/hotsteel/loot_table/blocks/hot_steel_pressure_plate.json
 5bc98f288bf67aac0d09a3f0e2d5e1845618e45c data/hotsteel/loot_table/blocks/crude_steel_block.json
-d019deb8ee2259604ba7db67353d990039feaaa2 data/hotsteel/loot_table/blocks/hot_steel_wall.json
 3ea3da59f186e6f07a6e48c8c6d09c3a0b638442 data/hotsteel/loot_table/blocks/hot_steel_smelter.json
+d019deb8ee2259604ba7db67353d990039feaaa2 data/hotsteel/loot_table/blocks/hot_steel_wall.json
 bb07bce2c94a73903372b7618d98afd6b77e87c8 data/hotsteel/loot_table/blocks/hot_steel_bricks.json
 9fba22ec13e844b38512b68bb46abb115be4fb12 data/hotsteel/loot_table/blocks/hot_steel_fence.json
 2504e7abff9f9a45fd0994c1de2ebd8549411a87 data/hotsteel/loot_table/blocks/hot_steel_stairs.json
