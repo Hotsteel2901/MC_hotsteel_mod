@@ -4,7 +4,6 @@ import java.util.Map;
 
 import com.hotsteel.registry.ModItems;
 
-import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.FishingHook;
 import net.minecraft.world.item.Item;
@@ -15,6 +14,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 /**
@@ -43,25 +43,23 @@ public abstract class FishingHookMixin {
         }
     }
 
-    @Inject(method = "retrieve", at = @At("TAIL"))
-    private void hotsteel$cookFish(ItemStack stack, CallbackInfoReturnable<Integer> cir) {
-        FishingHook self = (FishingHook) (Object) this;
-        if (self.level().isClientSide) {
-            return;
+    /**
+     * Actually cook the fish. Vanilla {@code retrieve} turns each looted stack into an
+     * {@code ItemEntity} at the bobber and lets it fly toward the player, so the stack
+     * never sits in the inventory long enough for a post-retrieve scan to catch it.
+     * Instead we swap the stack to its cooked form the moment the ItemEntity is built.
+     */
+    @ModifyArg(
+        method = "retrieve",
+        at = @At(
+            value = "INVOKE",
+            target = "Lnet/minecraft/world/entity/item/ItemEntity;<init>(Lnet/minecraft/world/level/Level;DDDLnet/minecraft/world/item/ItemStack;)V"),
+        index = 4)
+    private ItemStack hotsteel$cookCaughtFish(ItemStack stack) {
+        Item cooked = COOKED.get(stack.getItem());
+        if (cooked != null && !stack.isEmpty()) {
+            return new ItemStack(cooked, stack.getCount());
         }
-        Player player = self.getPlayerOwner();
-        if (player == null
-            || !(player.getMainHandItem().is(ModItems.HOT_STEEL_FISHING_ROD)
-                || player.getOffhandItem().is(ModItems.HOT_STEEL_FISHING_ROD))) {
-            return;
-        }
-        Inventory inv = player.getInventory();
-        for (int i = 0; i < inv.getContainerSize(); i++) {
-            ItemStack slot = inv.getItem(i);
-            Item cooked = COOKED.get(slot.getItem());
-            if (cooked != null && !slot.isEmpty()) {
-                inv.setItem(i, new ItemStack(cooked, slot.getCount()));
-            }
-        }
+        return stack;
     }
 }
