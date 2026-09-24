@@ -1,11 +1,14 @@
 package com.hotsteel.registry;
 
 import com.hotsteel.HotSteel;
-import com.hotsteel.entity.FireWraithEntity;
-import com.hotsteel.entity.HotSteelArrowEntity;
-import com.hotsteel.entity.HotSteelTridentEntity;
-import com.hotsteel.entity.LavaBottleEntity;
-import com.hotsteel.entity.LavaGolemEntity;
+import com.hotsteel.content.entity.AncientForgebornEntity;
+import com.hotsteel.content.entity.EmberWispEntity;
+import com.hotsteel.content.entity.FireWraithEntity;
+import com.hotsteel.content.entity.HotSteelArrowEntity;
+import com.hotsteel.content.entity.HotSteelTridentEntity;
+import com.hotsteel.content.entity.LavaBottleEntity;
+import com.hotsteel.content.entity.LavaGolemEntity;
+import com.hotsteel.content.entity.SlagCrawlerEntity;
 
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -59,6 +62,33 @@ public final class ModEntities {
             .clientTrackingRange(8)
             .fireImmune()
             .build("fire_wraith"));
+
+    /** Small, fast Nether crawler that drops Molten Shards. */
+    public static final EntityType<SlagCrawlerEntity> SLAG_CRAWLER = register(
+        "slag_crawler",
+        EntityType.Builder.<SlagCrawlerEntity>of(SlagCrawlerEntity::new, MobCategory.MONSTER)
+            .sized(1.0f, 0.7f)
+            .clientTrackingRange(8)
+            .fireImmune()
+            .build("slag_crawler"));
+
+    /** Floating ember spirit that snipes with small fireballs. */
+    public static final EntityType<EmberWispEntity> EMBER_WISP = register(
+        "ember_wisp",
+        EntityType.Builder.<EmberWispEntity>of(EmberWispEntity::new, MobCategory.MONSTER)
+            .sized(0.7f, 0.9f)
+            .clientTrackingRange(8)
+            .fireImmune()
+            .build("ember_wisp"));
+
+    /** The final boss — summoned only at the Molten Altar. */
+    public static final EntityType<AncientForgebornEntity> ANCIENT_FORGEBORN = register(
+        "ancient_forgeborn",
+        EntityType.Builder.<AncientForgebornEntity>of(AncientForgebornEntity::new, MobCategory.MONSTER)
+            .sized(1.6f, 3.4f)
+            .clientTrackingRange(12)
+            .fireImmune()
+            .build("ancient_forgeborn"));
 
     private static <T extends Entity> EntityType<T> register(String name, EntityType<T> type) {
         return Registry.register(BuiltInRegistries.ENTITY_TYPE, HotSteel.id(name), type);

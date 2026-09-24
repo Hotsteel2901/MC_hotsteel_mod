@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "minecraft:book"
+    },
+    {
+      "item": "hotsteel:hot_steel_ingot"
+    },
+    {
+      "item": "hotsteel:molten_shard"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "hotsteel:hot_steel_codex"
+  }
+}

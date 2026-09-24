@@ -73,6 +73,37 @@ public final class ModCreativeTab {
                 output.accept(ModItems.LAVA_BOTTLE);
                 output.accept(ModItems.LAVA_GOLEM_SPAWN_EGG);
                 output.accept(ModItems.FIRE_WRAITH_SPAWN_EGG);
+
+                // ---- Molten Age ----
+                output.accept(ModItems.MOLTEN_SHARD);
+                output.accept(ModItems.MOLTEN_STEEL_INGOT);
+                output.accept(ModItems.MOLTEN_STEEL_NUGGET);
+                output.accept(ModItems.FORGE_HEART);
+                output.accept(ModItems.HOT_STEEL_CODEX);
+                output.accept(ModItems.SCORCHED_PAGE);
+
+                output.accept(ModBlocks.MOLTEN_STEEL_BLOCK);
+                output.accept(ModBlocks.MOLTEN_ALTAR);
+                output.accept(ModBlocks.MOLTEN_GLASS);
+                output.accept(ModBlocks.CHARRED_BRICKS);
+                output.accept(ModBlocks.MOLTEN_STEEL_CHAIN);
+                output.accept(ModBlocks.MOLTEN_LANTERN);
+
+                output.accept(ModItems.MOLTEN_STEEL_HELMET);
+                output.accept(ModItems.MOLTEN_STEEL_CHESTPLATE);
+                output.accept(ModItems.MOLTEN_STEEL_LEGGINGS);
+                output.accept(ModItems.MOLTEN_STEEL_BOOTS);
+
+                output.accept(ModItems.MOLTEN_STEEL_SWORD);
+                output.accept(ModItems.MOLTEN_STEEL_SCYTHE);
+                output.accept(ModItems.MOLTEN_STEEL_PICKAXE);
+                output.accept(ModItems.MOLTEN_STEEL_AXE);
+                output.accept(ModItems.MOLTEN_STEEL_SHOVEL);
+                output.accept(ModItems.MOLTEN_STEEL_HOE);
+
+                output.accept(ModItems.SLAG_CRAWLER_SPAWN_EGG);
+                output.accept(ModItems.EMBER_WISP_SPAWN_EGG);
+                output.accept(ModItems.ANCIENT_FORGEBORN_SPAWN_EGG);
             })
             .build());
 

@@ -1,24 +1,28 @@
 package com.hotsteel.registry;
 
 import com.hotsteel.HotSteel;
-import com.hotsteel.item.HotSteelArrowItem;
-import com.hotsteel.item.HotSteelAxeItem;
-import com.hotsteel.item.HotSteelBowItem;
-import com.hotsteel.item.HotSteelCrossbowItem;
-import com.hotsteel.item.HotSteelFishingRodItem;
-import com.hotsteel.item.HotSteelFireballItem;
-import com.hotsteel.item.HotSteelHoeItem;
-import com.hotsteel.item.HotSteelAppleItem;
-import com.hotsteel.item.HotSteelMaceItem;
-import com.hotsteel.item.HotSteelPaxelItem;
-import com.hotsteel.item.HotSteelShieldItem;
-import com.hotsteel.item.HotSteelShovelItem;
-import com.hotsteel.item.HotSteelSickleItem;
-import com.hotsteel.item.HotSteelSwordItem;
-import com.hotsteel.item.HotSteelTridentItem;
-import com.hotsteel.item.KnifeItem;
-import com.hotsteel.item.LavaBottleItem;
-import com.hotsteel.item.MoltenCoreItem;
+import com.hotsteel.content.item.ChronicleCodexItem;
+import com.hotsteel.content.item.ForgeHeartItem;
+import com.hotsteel.content.item.HotSteelArrowItem;
+import com.hotsteel.content.item.HotSteelAxeItem;
+import com.hotsteel.content.item.HotSteelBowItem;
+import com.hotsteel.content.item.HotSteelCrossbowItem;
+import com.hotsteel.content.item.HotSteelFishingRodItem;
+import com.hotsteel.content.item.HotSteelFireballItem;
+import com.hotsteel.content.item.HotSteelHoeItem;
+import com.hotsteel.content.item.HotSteelAppleItem;
+import com.hotsteel.content.item.HotSteelMaceItem;
+import com.hotsteel.content.item.HotSteelPaxelItem;
+import com.hotsteel.content.item.HotSteelShieldItem;
+import com.hotsteel.content.item.HotSteelShovelItem;
+import com.hotsteel.content.item.HotSteelSickleItem;
+import com.hotsteel.content.item.HotSteelSwordItem;
+import com.hotsteel.content.item.HotSteelTridentItem;
+import com.hotsteel.content.item.KnifeItem;
+import com.hotsteel.content.item.LavaBottleItem;
+import com.hotsteel.content.item.MoltenCoreItem;
+import com.hotsteel.content.item.MoltenSteelScytheItem;
+import com.hotsteel.content.item.ScorchedPageItem;
 
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -163,6 +167,89 @@ public final class ModItems {
     // ---- Spawn egg: fire wraith ----
     public static final Item FIRE_WRAITH_SPAWN_EGG = register("fire_wraith_spawn_egg",
         new SpawnEggItem(ModEntities.FIRE_WRAITH, 0xff5500, 0x2a0505, new Item.Properties()));
+
+    // =====================================================================
+    //  Molten Age content
+    // =====================================================================
+
+    /** Molten Shard — dropped by Slag Crawlers; four of them make a Molten Core. */
+    public static final Item MOLTEN_SHARD = register("molten_shard",
+        new Item(new Item.Properties().fireResistant()));
+
+    /** Molten-forged ingot — the end-game crafting material. */
+    public static final Item MOLTEN_STEEL_INGOT = register("molten_steel_ingot",
+        new Item(new Item.Properties().fireResistant()));
+
+    public static final Item MOLTEN_STEEL_NUGGET = register("molten_steel_nugget",
+        new Item(new Item.Properties().fireResistant()));
+
+    /** Trophy of the final chapter: right-click for 60s of Forge Blessing. */
+    public static final Item FORGE_HEART = register("forge_heart",
+        new ForgeHeartItem(new Item.Properties().fireResistant()));
+
+    /** The chronicle of the Molten Age, read in-game. */
+    public static final Item HOT_STEEL_CODEX = register("hot_steel_codex",
+        new ChronicleCodexItem(new Item.Properties().fireResistant()));
+
+    /** Scorched page — recovers the next unread chronicle chapter. */
+    public static final Item SCORCHED_PAGE = register("scorched_page",
+        new ScorchedPageItem(new Item.Properties().fireResistant()));
+
+    // ---- Molten-forged armor ----
+    public static final Item MOLTEN_STEEL_HELMET = register("molten_steel_helmet",
+        new ArmorItem(ModMaterials.MOLTEN_STEEL_ARMOR, ArmorItem.Type.HELMET,
+            new Item.Properties().fireResistant()
+                .durability(ArmorItem.Type.HELMET.getDurability(ModMaterials.MOLTEN_ARMOR_DURABILITY_MULT))));
+
+    public static final Item MOLTEN_STEEL_CHESTPLATE = register("molten_steel_chestplate",
+        new ArmorItem(ModMaterials.MOLTEN_STEEL_ARMOR, ArmorItem.Type.CHESTPLATE,
+            new Item.Properties().fireResistant()
+                .durability(ArmorItem.Type.CHESTPLATE.getDurability(ModMaterials.MOLTEN_ARMOR_DURABILITY_MULT))));
+
+    public static final Item MOLTEN_STEEL_LEGGINGS = register("molten_steel_leggings",
+        new ArmorItem(ModMaterials.MOLTEN_STEEL_ARMOR, ArmorItem.Type.LEGGINGS,
+            new Item.Properties().fireResistant()
+                .durability(ArmorItem.Type.LEGGINGS.getDurability(ModMaterials.MOLTEN_ARMOR_DURABILITY_MULT))));
+
+    public static final Item MOLTEN_STEEL_BOOTS = register("molten_steel_boots",
+        new ArmorItem(ModMaterials.MOLTEN_STEEL_ARMOR, ArmorItem.Type.BOOTS,
+            new Item.Properties().fireResistant()
+                .durability(ArmorItem.Type.BOOTS.getDurability(ModMaterials.MOLTEN_ARMOR_DURABILITY_MULT))));
+
+    // ---- Molten-forged tools & weapons ----
+    public static final Item MOLTEN_STEEL_SWORD = register("molten_steel_sword",
+        new HotSteelSwordItem(ModMaterials.MoltenSteelTier.INSTANCE, new Item.Properties().fireResistant()
+            .attributes(SwordItem.createAttributes(ModMaterials.MoltenSteelTier.INSTANCE, 5, -2.4f))));
+
+    public static final Item MOLTEN_STEEL_SCYTHE = register("molten_steel_scythe",
+        new MoltenSteelScytheItem(ModMaterials.MoltenSteelTier.INSTANCE, new Item.Properties().fireResistant()
+            .attributes(SwordItem.createAttributes(ModMaterials.MoltenSteelTier.INSTANCE, 4, -2.8f))));
+
+    public static final Item MOLTEN_STEEL_PICKAXE = register("molten_steel_pickaxe",
+        new PickaxeItem(ModMaterials.MoltenSteelTier.INSTANCE, new Item.Properties().fireResistant()
+            .attributes(PickaxeItem.createAttributes(ModMaterials.MoltenSteelTier.INSTANCE, 1.5f, -2.8f))));
+
+    public static final Item MOLTEN_STEEL_AXE = register("molten_steel_axe",
+        new HotSteelAxeItem(ModMaterials.MoltenSteelTier.INSTANCE, new Item.Properties().fireResistant()
+            .attributes(AxeItem.createAttributes(ModMaterials.MoltenSteelTier.INSTANCE, 7.0f, -3.0f))));
+
+    public static final Item MOLTEN_STEEL_SHOVEL = register("molten_steel_shovel",
+        new HotSteelShovelItem(ModMaterials.MoltenSteelTier.INSTANCE, new Item.Properties().fireResistant()
+            .attributes(ShovelItem.createAttributes(ModMaterials.MoltenSteelTier.INSTANCE, 2.0f, -3.0f))));
+
+    public static final Item MOLTEN_STEEL_HOE = register("molten_steel_hoe",
+        new HotSteelHoeItem(ModMaterials.MoltenSteelTier.INSTANCE, new Item.Properties().fireResistant()
+            .attributes(HoeItem.createAttributes(ModMaterials.MoltenSteelTier.INSTANCE, -3.0f, 0.0f))));
+
+    // ---- Spawn eggs ----
+    public static final Item SLAG_CRAWLER_SPAWN_EGG = register("slag_crawler_spawn_egg",
+        new SpawnEggItem(ModEntities.SLAG_CRAWLER, 0x3d1707, 0xe0611f, new Item.Properties()));
+
+    public static final Item EMBER_WISP_SPAWN_EGG = register("ember_wisp_spawn_egg",
+        new SpawnEggItem(ModEntities.EMBER_WISP, 0xffc24a, 0xff5500, new Item.Properties()));
+
+    public static final Item ANCIENT_FORGEBORN_SPAWN_EGG = register("ancient_forgeborn_spawn_egg",
+        new SpawnEggItem(ModEntities.ANCIENT_FORGEBORN, 0xffb020, 0x2a0505, new Item.Properties()));
 
     private static Item register(String name, Item item) {
         return Registry.register(BuiltInRegistries.ITEM, HotSteel.id(name), item);

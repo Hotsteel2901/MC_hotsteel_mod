@@ -1,0 +1,70 @@
+{
+  "parent": "minecraft:block/block",
+  "textures": {
+    "particle": "hotsteel:block/molten_altar_side",
+    "side": "hotsteel:block/molten_altar_side",
+    "top": "hotsteel:block/molten_altar_top",
+    "core": "hotsteel:block/molten_altar_core"
+  },
+  "elements": [
+    {
+      "from": [1, 0, 1],
+      "to": [15, 3, 15],
+      "faces": {
+        "up": { "texture": "#top" },
+        "down": { "texture": "#side" },
+        "north": { "texture": "#side" },
+        "south": { "texture": "#side" },
+        "west": { "texture": "#side" },
+        "east": { "texture": "#side" }
+      }
+    },
+    {
+      "from": [6, 3, 6],
+      "to": [10, 12, 10],
+      "faces": {
+        "up": { "texture": "#top" },
+        "down": { "texture": "#side" },
+        "north": { "texture": "#side" },
+        "south": { "texture": "#side" },
+        "west": { "texture": "#side" },
+        "east": { "texture": "#side" }
+      }
+    },
+    {
+      "from": [5, 14, 5],
+      "to": [11, 20, 11],
+      "shade": false,
+      "faces": {
+        "up": { "texture": "#core" },
+        "down": { "texture": "#core" },
+        "north": { "texture": "#core" },
+        "south": { "texture": "#core" },
+        "west": { "texture": "#core" },
+        "east": { "texture": "#core" }
+      }
+    }
+  ],
+  "display": {
+    "gui": {
+      "rotation": [30, 225, 0],
+      "translation": [0, 0, 0],
+      "scale": [0.625, 0.625, 0.625]
+    },
+    "fixed": {
+      "rotation": [0, 90, 0],
+      "translation": [0, 0, 0],
+      "scale": [0.5, 0.5, 0.5]
+    },
+    "thirdperson_righthand": {
+      "rotation": [75, 45, 0],
+      "translation": [0, 2.5, 0],
+      "scale": [0.375, 0.375, 0.375]
+    },
+    "firstperson_righthand": {
+      "rotation": [0, 45, 0],
+      "translation": [0, 0, 0],
+      "scale": [0.4, 0.4, 0.4]
+    }
+  }
+}

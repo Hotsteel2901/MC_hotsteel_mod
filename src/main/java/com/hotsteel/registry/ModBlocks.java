@@ -1,10 +1,11 @@
 package com.hotsteel.registry;
 
 import com.hotsteel.HotSteel;
-import com.hotsteel.block.HotSteelForgeBlock;
-import com.hotsteel.block.HotSteelLanternBlock;
-import com.hotsteel.block.HotSteelPressurePlateBlock;
-import com.hotsteel.block.HotSteelSmelterBlock;
+import com.hotsteel.content.block.HotSteelForgeBlock;
+import com.hotsteel.content.block.HotSteelLanternBlock;
+import com.hotsteel.content.block.HotSteelPressurePlateBlock;
+import com.hotsteel.content.block.HotSteelSmelterBlock;
+import com.hotsteel.content.block.MoltenAltarBlock;
 
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -20,6 +21,7 @@ import net.minecraft.world.level.block.LadderBlock;
 import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.StairBlock;
+import net.minecraft.world.level.block.TransparentBlock;
 import net.minecraft.world.level.block.TrapDoorBlock;
 import net.minecraft.world.level.block.WallBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -158,6 +160,63 @@ public final class ModBlocks {
             .strength(0.8f, 8.0f)
             .lightLevel(state -> 5)
             .sound(SoundType.METAL)));
+
+    // =====================================================================
+    //  Molten Age blocks
+    // =====================================================================
+
+    /** Storage block for Molten-forged ingots — blazing, blast-proof. */
+    public static final Block MOLTEN_STEEL_BLOCK = registerBlock("molten_steel_block",
+        new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.NETHERITE_BLOCK)
+            .mapColor(MapColor.FIRE)
+            .strength(55.0f, 1200.0f)
+            .sound(SoundType.NETHERITE_BLOCK)
+            .lightLevel(state -> 15)
+            .requiresCorrectToolForDrops()));
+
+    /** The ritual focus used to summon the Ancient Forgeborn. */
+    public static final Block MOLTEN_ALTAR = registerBlock("molten_altar",
+        new MoltenAltarBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.IRON_BLOCK)
+            .mapColor(MapColor.FIRE)
+            .strength(12.0f, 1200.0f)
+            .lightLevel(state -> 15)
+            .sound(SoundType.NETHERITE_BLOCK)
+            .noOcclusion()
+            .requiresCorrectToolForDrops()));
+
+    /** Molten glass — translucent and faintly lit. */
+    public static final Block MOLTEN_GLASS = registerBlock("molten_glass",
+        new TransparentBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS)
+            .mapColor(MapColor.FIRE)
+            .strength(0.5f, 6.0f)
+            .lightLevel(state -> 8)
+            .sound(SoundType.GLASS)
+            .noOcclusion()));
+
+    /** Charred bricks — dark, soot-stained masonry of the old forges. */
+    public static final Block CHARRED_BRICKS = registerBlock("charred_bricks",
+        new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.DEEPSLATE_BRICKS)
+            .mapColor(MapColor.COLOR_BLACK)
+            .strength(8.0f, 30.0f)
+            .requiresCorrectToolForDrops()));
+
+    /** Molten chain — a glowing chain for decoration. */
+    public static final Block MOLTEN_STEEL_CHAIN = registerBlock("molten_steel_chain",
+        new ChainBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.CHAIN)
+            .mapColor(MapColor.FIRE)
+            .strength(6.0f, 10.0f)
+            .lightLevel(state -> 10)
+            .sound(SoundType.CHAIN)
+            .requiresCorrectToolForDrops()));
+
+    /** Molten lantern — the brightest crafted light of the Molten Age. */
+    public static final Block MOLTEN_LANTERN = registerBlock("molten_lantern",
+        new HotSteelLanternBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.LANTERN)
+            .mapColor(MapColor.FIRE)
+            .strength(5.0f, 10.0f)
+            .lightLevel(state -> 15)
+            .sound(SoundType.METAL)
+            .requiresCorrectToolForDrops()));
 
     private static Block registerBlock(String name, Block block) {
         ResourceLocation id = HotSteel.id(name);

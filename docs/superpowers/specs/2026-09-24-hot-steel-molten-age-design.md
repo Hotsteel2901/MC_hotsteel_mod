@@ -1,0 +1,200 @@
+# Hot Steel 2.0「熔炉纪元」设计规格
+
+- **日期**: 2026-09-24
+- **平台**: Minecraft 1.21.1 / Java 21 / Fabric（沿用现有工具链：Loom 1.17.14、Fabric API 0.116.13+1.21.1）
+- **mod id**: `hotsteel` · **包名**: `com.hotsteel`
+- **目标**: 在保留 1.4.0 全部内容与数值的前提下，重构架构、新增一条完整剧情主线与一整套更高阶内容，并重绘全部贴图。
+- **硬性验收**: `./gradlew build` 通过；`./gradlew runDatagen` 后 `src/main/generated` 无未提交差异。
+
+## 1. 总体结构（重构后的包布局）
+
+```
+com.hotsteel
+├── HotSteel                 # ModInitializer（注册编排）
+├── core/                    # 常量、ID、公共工具
+│   ├── HotSteelIds          # id() 统一入口
+│   └── ModTiers             # 通用 Tier / ArmorMaterial 注册辅助
+├── registry/                # 所有注册表（保持集中、单一职责）
+│   ├── ModItems / ModBlocks / ModBlockEntities / ModEntities
+│   ├── ModEffects / ModPotions / ModMaterials / ModCreativeTab
+│   └── ModEntitySpawns      # 生物生成规则
+├── content/
+│   ├── item/                # 自定义 Item 子类
+│   ├── block/               # 自定义 Block / BlockEntity
+│   ├── entity/              # 自定义实体（含 BOSS）
+│   └── effect/              # 自定义 MobEffect
+├── lore/                    # 剧情系统
+│   ├── Chronicle            # 章节数据（静态定义，双语）
+│   └── ChronicleProgress    # 玩家进度（data component / attachment）
+├── logic/                   # 通用玩法逻辑与服务端事件
+├── client/                  # 客户端初始化 / 渲染器 / 模型 / GUI
+│   ├── render/              # 实体渲染器与实体模型
+│   ├── screen/              # 引导书 GUI
+│   └── model/               # 自定义实体模型（ModelPart 层级）
+├── data/                    # datagen 提供器（原 datagen 包重命名）
+└── mixin/                   # 注入点
+```
+
+> 重构原则：**只搬不改行为**。原 `item/ block/ entity/ effect/ logic/ client/ datagen/` 的类迁入上表新位置，逻辑逐字保留；仅在迁移中抽取重复代码（如“点燃目标”“取玩家”等工具方法）。迁移后 `hotsteel.mixins.json`、`fabric.mod.json` 的入口点同步更新。
+
+## 2. 剧情主线「熔炉纪元」（5 章）
+
+剧情通过三件套承载：**引导书 GUI**、**残页解锁**、**成就树**。
+
+| 章 | 标题 | 解锁条件 | 内容要点 | 解锁奖励（残页→章节） |
+|---|---|---|---|---|
+| I | 钢铁之始 | 获得粗钢 | 钢铁加工链的起源 | `scorched_page_1` |
+| II | 熔火之路 | 获得热钢锭 | 岩浆淬炼、超级抗火 | `scorched_page_2` |
+| III | 烈火之魂 | 获得熔核 | 烈火怨灵的哀鸣 | `scorched_page_3` |
+| IV | 熔铸之躯 | 获得熔铸锭 | 熔核与热钢的融合 | `scorched_page_4` |
+| V | 熔炉之主 | 获得熔炉之心 | 击败远古熔铸者 | `scorched_page_5` |
+
+- **引导书**：物品 `hot_steel_codex`，右键打开自定义 `Screen`；左侧章节列表，右侧正文（滚动）；未解锁章节显示为「？？？」。
+- **残页**：`scorched_page_*` 为可获得物品（掉落/BOSS 奖励），拾取即解锁对应章节。
+- **成就树**：`data/hotsteel/advancement/` 下 5 条主线成就 + 若干支线，父链严格对应章节顺序。
+- 剧情文本：中英双语，写在 `Chronicle` 中由 lang 文件承载（`hotsteel.chronicle.<chapter>.title/.body`）。
+
+## 3. 新增内容清单
+
+### 3.1 材料与加工（在既有链路之上延长）
+
+```
+热钢锭 ──┬──(工作台: 热钢锭×4 + 熔核×1)──▶ 熔铸锭 molten_steel_ingot ×2
+熔核碎片 ×4 ──工作台──▶ 熔核 ×1（给熔渣爬虫一个掉落闭环）
+熔渣爬虫掉落：熔核碎片 / 热钢粒 / 焦痕残页
+熔火祭坛：只负责 BOSS 召唤仪式，不承担合成
+```
+
+| 物品 | id | 说明 |
+|---|---|---|
+| 熔核碎片 | `molten_shard` | 熔渣爬虫掉落，4 个合成 1 熔核 |
+| 熔铸锭 | `molten_steel_ingot` | 熔铸套装材料，防火 |
+| 熔铸粒 | `molten_steel_nugget` | 9:1 拆解，用于熔铸锁链/灯 |
+| 熔炉之心 | `forge_heart` | BOSS 掉落，主线终章凭证，可合成「熔铸核心」 |
+
+### 3.2 熔铸套装（高于热钢）
+
+| 项 | 数值 |
+|---|---|
+| Tier 耐久 / 速度 / 攻击加成 / 附魔值 | 3600 / 17.0 / 6.0 / 22 |
+| 盔甲防御（靴/腿/甲/盔） | 5 / 8 / 10 / 5 |
+| 韧性 / 击退抗性 / 耐久倍率 | 4.5 / 0.2 / 55 |
+| 修复材料 | 熔铸锭 |
+| 挖掘等级 | 同下界合金（`INCORRECT_FOR_NETHERITE_TOOL`） |
+
+- 盔甲 4 件：`molten_steel_helmet / chestplate / leggings / boots`
+- 工具 5 件：`molten_steel_sword / pickaxe / axe / shovel / hoe`
+- 新增武器：`molten_steel_scythe`（战镰，3×3 横扫伤害 + 点燃）
+- 全部防火；工具继承「自动熔炼」，镐/锹继承 3×3 范围能力。
+
+### 3.3 熔铸机制（新机制，不引入自定义附魔以保稳定）
+
+- **套装 2 件「熔核护膜」**：火焰伤害减免 50%。
+- **套装 4 件「熔铸之躯」**：完全免疫火焰/岩浆伤害；被近战命中时反弹并点燃攻击者；站在岩浆中缓慢回复。
+- **熔铸武器 · 灼热处决**：击杀目标时爆出火焰粒子并点燃周围 3 格内敌人。
+- **熔火祭坛**：3×3 热钢块铺底、中央放祭坛，手持熔核右键 → 召唤 BOSS；仪式消耗熔核并产生岩浆粒子与音效。
+- **熔炉之心**：右键获得 60 秒「熔炉祝福」，并点亮终章。
+
+### 3.4 新增方块
+
+| 方块 | id | 说明 |
+|---|---|---|
+| 熔铸块 | `molten_steel_block` | 储存方块，发光 15，耐爆 |
+| 熔火祭坛 | `molten_altar` | 仪式方块，发光 15，自定义 3D 模型 |
+| 熔火玻璃 | `molten_glass` | 透光发光玻璃（无掉落表特殊处理，用 `glass` 语义） |
+| 焦黑砖 | `charred_bricks` | 深色装饰砖，副本感 |
+| 熔铸锁链 / 熔铸灯 | `molten_steel_chain` / `molten_lantern` | 装饰与照明 |
+
+### 3.5 新增生物
+
+| 生物 | id | 类型 | 行为 | 掉落 |
+|---|---|---|---|---|
+| 熔渣爬虫 | `slag_crawler` | 小型下界怪 | 快速扑咬，成群 | 熔核碎片 0–2 / 热钢粒 |
+| 火翼灵 | `ember_wisp` | 飞行远程 | 火球点射，保持距离 | 熔核碎片 / 荧石粉 |
+| 远古熔铸者 | `ancient_forgeborn` | BOSS | 见 3.6 | 熔炉之心 + 熔铸锭 + 经验 |
+
+生成：`slag_crawler` 与 `ember_wisp` 加入下界怪物生成（`BiomeModifications`，权重低于烈火怨灵以免刷屏）。BOSS 只能通过仪式或刷怪蛋召唤。
+
+### 3.6 BOSS 战「远古熔铸者」
+
+- 基础：HP 400、护甲 12、击退抗性 1.0、体型 1.6×3.4，防火。
+- **阶段 1（100%–66%）**：近战重击 + 冲撞；每 6 秒召唤 2 只熔渣爬虫（上限 6）。
+- **阶段 2（66%–33%）**：进入无敌 3 秒并回中，改为火球弹幕（一次 5 发扇形）+ 火翼灵召唤；近战仍生效。
+- **阶段 3（33%–0%）**：狂暴，移速 +40%，周期性在脚下制造岩浆（有冷却），攻击附带点燃。
+- 阶段切换时：播放 `SoundEvents.WITHER_SPAWN` 变调、爆发岩浆粒子、清除负面效果。
+- 死亡：掉落熔炉之心×1、熔铸锭 4–8、经验 300；播放烟花式粒子；给击杀者解锁终章成就。
+
+### 3.7 新增效果
+
+| 效果 | id | 作用 |
+|---|---|---|
+| 熔炉祝福 | `forge_blessing` | 免疫火焰/岩浆 + 每 tick 扑灭身上火焰，60 秒（由熔炉之心给予） |
+
+> 实施取舍：**不做自定义药剂**（1.21.1 的酿造配方需要额外的注册与 datapack 支持，收益低），终局的火焰免疫由「熔炉之心 + 熔铸套装」承载。
+
+## 4. 贴图与模型
+
+### 4.1 贴图（程序化像素画）
+
+沿用并扩展 [gen_all_textures.py](file:///workspace/tools/gen_all_textures.py)：所有新贴图由 Pillow 直接绘制，尺寸严格对齐游戏要求：
+
+- 物品：16×16 → `textures/item/`
+- 方块：16×16 → `textures/block/`
+- 实体：按原版模型图集尺寸（如 64×32 / 128×128）→ `textures/entity/`
+- 盔甲层：64×32 → `textures/models/armor/`（熔铸层需第二套）
+- 效果图标：18×18 → `textures/mob_effect/`
+- GUI 图标（引导书）：16×16 → `textures/item/`
+
+同时**重绘既有全部贴图**，统一调色板（钢灰 / 淬钢蓝 / 熔火橙 / 熔铸金），提高明暗对比与轮廓可读性。
+
+### 4.2 模型
+
+- **方块 JSON 模型**：熔火祭坛（多层元素：底座 + 立柱 + 悬浮熔核）、焦黑砖、熔铸灯/锁链手写 JSON。
+- **物品模型**：新增 tooling 使用 `FLAT_HANDHELD_ITEM`；引导书、残页用 `FLAT_ITEM`。
+- **实体模型**：为 `slag_crawler`、`ember_wisp`、`ancient_forgeborn` 编写 `ModelPart` 层级模型 + 渲染器（`EntityRenderer`）。
+- **盔甲层**：熔铸套装使用独立 `hot_steel_layer_*` 之外的新 `molten_steel_layer_*`。
+
+## 5. 数据生成（datagen）
+
+需要覆盖的资源：
+
+- 配方：熔铸锭（祭坛/工作台）、熔铸套装全部、熔核碎片→熔核、熔炉之心相关、焦黑砖/熔火玻璃/熔铸块/锁链/灯、熔铸药剂、双语解锁条件。
+- 模型：新增方块与物品的 JSON。
+- 战利品：新增方块掉落表、两个新生物的掉落表。
+- 标签：熔铸工具/武器/盔甲加入原版 `minecraft:enchantable/*`、`minecraft:*_tools`、`mineable/*` 等标签；新增方块加入 `mineable/pickaxe`。
+- 本地化：`en_us` + `zh_cn` 全量（含剧情文本、GUI 文案、效果名、成就名）。
+
+## 6. 实施批次（每批结束都必须 `build` 通过）
+
+1. **B1 重构**：包搬迁 + 入口点更新 + `build` + `runDatagen` 零差异。
+2. **B2 材料与套装**：熔铸锭/粒、盔甲、工具、战镰、方块注册；配方与本地化。
+3. **B3 生物与 BOSS**：两个新生物 + BOSS（AI 分阶段）+ 模型/渲染器 + 掉落表。
+4. **B4 剧情**：引导书 GUI + 章节数据 + 残页 + 成就链 + 熔火祭坛仪式。
+5. **B5 美术**：全部贴图重绘 + 新模型 JSON。
+6. **B6 收尾**：文档更新、`build`/`runDatagen` 终验、产出 jar。
+
+## 7. 风险与取舍
+
+- **不做自定义附魔**：1.21 附魔是 datapack 注册表，收益低、回归风险高，改用套装机制承载。
+- **不做新维度**：地形/群系改动量大且难以在无头环境验证，改用「仪式 + BOSS」承载终局。
+- **不做自定义粒子/音效**：避免新增资源格式风险，复用原版粒子与音效。
+- **贴图全部程序化生成**：可复现、无外部依赖，风格统一。
+
+## 8. 实施结果与验证（2026-09-24 完成）
+
+- **包重构**：41 个类从 `item/block/entity/effect/datagen/client` 迁至
+  `content/{item,block,entity,effect}`、`data`、`client/render`；入口点与 references 同步更新，行为零改动。
+- **新增体量**：1 个高阶材质（熔铸钢，Tier + ArmorMaterial）、17 个新物品、6 个新方块（含 1 个 BlockEntity）、
+  3 个新实体（含三阶段 BOSS）、1 个新效果、5 章剧情、5 条主线成就、1 个自定义 GUI（编年史阅读界面）。
+- **美术**：85 张贴图全部由 `tools/gen_all_textures.py` 程序化重绘（含 3 个新实体图集与熔铸盔甲层），
+  脚本两次运行输出逐字节一致；3 个新实体各自配有自定义 `ModelPart` 层级模型与渲染器。
+- **验证结论**：
+  | 验证项 | 结果 |
+  |---|---|
+  | `./gradlew build` | ✅ BUILD SUCCESSFUL（产物 `build/libs/hotsteel-2.0.0.jar`） |
+  | `./gradlew runDatagen` 两次 | ✅ 250 个生成文件逐字节一致（可复现） |
+  | 无头专用服务端实机启动 | ✅ `Hot Steel initialized`、加载 1355 配方 / 1491 成就、世界生成完成 `Done (1.020s)`，无崩溃 |
+  | 贴图脚本可复现性 | ✅ md5 全量比对一致 |
+- **已知的非问题日志**：Fabric 开发环境下 `No data fixer registered for …`、`Entity … has no attributes`
+  是引导顺序导致的既有噪音（属性由 `FabricDefaultAttributeRegistry` 在 mod 初始化时注入，1.4.0 起一直如此）；
+  `No key layers in MapLike[{}]` 由测试用 `level-type=minecraft:flat` 未给 `generator-settings` 引起，与本模组无关。

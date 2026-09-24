@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/chain",
+  "textures": {
+    "particle": "hotsteel:block/molten_steel_chain",
+    "chain": "hotsteel:block/molten_steel_chain"
+  }
+}

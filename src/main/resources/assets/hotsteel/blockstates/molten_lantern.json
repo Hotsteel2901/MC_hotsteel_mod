@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "hanging=false": {
+      "model": "hotsteel:block/molten_lantern"
+    },
+    "hanging=true": {
+      "model": "hotsteel:block/molten_lantern_hanging"
+    }
+  }
+}

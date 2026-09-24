@@ -3,6 +3,10 @@
     "hotsteel:hot_steel_helmet",
     "hotsteel:hot_steel_chestplate",
     "hotsteel:hot_steel_leggings",
-    "hotsteel:hot_steel_boots"
+    "hotsteel:hot_steel_boots",
+    "hotsteel:molten_steel_helmet",
+    "hotsteel:molten_steel_chestplate",
+    "hotsteel:molten_steel_leggings",
+    "hotsteel:molten_steel_boots"
   ]
 }

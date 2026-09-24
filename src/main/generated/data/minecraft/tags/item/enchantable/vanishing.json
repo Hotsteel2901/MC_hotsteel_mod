@@ -17,6 +17,16 @@
     "hotsteel:hot_steel_crossbow",
     "hotsteel:hot_steel_trident",
     "hotsteel:hot_steel_shield",
-    "hotsteel:hot_steel_fishing_rod"
+    "hotsteel:hot_steel_fishing_rod",
+    "hotsteel:molten_steel_helmet",
+    "hotsteel:molten_steel_chestplate",
+    "hotsteel:molten_steel_leggings",
+    "hotsteel:molten_steel_boots",
+    "hotsteel:molten_steel_sword",
+    "hotsteel:molten_steel_scythe",
+    "hotsteel:molten_steel_pickaxe",
+    "hotsteel:molten_steel_axe",
+    "hotsteel:molten_steel_shovel",
+    "hotsteel:molten_steel_hoe"
   ]
 }

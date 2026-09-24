@@ -1,0 +1,18 @@
+{
+  "parent": "hotsteel:chapter_2",
+  "display": {
+    "icon": { "id": "hotsteel:molten_shard" },
+    "title": { "translate": "advancements.hotsteel.chapter_3.title" },
+    "description": { "translate": "advancements.hotsteel.chapter_3.description" },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "unlocked": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "requirements": [ [ "unlocked" ] ]
+}

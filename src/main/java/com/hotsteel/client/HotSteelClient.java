@@ -1,10 +1,24 @@
 package com.hotsteel.client;
 
+import com.hotsteel.client.model.AncientForgebornModel;
+import com.hotsteel.client.model.EmberWispModel;
+import com.hotsteel.client.model.SlagCrawlerModel;
+import com.hotsteel.client.render.AncientForgebornRenderer;
+import com.hotsteel.client.render.EmberWispRenderer;
+import com.hotsteel.client.render.FireWraithRenderer;
+import com.hotsteel.client.render.HotSteelArrowRenderer;
+import com.hotsteel.client.render.HotSteelTridentRenderer;
+import com.hotsteel.client.render.LavaGolemRenderer;
+import com.hotsteel.client.render.SlagCrawlerRenderer;
+import com.hotsteel.registry.ModBlocks;
 import com.hotsteel.registry.ModEntities;
 import com.hotsteel.registry.ModItems;
 
 import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
+import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.client.renderer.item.ItemProperties;
@@ -22,6 +36,20 @@ public class HotSteelClient implements ClientModInitializer {
         EntityRendererRegistry.register(ModEntities.LAVA_BOTTLE, ThrownItemRenderer::new);
         EntityRendererRegistry.register(ModEntities.LAVA_GOLEM, LavaGolemRenderer::new);
         EntityRendererRegistry.register(ModEntities.FIRE_WRAITH, FireWraithRenderer::new);
+        EntityRendererRegistry.register(ModEntities.SLAG_CRAWLER, SlagCrawlerRenderer::new);
+        EntityRendererRegistry.register(ModEntities.EMBER_WISP, EmberWispRenderer::new);
+        EntityRendererRegistry.register(ModEntities.ANCIENT_FORGEBORN, AncientForgebornRenderer::new);
+
+        EntityModelLayerRegistry.registerModelLayer(SlagCrawlerModel.LAYER_LOCATION,
+            SlagCrawlerModel::createBodyLayer);
+        EntityModelLayerRegistry.registerModelLayer(EmberWispModel.LAYER_LOCATION,
+            EmberWispModel::createBodyLayer);
+        EntityModelLayerRegistry.registerModelLayer(AncientForgebornModel.LAYER_LOCATION,
+            AncientForgebornModel::createBodyLayer);
+
+        // Molten glass is translucent; 1.21.1 has no "render_type" in block models yet,
+        // so the layer has to be assigned here.
+        BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.MOLTEN_GLASS, RenderType.translucent());
 
         ResourceLocation pull = ResourceLocation.withDefaultNamespace("pull");
         ResourceLocation pulling = ResourceLocation.withDefaultNamespace("pulling");

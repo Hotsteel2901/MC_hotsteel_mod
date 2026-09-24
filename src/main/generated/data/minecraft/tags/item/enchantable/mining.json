@@ -5,6 +5,10 @@
     "hotsteel:hot_steel_shovel",
     "hotsteel:hot_steel_hoe",
     "hotsteel:hot_steel_sickle",
-    "hotsteel:hot_steel_paxel"
+    "hotsteel:hot_steel_paxel",
+    "hotsteel:molten_steel_pickaxe",
+    "hotsteel:molten_steel_axe",
+    "hotsteel:molten_steel_shovel",
+    "hotsteel:molten_steel_hoe"
   ]
 }

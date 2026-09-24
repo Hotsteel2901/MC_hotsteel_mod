@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:blasting",
+  "category": "blocks",
+  "cookingtime": 100,
+  "experience": 0.3,
+  "ingredient": {
+    "item": "minecraft:deepslate_bricks"
+  },
+  "result": {
+    "id": "hotsteel:charred_bricks"
+  }
+}

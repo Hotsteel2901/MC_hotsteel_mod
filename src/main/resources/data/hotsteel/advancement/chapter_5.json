@@ -1,0 +1,18 @@
+{
+  "parent": "hotsteel:chapter_4",
+  "display": {
+    "icon": { "id": "hotsteel:forge_heart" },
+    "title": { "translate": "advancements.hotsteel.chapter_5.title" },
+    "description": { "translate": "advancements.hotsteel.chapter_5.description" },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "unlocked": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "requirements": [ [ "unlocked" ] ]
+}

@@ -24,6 +24,7 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
@@ -48,6 +49,8 @@ public final class SuperFireResistanceHandler {
     private static final Map<UUID, Integer> TIMER = new HashMap<>();
     private static final Set<UUID> HAD_FULL_SET = new HashSet<>();
     private static final Set<UUID> HAD_TWO_SET = new HashSet<>();
+    /** Players who already got the "Molten Body" announcement. */
+    private static final Set<UUID> HAD_MOLTEN_SET = new HashSet<>();
     /** Players whose SUPER_FIRE_RESISTANCE effect was applied by us (armor). */
     private static final Set<UUID> MANAGED = new HashSet<>();
 
@@ -130,6 +133,12 @@ public final class SuperFireResistanceHandler {
                     || (pieces >= 4 && TIMER.getOrDefault(player.getUUID(), 0) < MAX_TICKS);
                 boolean flameWard = pieces >= 2 && !"lava".equals(source.type().msgId());
                 if (fullSuper || flameWard) {
+                    // Molten-forged plating answers in kind: whatever strikes it burns.
+                    if (countMoltenPieces(player) >= 2
+                        && source.getDirectEntity() instanceof LivingEntity attacker
+                        && attacker != player) {
+                        attacker.setRemainingFireTicks(Math.max(attacker.getRemainingFireTicks(), 100));
+                    }
                     return false;
                 }
             }
@@ -140,6 +149,7 @@ public final class SuperFireResistanceHandler {
     private static void tick(ServerPlayer player) {
         UUID id = player.getUUID();
         int pieces = countPieces(player);
+        int moltenPieces = countMoltenPieces(player);
 
         boolean hadTwo = HAD_TWO_SET.contains(id);
         if (pieces >= 2 && !hadTwo) {
@@ -213,7 +223,8 @@ public final class SuperFireResistanceHandler {
 
         // Lava Walker: full set + boots lets the player walk ON the lava surface.
         if (fullSet && isActive(player) && inLava
-            && player.getItemBySlot(EquipmentSlot.FEET).is(ModItems.HOT_STEEL_BOOTS)) {
+            && (player.getItemBySlot(EquipmentSlot.FEET).is(ModItems.HOT_STEEL_BOOTS)
+                || player.getItemBySlot(EquipmentSlot.FEET).is(ModItems.MOLTEN_STEEL_BOOTS))) {
             Integer top = lavaSurfaceY(player);
             if (top != null) {
                 double surface = top + 1.0;
@@ -231,13 +242,32 @@ public final class SuperFireResistanceHandler {
         }
 
         // Molten Aura: with the full set in lava, nearby mobs are scorched.
+        // Molten-forged plating also burns through anything standing nearby.
         if (fullSet && isActive(player) && inLava) {
-            AABB aura = player.getBoundingBox().inflate(3.0);
+            AABB aura = player.getBoundingBox().inflate(moltenPieces >= 4 ? 5.0 : 3.0);
             for (LivingEntity target : player.level().getEntitiesOfClass(LivingEntity.class, aura)) {
                 if (target != player && !target.fireImmune()) {
                     target.setRemainingFireTicks(Math.max(target.getRemainingFireTicks(), 40));
                 }
             }
+        }
+
+        // 熔铸之躯: full Molten-forged plating drinks the heat of the lava and mends
+        // the wearer while they are submerged in it.
+        if (moltenPieces >= 4 && inLava) {
+            if (player.tickCount % 20 == 0 && player.getHealth() < player.getMaxHealth()) {
+                player.heal(1.0f);
+            }
+            if (!HAD_MOLTEN_SET.contains(id)) {
+                HAD_MOLTEN_SET.add(id);
+                player.displayClientMessage(
+                    Component.translatable("message.hotsteel.molten_body_on").withStyle(ChatFormatting.GOLD),
+                    false);
+            }
+        } else if (moltenPieces < 4 && HAD_MOLTEN_SET.remove(id)) {
+            player.displayClientMessage(
+                Component.translatable("message.hotsteel.molten_body_off").withStyle(ChatFormatting.RED),
+                false);
         }
 
         // Auto-Repair: with the full set in lava, worn Hot Steel gear repairs itself
@@ -272,7 +302,8 @@ public final class SuperFireResistanceHandler {
                 for (int dz = -2; dz <= 2; dz++) {
                     if (level.getBlockState(
                         pos.set(center.getX() + dx, center.getY() + dy, center.getZ() + dz))
-                        .is(ModBlocks.HOT_STEEL_BLOCK)) {
+                        .is(ModBlocks.HOT_STEEL_BLOCK)
+                        || level.getBlockState(pos).is(ModBlocks.MOLTEN_STEEL_BLOCK)) {
                         return true;
                     }
                 }
@@ -281,28 +312,67 @@ public final class SuperFireResistanceHandler {
         return false;
     }
 
-    /** Hot Steel gear that self-repairs while the full set is worn in lava. */
-    private static final java.util.Set<net.minecraft.world.item.Item> HOT_STEEL_GEAR =
+    /** Hot Steel and Molten-forged gear that self-repairs while the full set is worn in lava. */
+    private static final java.util.Set<Item> HOT_STEEL_GEAR =
         java.util.Set.of(
             ModItems.HOT_STEEL_HELMET, ModItems.HOT_STEEL_CHESTPLATE,
             ModItems.HOT_STEEL_LEGGINGS, ModItems.HOT_STEEL_BOOTS,
             ModItems.HOT_STEEL_SWORD, ModItems.HOT_STEEL_MACE, ModItems.HOT_STEEL_KNIFE,
             ModItems.HOT_STEEL_SICKLE, ModItems.HOT_STEEL_PICKAXE, ModItems.HOT_STEEL_AXE,
             ModItems.HOT_STEEL_SHOVEL, ModItems.HOT_STEEL_HOE, ModItems.HOT_STEEL_BOW,
-            ModItems.HOT_STEEL_CROSSBOW, ModItems.HOT_STEEL_TRIDENT, ModItems.HOT_STEEL_SHIELD);
+            ModItems.HOT_STEEL_CROSSBOW, ModItems.HOT_STEEL_TRIDENT, ModItems.HOT_STEEL_SHIELD,
+            ModItems.MOLTEN_STEEL_HELMET, ModItems.MOLTEN_STEEL_CHESTPLATE,
+            ModItems.MOLTEN_STEEL_LEGGINGS, ModItems.MOLTEN_STEEL_BOOTS,
+            ModItems.MOLTEN_STEEL_SWORD, ModItems.MOLTEN_STEEL_SCYTHE,
+            ModItems.MOLTEN_STEEL_PICKAXE, ModItems.MOLTEN_STEEL_AXE,
+            ModItems.MOLTEN_STEEL_SHOVEL, ModItems.MOLTEN_STEEL_HOE);
 
-    /** True if the stack is one of the mod's repairable Hot Steel items. */
+    /** True if the stack is one of the mod's repairable gear items. */
     private static boolean isHotSteelGear(ItemStack stack) {
         return HOT_STEEL_GEAR.contains(stack.getItem());
     }
 
-    /** Number of Hot Steel armor pieces currently worn (0–4). */
+    /** True if the armor piece in this slot belongs to either set. */
+    private static boolean isSetPiece(ItemStack stack, EquipmentSlot slot) {
+        Item item = stack.getItem();
+        return switch (slot) {
+            case HEAD -> item == ModItems.HOT_STEEL_HELMET || item == ModItems.MOLTEN_STEEL_HELMET;
+            case CHEST -> item == ModItems.HOT_STEEL_CHESTPLATE || item == ModItems.MOLTEN_STEEL_CHESTPLATE;
+            case LEGS -> item == ModItems.HOT_STEEL_LEGGINGS || item == ModItems.MOLTEN_STEEL_LEGGINGS;
+            case FEET -> item == ModItems.HOT_STEEL_BOOTS || item == ModItems.MOLTEN_STEEL_BOOTS;
+            default -> false;
+        };
+    }
+
+    /** True if the armor piece in this slot is Molten-forged. */
+    private static boolean isMoltenPiece(ItemStack stack, EquipmentSlot slot) {
+        Item item = stack.getItem();
+        return switch (slot) {
+            case HEAD -> item == ModItems.MOLTEN_STEEL_HELMET;
+            case CHEST -> item == ModItems.MOLTEN_STEEL_CHESTPLATE;
+            case LEGS -> item == ModItems.MOLTEN_STEEL_LEGGINGS;
+            case FEET -> item == ModItems.MOLTEN_STEEL_BOOTS;
+            default -> false;
+        };
+    }
+
+    /** Number of set armor pieces currently worn (0–4); Hot Steel and Molten count alike. */
     private static int countPieces(Player player) {
         int count = 0;
-        if (player.getItemBySlot(EquipmentSlot.HEAD).is(ModItems.HOT_STEEL_HELMET)) count++;
-        if (player.getItemBySlot(EquipmentSlot.CHEST).is(ModItems.HOT_STEEL_CHESTPLATE)) count++;
-        if (player.getItemBySlot(EquipmentSlot.LEGS).is(ModItems.HOT_STEEL_LEGGINGS)) count++;
-        if (player.getItemBySlot(EquipmentSlot.FEET).is(ModItems.HOT_STEEL_BOOTS)) count++;
+        if (isSetPiece(player.getItemBySlot(EquipmentSlot.HEAD), EquipmentSlot.HEAD)) count++;
+        if (isSetPiece(player.getItemBySlot(EquipmentSlot.CHEST), EquipmentSlot.CHEST)) count++;
+        if (isSetPiece(player.getItemBySlot(EquipmentSlot.LEGS), EquipmentSlot.LEGS)) count++;
+        if (isSetPiece(player.getItemBySlot(EquipmentSlot.FEET), EquipmentSlot.FEET)) count++;
+        return count;
+    }
+
+    /** Number of Molten-forged armor pieces currently worn (0–4). */
+    private static int countMoltenPieces(Player player) {
+        int count = 0;
+        if (isMoltenPiece(player.getItemBySlot(EquipmentSlot.HEAD), EquipmentSlot.HEAD)) count++;
+        if (isMoltenPiece(player.getItemBySlot(EquipmentSlot.CHEST), EquipmentSlot.CHEST)) count++;
+        if (isMoltenPiece(player.getItemBySlot(EquipmentSlot.LEGS), EquipmentSlot.LEGS)) count++;
+        if (isMoltenPiece(player.getItemBySlot(EquipmentSlot.FEET), EquipmentSlot.FEET)) count++;
         return count;
     }
 }
