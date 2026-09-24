@@ -14,6 +14,12 @@
     "hotsteel:hot_steel_bricks",
     "hotsteel:hot_steel_pressure_plate",
     "hotsteel:hot_steel_lantern",
-    "hotsteel:hot_steel_chain"
+    "hotsteel:hot_steel_chain",
+    "hotsteel:molten_steel_block",
+    "hotsteel:molten_altar",
+    "hotsteel:molten_glass",
+    "hotsteel:charred_bricks",
+    "hotsteel:molten_steel_chain",
+    "hotsteel:molten_lantern"
   ]
 }

@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:blasting",
+  "category": "blocks",
+  "cookingtime": 100,
+  "experience": 0.3,
+  "ingredient": {
+    "item": "minecraft:glass"
+  },
+  "result": {
+    "id": "hotsteel:molten_glass"
+  }
+}

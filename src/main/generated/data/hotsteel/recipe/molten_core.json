@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "hotsteel:molten_shard"
+    },
+    {
+      "item": "hotsteel:molten_shard"
+    },
+    {
+      "item": "hotsteel:molten_shard"
+    },
+    {
+      "item": "hotsteel:molten_shard"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "hotsteel:molten_core"
+  }
+}

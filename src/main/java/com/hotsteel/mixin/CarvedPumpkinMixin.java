@@ -1,6 +1,6 @@
 package com.hotsteel.mixin;
 
-import com.hotsteel.entity.LavaGolemEntity;
+import com.hotsteel.content.entity.LavaGolemEntity;
 import com.hotsteel.logic.AdvancementHelper;
 import com.hotsteel.registry.ModBlocks;
 import com.hotsteel.registry.ModEntities;

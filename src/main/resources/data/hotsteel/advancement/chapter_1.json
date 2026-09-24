@@ -1,0 +1,18 @@
+{
+  "parent": "hotsteel:crude_steel",
+  "display": {
+    "icon": { "id": "hotsteel:hot_steel_ingot" },
+    "title": { "translate": "advancements.hotsteel.chapter_1.title" },
+    "description": { "translate": "advancements.hotsteel.chapter_1.description" },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "unlocked": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "requirements": [ [ "unlocked" ] ]
+}

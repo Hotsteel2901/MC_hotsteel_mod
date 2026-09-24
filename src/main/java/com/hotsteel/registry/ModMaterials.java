@@ -41,6 +41,21 @@ public final class ModMaterials {
     /** Armor durability multiplier (netherite is 37). */
     public static final int ARMOR_DURABILITY_MULT = 45;
 
+    /** Molten-forged armor durability multiplier. */
+    public static final int MOLTEN_ARMOR_DURABILITY_MULT = 55;
+
+    /** Molten-forged tier: the end-game tier above Hot Steel. */
+    public enum MoltenSteelTier implements Tier {
+        INSTANCE;
+
+        @Override public int getUses() { return 3600; }
+        @Override public float getSpeed() { return 17.0f; }
+        @Override public float getAttackDamageBonus() { return 6.0f; }
+        @Override public TagKey<Block> getIncorrectBlocksForDrops() { return BlockTags.INCORRECT_FOR_NETHERITE_TOOL; }
+        @Override public int getEnchantmentValue() { return 22; }
+        @Override public Ingredient getRepairIngredient() { return Ingredient.of(ModItems.MOLTEN_STEEL_INGOT); }
+    }
+
     public static final Holder<ArmorMaterial> HOT_STEEL_ARMOR = register("hot_steel",
         Util.make(new EnumMap<>(ArmorItem.Type.class), m -> {
             m.put(ArmorItem.Type.BOOTS, 4);
@@ -53,6 +68,20 @@ public final class ModMaterials {
         4.0f,
         0.15f,
         () -> Ingredient.of(ModItems.HOT_STEEL_INGOT));
+
+    /** Molten-forged armor: tougher than Hot Steel, with a distinct armor layer. */
+    public static final Holder<ArmorMaterial> MOLTEN_STEEL_ARMOR = register("molten_steel",
+        Util.make(new EnumMap<>(ArmorItem.Type.class), m -> {
+            m.put(ArmorItem.Type.BOOTS, 5);
+            m.put(ArmorItem.Type.LEGGINGS, 8);
+            m.put(ArmorItem.Type.CHESTPLATE, 10);
+            m.put(ArmorItem.Type.HELMET, 5);
+        }),
+        22,
+        SoundEvents.ARMOR_EQUIP_NETHERITE,
+        4.5f,
+        0.2f,
+        () -> Ingredient.of(ModItems.MOLTEN_STEEL_INGOT));
 
     private static Holder<ArmorMaterial> register(String name,
                                                   Map<ArmorItem.Type, Integer> defense,

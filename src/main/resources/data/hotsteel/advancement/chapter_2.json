@@ -1,0 +1,18 @@
+{
+  "parent": "hotsteel:chapter_1",
+  "display": {
+    "icon": { "id": "hotsteel:molten_core" },
+    "title": { "translate": "advancements.hotsteel.chapter_2.title" },
+    "description": { "translate": "advancements.hotsteel.chapter_2.description" },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "unlocked": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "requirements": [ [ "unlocked" ] ]
+}

@@ -2,6 +2,9 @@
   "values": [
     "hotsteel:hot_steel_sword",
     "hotsteel:hot_steel_knife",
-    "hotsteel:hot_steel_axe"
+    "hotsteel:hot_steel_axe",
+    "hotsteel:molten_steel_sword",
+    "hotsteel:molten_steel_scythe",
+    "hotsteel:molten_steel_axe"
   ]
 }

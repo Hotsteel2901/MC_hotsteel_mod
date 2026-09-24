@@ -13,7 +13,7 @@
   "entrypoints": {
     "main": ["com.hotsteel.HotSteel"],
     "client": ["com.hotsteel.client.HotSteelClient"],
-    "fabric-datagen": ["com.hotsteel.datagen.HotSteelDataGen"]
+    "fabric-datagen": ["com.hotsteel.data.HotSteelDataGen"]
   },
 
   "mixins": [

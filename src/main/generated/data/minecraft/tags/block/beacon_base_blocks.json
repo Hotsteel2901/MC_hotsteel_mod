@@ -1,5 +1,6 @@
 {
   "values": [
-    "hotsteel:hot_steel_block"
+    "hotsteel:hot_steel_block",
+    "hotsteel:molten_steel_block"
   ]
 }

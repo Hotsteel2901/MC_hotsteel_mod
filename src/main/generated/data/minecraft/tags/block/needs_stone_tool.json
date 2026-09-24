@@ -1,6 +1,9 @@
 {
   "values": [
     "hotsteel:crude_steel_block",
-    "hotsteel:steel_block"
+    "hotsteel:steel_block",
+    "hotsteel:molten_steel_block",
+    "hotsteel:molten_altar",
+    "hotsteel:charred_bricks"
   ]
 }
