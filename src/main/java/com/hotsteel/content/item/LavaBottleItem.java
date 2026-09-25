@@ -24,6 +24,9 @@ public class LavaBottleItem extends Item {
         ItemStack stack = player.getItemInHand(hand);
         if (!level.isClientSide) {
             LavaBottleEntity bottle = new LavaBottleEntity(level, player, stack);
+            // Launch from in front of the eyes: the vanilla origin (eyeY - 0.1) is inside the
+            // thrower's head, so a downward throw shattered on them and flooded their own feet.
+            bottle.setPos(com.hotsteel.logic.LaunchHelper.muzzle(player, 0.6));
             bottle.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0f, 1.5f, 1.0f);
             level.addFreshEntity(bottle);
             level.playSound(null, player.getX(), player.getY(), player.getZ(),

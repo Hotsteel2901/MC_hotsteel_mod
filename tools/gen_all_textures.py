@@ -833,21 +833,9 @@ def t_trident_item():
     return _trident(Canvas(16, 16))
 
 
-def t_trident_entity():
-    c = Canvas(32, 32)
-    c.vline(15, 4, 30, FIRE[3])
-    c.vline(16, 4, 30, FIRE[4])
-    c.vline(17, 4, 30, FIRE[2])
-    c.vline(16, 1, 4, FIRE[5]); c.set(16, 0, FIRE[6])
-    c.vline(10, 3, 6, FIRE[4]); c.line(10, 3, 16, 3, FIRE[4]); c.set(10, 2, FIRE[5])
-    c.vline(22, 3, 6, FIRE[4]); c.line(16, 3, 22, 3, FIRE[4]); c.set(22, 2, FIRE[5])
-    c.hline(10, 22, 4, FIRE[2]); c.hline(10, 22, 5, FIRE[3])
-    c.set(10, 1, STEEL[5]); c.set(22, 1, STEEL[5]); c.set(16, 0, STEEL[6])
-    c.set(15, 10, FIRE[5]); c.set(17, 14, FIRE[5]); c.set(16, 20, FIRE[4])
-    for y in (12, 18, 25):
-        c.hline(15, 17, y, FIRE[1])
-    c.set(15, 28, FIRE[5]); c.set(17, 28, FIRE[4])
-    return c
+# t_trident_entity / t_hot_steel_arrow_entity / t_lava_golem / t_fire_wraith are
+# defined further down, in the "Vanilla-model entity atlases" section, because
+# they must recolour the vanilla atlases rather than be drawn free-hand.
 
 
 def t_shield():
@@ -883,20 +871,7 @@ def t_hot_steel_arrow():
     return c
 
 
-def t_hot_steel_arrow_entity():
-    c = Canvas(32, 32)
-    c.line(6, 26, 20, 12, WOOD[3]); c.line(7, 26, 21, 12, WOOD[4])
-    c.line(5, 27, 19, 13, WOOD[1])
-    c.line(20, 12, 28, 4, STEEL[5])
-    c.line(28, 4, 26, 14, FIRE[2])
-    c.line(20, 12, 26, 14, FIRE[3])
-    c.set(28, 4, FIRE[6]); c.set(28, 5, FIRE[5]); c.set(26, 5, FIRE[5])
-    c.set(27, 6, FIRE[5]); c.set(24, 8, FIRE[3]); c.set(25, 9, FIRE[3])
-    for (fx, fy) in [(3, 26), (5, 28), (2, 24), (4, 27)]:
-        c.set(fx, fy, STRING[2])
-    c.set(4, 26, STRING[3]); c.set(5, 27, STRING[3]); c.set(3, 25, STRING[3])
-    c.set(6, 28, STRING[2]); c.set(7, 27, STRING[2])
-    return c
+# (t_hot_steel_arrow_entity lives in the "Vanilla-model entity atlases" section)
 
 
 # ===========================================================================
@@ -1348,88 +1323,150 @@ def t_molten_lantern():
 
 
 # ===========================================================================
-# Entities
+# Vanilla-model entity atlases
+# ---------------------------------------------------------------------------
+# lava_golem / fire_wraith / trident / arrow are NOT rendered with our own
+# models: they reuse the vanilla IronGolemModel, BlazeModel, TridentModel and
+# ArrowModel. Those models sample hard-coded UV rectangles inside the vanilla
+# atlas, so the only way to be pixel-correct is to recolour the vanilla atlas
+# itself and keep its alpha silhouette untouched. Drawing free-hand art in
+# "roughly the middle" of the atlas (what we used to do) makes the model sample
+# empty pixels -> transparent holes and invisible mobs.
+#
+# The vanilla atlases are extracted from the official client jar into
+# tools/vanilla_refs/ (see the design doc). If they are missing, every function
+# below falls back to a FULL-COVERAGE procedural atlas: it may look plainer,
+# but it can never produce transparent holes.
 # ===========================================================================
-def t_lava_golem():
-    """128x128 molten golem entity atlas (procedural, deterministic)."""
-    c = Canvas(128, 128)
-    d, dk, m, b, l, h, co = CHAR
-    # legs
-    for (x0, x1) in [(42, 60), (68, 86)]:
-        c.rect(x0, 96, x1, 116, CHAR[2])
-        c.hline(x0 + 1, x1 - 1, 96, CHAR[4])
-        c.vline(x0, 97, 115, CHAR[3])
-        c.vline(x1, 97, 116, CHAR[0])
-        c.hline(x0, x1, 116, CHAR[0])
-    # torso
-    c.rect(40, 40, 88, 96, CHAR[2])
-    c.hline(41, 87, 40, CHAR[5])
-    c.vline(40, 41, 95, CHAR[4])
-    c.hline(41, 87, 96, CHAR[0])
-    c.vline(88, 41, 96, CHAR[0])
-    c.outline([(40, 40), (88, 40), (88, 96), (40, 96)], CHAR[0])
-    # arms
-    for (x0, x1) in [(26, 40), (88, 102)]:
-        c.rect(x0, 42, x1, 92, CHAR[2])
-        c.hline(x0 + 1, x1 - 1, 42, CHAR[4])
-        c.vline(x0, 43, 91, CHAR[3])
-        c.vline(x1, 43, 92, CHAR[0])
-        c.hline(x0, x1, 92, CHAR[0])
-    # head
-    c.rect(52, 22, 76, 40, CHAR[2])
-    c.hline(53, 75, 22, CHAR[5]); c.vline(52, 23, 39, CHAR[4])
-    c.hline(53, 75, 40, CHAR[0]); c.vline(76, 23, 40, CHAR[0])
-    c.outline([(52, 22), (76, 22), (76, 40), (52, 40)], CHAR[0])
-    # molten cores & cracks (emissive layers)
-    c.disc(64, 54, 12, FIRE[2]); c.disc(64, 54, 9, FIRE[3])
-    c.disc(64, 54, 6, FIRE[4]); c.disc(64, 54, 3, FIRE[5])
-    c.set(64, 54, FIRE[6]); c.set(63, 54, FIRE[6]); c.set(64, 53, FIRE[6])
-    # face
-    c.rect(57, 28, 61, 34, FIRE[4]); c.rect(67, 28, 71, 34, FIRE[4])
-    c.rect(58, 30, 60, 32, FIRE[6]); c.rect(68, 30, 70, 32, FIRE[6])
-    c.hline(56, 72, 37, FIRE[2]); c.set(60, 38, FIRE[3]); c.set(67, 38, FIRE[3])
-    # crack veins
-    for (x0, y0, x1, y1) in [(46, 48, 54, 60), (82, 46, 74, 58),
-                             (48, 80, 58, 90), (80, 78, 70, 90),
-                             (44, 60, 44, 76), (84, 58, 84, 74),
-                             (56, 44, 60, 36), (72, 44, 68, 36)]:
-        c.line(x0, y0, x1, y1, FIRE[3])
-        c.line(x0, y0, x1, y1, FIRE[4]) if (x0 + y0) % 2 == 0 else None
-    # arm cores
-    c.disc(33, 84, 5, FIRE[3]); c.disc(33, 84, 3, FIRE[4]); c.set(33, 84, FIRE[5])
-    c.disc(95, 84, 5, FIRE[3]); c.disc(95, 84, 3, FIRE[4]); c.set(95, 84, FIRE[5])
+VANILLA_ROOT = "/workspace/tools/vanilla_refs/assets/minecraft/textures"
+
+
+def _load_vanilla(rel):
+    path = os.path.join(VANILLA_ROOT, rel)
+    if not os.path.exists(path):
+        return None
+    return Image.open(path).convert("RGBA")
+
+
+def _lum(r, g, b):
+    return (0.299 * r + 0.587 * g + 0.114 * b) / 255.0
+
+
+def _ramp(table, t):
+    """table: ascending [(threshold, colour)] -> first entry with t < threshold."""
+    for threshold, colour in table:
+        if t < threshold:
+            return colour
+    return table[-1][1]
+
+
+# luminance -> colour ramps for each vanilla atlas
+_GOLEM_RAMP = [(0.20, CHAR[0]), (0.32, CHAR[1]), (0.44, CHAR[3]),
+               (0.55, FIRE[1]), (0.67, FIRE[2]), (0.78, FIRE[3]),
+               (0.88, FIRE[4]), (0.96, FIRE[5])]
+_WRAITH_RAMP = [(0.18, FIRE[0]), (0.32, FIRE[1]), (0.46, FIRE[2]),
+                (0.60, FIRE[3]), (0.74, FIRE[4]), (0.87, FIRE[5]),
+                (0.95, FIRE[6])]
+_TRIDENT_RAMP = [(0.22, CHAR[0]), (0.38, GOLD[1]), (0.52, GOLD[2]),
+                 (0.66, GOLD[3]), (0.78, GOLD[4]), (0.88, GOLD[5]),
+                 (0.95, FIRE[5])]
+_ARROW_RAMP = [(0.20, CHAR[0]), (0.34, WOOD[1]), (0.48, WOOD[3]),
+               (0.62, STEEL[4]), (0.76, FIRE[3]), (0.88, FIRE[4]),
+               (0.95, FIRE[6])]
+
+
+def _recolor_vanilla(rel, table, crack_rel=None):
+    """Recolour a vanilla atlas by luminance, preserving its alpha silhouette.
+
+    Returns a PIL image, or None when the vanilla reference is unavailable.
+    `crack_rel` is an optional overlay atlas whose opaque pixels are painted as
+    bright emissive cracks on top.
+    """
+    src = _load_vanilla(rel)
+    if src is None:
+        print(f"  WARNING: vanilla reference '{rel}' missing -> falling back to the "
+              f"hole-free procedural atlas. Extract the official client jar into "
+              f"{VANILLA_ROOT} for the faithful recolour.")
+        return None
+    out = Image.new("RGBA", src.size, TRANSPARENT)
+    s, o = src.load(), out.load()
+    for y in range(src.height):
+        for x in range(src.width):
+            r, g, b, a = s[x, y]
+            if a == 0:
+                continue
+            nr, ng, nb = _ramp(table, _lum(r, g, b))
+            o[x, y] = (nr, ng, nb, a)
+    if crack_rel:
+        crack = _load_vanilla(crack_rel)
+        if crack is not None and crack.size == src.size:
+            ck = crack.load()
+            for y in range(src.height):
+                for x in range(src.width):
+                    ca = ck[x, y][3]
+                    if ca > 40 and o[x, y][3] > 0:
+                        o[x, y] = (FIRE[6] + (255,)) if ca > 140 else (FIRE[5] + (255,))
+    return out
+
+
+def _full_coverage_atlas(w, h, rock, glow, seed=0, veins=None):
+    """Hole-free fallback atlas: a solid rock plate veined with molten cracks."""
+    c = Canvas(w, h)
+    for y in range(h):
+        for x in range(w):
+            c.set(x, y, noise_shade(rock, x, y, seed=seed, amp=0.42))
+    if veins is None:
+        veins = [(w // 6, h // 8, w // 2, h // 2),
+                 (w // 2, h // 2, w - w // 6, h - h // 8),
+                 (w // 8, h - h // 5, w // 2, h // 3),
+                 (w - w // 8, h // 4, w // 2, h - h // 3)]
+    for (x0, y0, x1, y1) in veins:
+        c.line(x0, y0, x1, y1, glow[4])
+        c.line(x0 + 1, y0, x1 + 1, y1, glow[3])
+    for (cx, cy, rad) in [(w // 3, h // 2, max(3, w // 24)),
+                          (w - w // 4, h // 3, max(2, w // 32))]:
+        c.disc(cx, cy, rad, glow[3])
+        c.disc(cx, cy, max(1, rad // 2), glow[5])
     return c
+
+
+def t_lava_golem():
+    """128x128 molten golem atlas — vanilla iron golem recoloured to molten rock.
+
+    The crackiness overlay is folded in as an emissive glow layer so the golem
+    literally shows its glowing fissures.
+    """
+    img = _recolor_vanilla("entity/iron_golem/iron_golem.png", _GOLEM_RAMP,
+                           crack_rel="entity/iron_golem/iron_golem_crackiness_high.png")
+    if img is not None:
+        return img
+    return _full_coverage_atlas(128, 128, CHAR, FIRE, seed=3)
 
 
 def t_fire_wraith():
-    """64x32 blazing wraith entity atlas (procedural, deterministic)."""
-    c = Canvas(64, 32)
-    # body
-    c.poly([(26, 8), (38, 8), (40, 24), (32, 31), (24, 24)], FIRE[2])
-    c.poly([(28, 11), (36, 11), (37, 22), (32, 28), (27, 22)], FIRE[3])
-    c.poly([(30, 14), (34, 14), (34, 20), (32, 23), (30, 20)], FIRE[4])
-    c.poly([(31, 16), (33, 16), (33, 19), (32, 21), (31, 19)], FIRE[5])
-    c.set(32, 18, FIRE[6])
-    # eyes
-    c.rect(27, 14, 29, 17, STEEL[6]); c.rect(35, 14, 37, 17, STEEL[6])
-    c.set(28, 15, FIRE[6]); c.set(36, 15, FIRE[6])
-    # flame arms
-    for side in (-1, 1):
-        bx = 32 + side * 12
-        for i in range(8):
-            c.set(bx + side * i, 16 + i, FIRE[3])
-            c.set(bx + side * i, 17 + i, FIRE[4])
-        c.set(bx + side * 3, 14, FIRE[5]); c.set(bx + side * 5, 15, FIRE[4])
-    # top wisp
-    c.poly([(29, 7), (35, 7), (32, 0)], FIRE[4])
-    c.poly([(31, 6), (33, 6), (32, 1)], FIRE[5])
-    c.set(32, 2, FIRE[6])
-    # trailing flames
-    c.poly([(28, 27), (36, 27), (32, 31)], FIRE[3])
-    c.set(30, 30, FIRE[4]); c.set(34, 30, FIRE[4])
-    c.set(22, 20, FIRE[3]); c.set(42, 20, FIRE[3])
-    c.set(20, 22, FIRE[4]); c.set(44, 22, FIRE[4])
-    return c
+    """64x32 blazing wraith atlas — vanilla blaze recoloured to hot embers."""
+    img = _recolor_vanilla("entity/blaze.png", _WRAITH_RAMP)
+    if img is not None:
+        return img
+    return _full_coverage_atlas(64, 32, FIRE, FIRE, seed=5)
+
+
+def t_trident_entity():
+    """32x32 thrown-trident atlas — vanilla trident recoloured to molten gold."""
+    img = _recolor_vanilla("entity/trident.png", _TRIDENT_RAMP)
+    if img is not None:
+        return img
+    return _full_coverage_atlas(32, 32, GOLD, FIRE, seed=7,
+                                veins=[(4, 4, 16, 28), (16, 4, 28, 28)])
+
+
+def t_hot_steel_arrow_entity():
+    """32x32 arrow-projectile atlas — vanilla arrow recoloured to molten steel."""
+    img = _recolor_vanilla("entity/projectiles/arrow.png", _ARROW_RAMP)
+    if img is not None:
+        return img
+    return _full_coverage_atlas(32, 32, WOOD, FIRE, seed=11,
+                                veins=[(2, 26, 28, 6)])
 
 
 def t_slag_crawler():

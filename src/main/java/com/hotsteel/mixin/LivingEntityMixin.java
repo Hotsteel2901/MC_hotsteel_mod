@@ -23,11 +23,12 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin {
 
-    /** All Hot Steel melee weapons ignite targets on hit. */
+    /** All Hot Steel and Molten-forged melee weapons ignite targets on hit. */
     @Unique
     private static final Set<Item> HOT_MELEE = Set.of(
         ModItems.HOT_STEEL_SWORD, ModItems.HOT_STEEL_KNIFE, ModItems.HOT_STEEL_AXE,
-        ModItems.HOT_STEEL_MACE, ModItems.HOT_STEEL_TRIDENT);
+        ModItems.HOT_STEEL_MACE, ModItems.HOT_STEEL_TRIDENT,
+        ModItems.MOLTEN_STEEL_SWORD, ModItems.MOLTEN_STEEL_SCYTHE, ModItems.MOLTEN_STEEL_AXE);
 
     /** Fire ticks applied to a target hit by a Hot Steel melee weapon (4s). */
     @Unique

@@ -23,34 +23,57 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 
 /**
- * Hot Steel forge: a glowing decorative block that repairs damaged Hot Steel
- * equipment. Right-click the forge while holding a damaged Hot Steel tool/armor
- * to restore it to full durability in exchange for Hot Steel ingots
- * (1 ingot per 200 durability, minimum 1).
+ * Hot Steel forge: a glowing decorative block that repairs the mod's equipment.
+ * Right-click the forge while holding a damaged piece and it is restored to full
+ * durability in exchange for the matching ingot family
+ * (hot steel gear → Hot Steel Ingots, Molten-forged gear → Molten Ingots;
+ * 1 ingot per 200 durability, minimum 1).
  */
 public class HotSteelForgeBlock extends Block {
 
-    /** All Hot Steel equipment that can be repaired at the forge. */
-    private static final Set<Item> REPAIRABLE = Set.of(
+    /** Hot Steel equipment repairable with Hot Steel Ingots. */
+    private static final Set<Item> HOT_STEEL_REPAIRABLE = Set.of(
         ModItems.HOT_STEEL_HELMET, ModItems.HOT_STEEL_CHESTPLATE,
         ModItems.HOT_STEEL_LEGGINGS, ModItems.HOT_STEEL_BOOTS,
         ModItems.HOT_STEEL_SWORD, ModItems.HOT_STEEL_MACE, ModItems.HOT_STEEL_KNIFE,
-        ModItems.HOT_STEEL_PICKAXE, ModItems.HOT_STEEL_AXE, ModItems.HOT_STEEL_SHOVEL,
-        ModItems.HOT_STEEL_HOE, ModItems.HOT_STEEL_BOW, ModItems.HOT_STEEL_CROSSBOW,
-        ModItems.HOT_STEEL_TRIDENT, ModItems.HOT_STEEL_SHIELD);
+        ModItems.HOT_STEEL_SICKLE, ModItems.HOT_STEEL_PICKAXE, ModItems.HOT_STEEL_AXE,
+        ModItems.HOT_STEEL_SHOVEL, ModItems.HOT_STEEL_HOE, ModItems.HOT_STEEL_PAXEL,
+        ModItems.HOT_STEEL_BOW, ModItems.HOT_STEEL_CROSSBOW, ModItems.HOT_STEEL_TRIDENT,
+        ModItems.HOT_STEEL_SHIELD, ModItems.HOT_STEEL_FISHING_ROD);
 
-    /** Hot Steel ingots consumed per 200 durability restored. */
+    /** Molten-forged equipment repairable with Molten Ingots. */
+    private static final Set<Item> MOLTEN_REPAIRABLE = Set.of(
+        ModItems.MOLTEN_STEEL_HELMET, ModItems.MOLTEN_STEEL_CHESTPLATE,
+        ModItems.MOLTEN_STEEL_LEGGINGS, ModItems.MOLTEN_STEEL_BOOTS,
+        ModItems.MOLTEN_STEEL_SWORD, ModItems.MOLTEN_STEEL_SCYTHE,
+        ModItems.MOLTEN_STEEL_PICKAXE, ModItems.MOLTEN_STEEL_AXE,
+        ModItems.MOLTEN_STEEL_SHOVEL, ModItems.MOLTEN_STEEL_HOE);
+
+    /** Durability restored per ingot. */
     private static final int DURABILITY_PER_INGOT = 200;
 
     public HotSteelForgeBlock(Properties properties) {
         super(properties);
     }
 
+    /** The ingot family that repairs this stack, or null if the forge cannot touch it. */
+    private static Item ingotFor(ItemStack stack) {
+        Item item = stack.getItem();
+        if (HOT_STEEL_REPAIRABLE.contains(item)) {
+            return ModItems.HOT_STEEL_INGOT;
+        }
+        if (MOLTEN_REPAIRABLE.contains(item)) {
+            return ModItems.MOLTEN_STEEL_INGOT;
+        }
+        return null;
+    }
+
     @Override
     protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level,
                                               BlockPos pos, Player player, InteractionHand hand,
                                               BlockHitResult hitResult) {
-        if (!REPAIRABLE.contains(stack.getItem()) || stack.getMaxDamage() <= 0) {
+        Item ingot = ingotFor(stack);
+        if (ingot == null || stack.getMaxDamage() <= 0) {
             return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
         }
         int damage = stack.getDamageValue();
@@ -63,7 +86,7 @@ public class HotSteelForgeBlock extends Block {
         }
 
         int ingotsNeeded = Math.max(1, (damage + DURABILITY_PER_INGOT - 1) / DURABILITY_PER_INGOT);
-        int available = countIngots(player);
+        int available = countIngots(player, ingot);
         if (available < ingotsNeeded) {
             if (!level.isClientSide) {
                 player.displayClientMessage(
@@ -74,7 +97,7 @@ public class HotSteelForgeBlock extends Block {
 
         if (!level.isClientSide) {
             if (!player.getAbilities().instabuild) {
-                removeIngots(player, ingotsNeeded);
+                removeIngots(player, ingot, ingotsNeeded);
             }
             stack.setDamageValue(0);
             level.playSound(null, pos, SoundEvents.ANVIL_USE, SoundSource.BLOCKS, 1.0f, 1.2f);
@@ -91,22 +114,22 @@ public class HotSteelForgeBlock extends Block {
         return ItemInteractionResult.SUCCESS;
     }
 
-    private static int countIngots(Player player) {
+    private static int countIngots(Player player, Item ingot) {
         int count = 0;
         for (ItemStack stack : player.getInventory().items) {
-            if (stack.is(ModItems.HOT_STEEL_INGOT)) {
+            if (stack.is(ingot)) {
                 count += stack.getCount();
             }
         }
         return count;
     }
 
-    private static void removeIngots(Player player, int amount) {
+    private static void removeIngots(Player player, Item ingot, int amount) {
         for (ItemStack stack : player.getInventory().items) {
             if (amount <= 0) {
                 break;
             }
-            if (stack.is(ModItems.HOT_STEEL_INGOT)) {
+            if (stack.is(ingot)) {
                 int removed = Math.min(stack.getCount(), amount);
                 stack.shrink(removed);
                 amount -= removed;
