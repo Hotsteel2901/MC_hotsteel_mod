@@ -57,13 +57,16 @@ public class MoltenCoreItem extends Item {
         return InteractionResultHolder.success(stack);
     }
 
-    /** Smelt every furnace-smeltable stack in the player's inventory in place. */
+    /** Smelt every furnace-smeltable stack in the player's main inventory in place. */
     private int smeltInventory(Level level, Player player) {
         int smelted = 0;
         var recipes = level.getRecipeManager();
-        var inventory = player.getInventory();
-        for (int i = 0; i < inventory.getContainerSize(); i++) {
-            ItemStack slot = inventory.getItem(i);
+        // Main inventory only: the old version walked getContainerSize(), which also covers
+        // the worn armour and the offhand — smelting the item you are holding is never what
+        // the player wants.
+        var slots = player.getInventory().items;
+        for (int i = 0; i < slots.size(); i++) {
+            ItemStack slot = slots.get(i);
             if (slot.isEmpty()) {
                 continue;
             }
@@ -72,7 +75,7 @@ public class MoltenCoreItem extends Item {
             if (found.isPresent()) {
                 ItemStack result = found.get().value().assemble(input, level.registryAccess());
                 if (!result.isEmpty()) {
-                    inventory.setItem(i, new ItemStack(result.getItem(), slot.getCount()));
+                    slots.set(i, new ItemStack(result.getItem(), slot.getCount()));
                     smelted += slot.getCount();
                 }
             }

@@ -13,8 +13,11 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Tier;
+import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 
 /**
@@ -48,21 +51,30 @@ public class MoltenSteelSwordItem extends HotSteelSwordItem {
                 stack.hurtAndBreak(DURABILITY_COST, player, EquipmentSlot.MAINHAND);
             }
             player.getCooldowns().addCooldown(this, COOLDOWN_TICKS);
+            // Server-side only: playing it on both sides made the client hear it twice.
+            level.playSound(null, player.getX(), player.getY(), player.getZ(),
+                SoundEvents.FIRECHARGE_USE, SoundSource.PLAYERS, 1.0f, 0.7f);
         }
-        level.playSound(null, player.getX(), player.getY(), player.getZ(),
-            SoundEvents.FIRECHARGE_USE, SoundSource.PLAYERS, 1.0f, 0.7f);
         return InteractionResultHolder.success(stack);
     }
 
     private void releaseFlameWave(Level level, Player player) {
-        Vec3 eye = player.getEyePosition(1.0f);
-        Vec3 dir = player.getLookAngle();
+        Vec3 origin = player.getEyePosition(1.0f);
+        Vec3 dir = player.getLookAngle().normalize();
+
+        // The wave stops at the first wall, so you cannot burn enemies through blocks.
+        BlockHitResult blockHit = level.clip(new ClipContext(origin,
+            origin.add(dir.scale(RANGE)), ClipContext.Block.OUTLINE, ClipContext.Fluid.NONE, player));
+        double reach = blockHit.getType() == HitResult.Type.BLOCK
+            ? Math.max(0.5, origin.distanceTo(blockHit.getLocation()))
+            : RANGE;
 
         if (level instanceof ServerLevel serverLevel) {
-            for (int step = 1; step <= RANGE; step++) {
-                Vec3 point = eye.add(dir.scale(step));
+            int steps = (int) Math.ceil(reach);
+            for (int step = 1; step <= steps; step++) {
+                Vec3 point = origin.add(dir.scale(Math.min(step, reach)));
                 serverLevel.sendParticles(ParticleTypes.FLAME,
-                    point.x, point.y, point.z, 3, 0.18, 0.18, 0.18, 0.02);
+                    point.x, point.y, point.z, 3, 0.16, 0.16, 0.16, 0.02);
                 if (step % 3 == 0) {
                     serverLevel.sendParticles(ParticleTypes.LAVA,
                         point.x, point.y, point.z, 1, 0.1, 0.1, 0.1, 0.0);
@@ -70,24 +82,27 @@ public class MoltenSteelSwordItem extends HotSteelSwordItem {
             }
         }
 
-        AABB corridor = player.getBoundingBox()
-            .expandTowards(dir.scale(RANGE))
-            .inflate(CORRIDOR_RADIUS);
-        for (LivingEntity target : level.getEntitiesOfClass(LivingEntity.class, corridor)) {
+        // A real ray corridor: an entity is hit only if it sits close to the ray and in
+        // front of the caster. (The old version used one big inflated AABB, which also
+        // caught targets well off to the side of a diagonal aim.)
+        AABB search = new AABB(origin, origin.add(dir.scale(reach))).inflate(CORRIDOR_RADIUS);
+        for (LivingEntity target : level.getEntitiesOfClass(LivingEntity.class, search)) {
             if (target == player || target.isAlliedTo(player)) {
-                continue;
-            }
-            // Only burn what is actually in front of the wielder.
-            Vec3 toTarget = target.position().subtract(eye);
-            if (toTarget.dot(dir) < 0.0) {
                 continue;
             }
             if (target instanceof AncientForgebornEntity) {
                 continue; // the Forgeborn is immune to its own element
             }
-            if (player instanceof Player attacker) {
-                target.hurt(player.damageSources().playerAttack(attacker), WAVE_DAMAGE);
+            Vec3 toTarget = target.getBoundingBox().getCenter().subtract(origin);
+            double along = toTarget.dot(dir);
+            if (along < 0.0 || along > reach) {
+                continue;
             }
+            double perpendicular = toTarget.subtract(dir.scale(along)).length();
+            if (perpendicular > CORRIDOR_RADIUS) {
+                continue;
+            }
+            target.hurt(player.damageSources().playerAttack(player), WAVE_DAMAGE);
             target.setRemainingFireTicks(Math.max(target.getRemainingFireTicks(), WAVE_FIRE_TICKS));
         }
     }

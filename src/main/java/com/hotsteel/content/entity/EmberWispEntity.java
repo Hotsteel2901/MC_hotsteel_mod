@@ -33,6 +33,9 @@ import net.minecraft.world.phys.Vec3;
  */
 public class EmberWispEntity extends Monster implements RangedAttackMob {
 
+    /** How far ahead of the body a bolt spawns, so it doesn't start inside the wisp. */
+    private static final double MUZZLE_FORWARD = 0.6;
+
     public EmberWispEntity(EntityType<? extends EmberWispEntity> type, Level level) {
         super(type, level);
         this.xpReward = 12;
@@ -75,10 +78,14 @@ public class EmberWispEntity extends Monster implements RangedAttackMob {
         if (this.level().isClientSide) {
             return;
         }
-        Vec3 aim = target.getEyePosition().subtract(
-            this.getX(), this.getY() + 0.5, this.getZ());
-        SmallFireball fireball = new SmallFireball(this.level(), this, aim);
-        fireball.setPos(this.getX(), this.getY() + 0.5, this.getZ());
+        double muzzleY = com.hotsteel.logic.LaunchHelper.mobMuzzleY(this);
+        Vec3 aim = target.getEyePosition().subtract(this.getX(), muzzleY, this.getZ());
+        Vec3 dir = aim.normalize();
+        SmallFireball fireball = new SmallFireball(this.level(), this, dir);
+        // Spawn ahead of the body: launching from the wisp's own centre made the bolt
+        // collide with the wisp itself on its first tick.
+        Vec3 muzzle = new Vec3(this.getX(), muzzleY, this.getZ()).add(dir.scale(MUZZLE_FORWARD));
+        fireball.setPos(muzzle.x, muzzle.y, muzzle.z);
         this.level().addFreshEntity(fireball);
         this.level().playSound(null, this.blockPosition(), SoundEvents.BLAZE_SHOOT,
             SoundSource.HOSTILE, 0.8f, 1.4f);

@@ -231,7 +231,7 @@ com.hotsteel
 - **验证结论**：
   | 验证项 | 结果 |
   |---|---|
-  | `./gradlew build` | ✅ BUILD SUCCESSFUL（产物 `build/libs/hotsteel-2.0.0.jar`） |
+  | `./gradlew build` | ✅ BUILD SUCCESSFUL（产物 `build/libs/hotsteel-3.0.0.jar`） |
   | `./gradlew runDatagen` 两次 | ✅ 250 个生成文件逐字节一致（可复现） |
   | 无头专用服务端实机启动 | ✅ `Hot Steel initialized`、加载 1355 配方 / 1491 成就、世界生成完成 `Done (1.020s)`，无崩溃 |
   | 贴图脚本可复现性 | ✅ md5 全量比对一致 |

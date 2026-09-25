@@ -73,6 +73,8 @@ public class HotSteelTridentItem extends Item {
             stack.hurtAndBreak(1, entity, slot);
 
             HotSteelTridentEntity trident = new HotSteelTridentEntity(level, player, stack.copy());
+            // Muzzle in front of the eyes so the trident never starts inside the thrower.
+            trident.setPos(com.hotsteel.logic.LaunchHelper.muzzle(player, 0.7));
             trident.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0f, 2.5f, 1.0f);
             if (player.getAbilities().instabuild) {
                 trident.pickup = AbstractArrow.Pickup.CREATIVE_ONLY;

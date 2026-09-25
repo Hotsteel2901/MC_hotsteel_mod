@@ -60,7 +60,10 @@ public class LavaBottleEntity extends ThrowableItemProjectile {
 
         BlockPos center = this.blockPosition();
         if (result instanceof BlockHitResult blockHit) {
-            center = blockHit.getBlockPos();
+            // One block along the hit face: the impacted block itself is solid and cannot
+            // be replaced, so flooding from there did nothing on flat ground. The face
+            // neighbour is the open air/surface the lava actually spreads onto.
+            center = blockHit.getBlockPos().relative(blockHit.getDirection());
         }
         splashLava(serverLevel, center);
         this.discard();

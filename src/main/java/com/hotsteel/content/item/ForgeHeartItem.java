@@ -47,9 +47,10 @@ public class ForgeHeartItem extends Item {
                     16, 0.4, 0.6, 0.4, 0.0);
             }
             stack.shrink(1);
+            // Server-side only: playing it on both sides made the client hear it twice.
+            level.playSound(null, player.getX(), player.getY(), player.getZ(),
+                SoundEvents.BEACON_ACTIVATE, SoundSource.PLAYERS, 0.9f, 1.4f);
         }
-        level.playSound(null, player.getX(), player.getY(), player.getZ(),
-            SoundEvents.BEACON_ACTIVATE, SoundSource.PLAYERS, 0.9f, 1.4f);
         player.getCooldowns().addCooldown(this, COOLDOWN_TICKS);
         return InteractionResultHolder.success(stack);
     }

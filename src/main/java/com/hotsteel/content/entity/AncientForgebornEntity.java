@@ -266,6 +266,9 @@ public class AncientForgebornEntity extends Monster {
         Vec3 origin = new Vec3(this.getX(), this.getY() + this.getBbHeight() * 0.7, this.getZ());
         Vec3 aim = new Vec3(target.getX(), target.getEyeY(), target.getZ()).subtract(origin);
         Vec3 base = aim.normalize();
+        // Step the volley out of the boss's own hitbox: fired from the body centre the
+        // fan detonated against the Forgeborn itself on the first tick.
+        Vec3 muzzle = origin.add(base.scale(1.4));
         this.fanVolley++;
         double spread = 0.16;
         for (int i = -2; i <= 2; i++) {
@@ -273,7 +276,7 @@ public class AncientForgebornEntity extends Monster {
             Vec3 offset = new Vec3(base.z, 0.0, -base.x).normalize().scale(spread * i);
             Vec3 dir = base.add(offset).normalize().scale(1.2);
             SmallFireball fireball = new SmallFireball(server, this, dir);
-            fireball.setPos(origin.x, origin.y, origin.z);
+            fireball.setPos(muzzle.x, muzzle.y, muzzle.z);
             server.addFreshEntity(fireball);
         }
         server.playSound(null, this.blockPosition(), SoundEvents.BLAZE_SHOOT,
