@@ -4,6 +4,7 @@ import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.function.UnaryOperator;
 
 import com.hotsteel.logic.AdvancementHelper;
 import com.hotsteel.logic.BlockBreakHelper;
@@ -24,6 +25,10 @@ import net.minecraft.world.level.block.state.BlockState;
  * Hot Steel axe: besides chopping like a normal axe, breaking a log instantly
  * fells the whole connected trunk above/below it (up to 128 logs) so whole
  * trees drop at once. Tool durability is charged per extra log.
+ * <p>
+ * Subclasses can rewrite the drops of the felled logs through
+ * {@link #felledLogDropTransform} — that is how the Molten-forged axe chars them
+ * into charcoal.
  */
 public class HotSteelAxeItem extends AxeItem {
 
@@ -40,6 +45,11 @@ public class HotSteelAxeItem extends AxeItem {
             fellTree(level, pos, state.getBlock(), player, stack);
         }
         return broken;
+    }
+
+    /** Rewrites the drops of the logs felled by this axe; null means "leave them alone". */
+    protected UnaryOperator<ItemStack> felledLogDropTransform(Level level) {
+        return null;
     }
 
     private void fellTree(Level level, BlockPos start, Block logBlock, Player player, ItemStack stack) {
@@ -61,11 +71,12 @@ public class HotSteelAxeItem extends AxeItem {
                 }
             }
         }
+        UnaryOperator<ItemStack> transform = felledLogDropTransform(level);
         for (BlockPos pos : toBreak) {
             if (pos.equals(start)) {
                 continue; // already broken by the normal mining call
             }
-            BlockBreakHelper.breakBlock(level, pos, player, stack);
+            BlockBreakHelper.breakBlock(level, pos, player, stack, transform);
         }
         if (toBreak.size() > 1 && player instanceof net.minecraft.server.level.ServerPlayer serverPlayer) {
             AdvancementHelper.award(serverPlayer, "tree_felling", "fell_tree");

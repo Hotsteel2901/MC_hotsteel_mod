@@ -83,7 +83,7 @@ public class ModChineseLangProvider extends FabricLanguageProvider {
         tb.add("item.hotsteel.hot_steel_sword.lore", "右键：向前打出一道火焰（消耗耐久）");
         tb.add("item.hotsteel.hot_steel_axe.lore", "整树砍伐：砍断一根原木，整棵树一起倒");
         tb.add("item.hotsteel.hot_steel_shovel.lore", "潜行+使用：一次性挖开3x3软质方块");
-        tb.add("item.hotsteel.hot_steel_hoe.lore", "右键成熟作物：3x3范围收割并自动补种");
+        tb.add("item.hotsteel.hot_steel_hoe.lore", "右键土地：一次耕出3x3耕地（收割请用镰刀）");
         tb.add("item.hotsteel.hot_steel_fireball.lore", "可投掷：爆炸并点燃周围区域");
         tb.add("item.hotsteel.lava_bottle.lore", "可投掷：将落点区域化为岩浆");
         tb.add("item.hotsteel.lava_golem_spawn_egg.lore", "召唤熔岩守卫——防火、可在岩浆上漂浮");
@@ -99,6 +99,26 @@ public class ModChineseLangProvider extends FabricLanguageProvider {
         tb.add("block.hotsteel.hot_steel_chain.lore", "发光且防火的锁链——哪里都能挂");
         tb.add("block.hotsteel.hot_steel_ladder.lore", "永不燃烧、微微发光的梯子");
         tb.add("block.hotsteel.hot_steel_block.lore", "附近玩家获得被动火焰抗性");
+
+        // 熔炉纪元：两套装备各有效果，互不重复
+        tb.add("item.hotsteel.hot_steel_knife.lore", "迅捷之刃：命中后短暂加速");
+        tb.add("item.hotsteel.hot_steel_mace.lore", "碎地重锤：命中会波及并击退周围敌人");
+        tb.add("item.hotsteel.molten_steel_sword.lore", "熔火波：右键横扫前方12格内所有敌人并点燃");
+        tb.add("item.hotsteel.molten_steel_scythe.lore", "横扫目标周围3x3并点燃；击杀回复生命");
+        tb.add("item.hotsteel.molten_steel_pickaxe.lore", "自动熔炼矿石，并额外回收熔核碎片");
+        tb.add("item.hotsteel.molten_steel_axe.lore", "整树砍伐；伐倒的原木有几率直接焦化成木炭");
+        tb.add("item.hotsteel.molten_steel_shovel.lore", "潜行+使用：3x3挖掘，沙子直接变玻璃");
+        tb.add("item.hotsteel.molten_steel_hoe.lore", "一次耕出3x3耕地，并催熟周围5x5的作物");
+        tb.add("item.hotsteel.molten_armor.lore", "熔铸套装：2件点燃攻击者，4件在岩浆中持续回血");
+        tb.add("item.hotsteel.molten_shard.lore", "熔炉纪元的炉渣——4个可合成熔核");
+        tb.add("item.hotsteel.forge_heart.lore", "右键：获得60秒熔炉祝福（免疫火焰与岩浆）");
+        tb.add("item.hotsteel.hot_steel_codex.lore", "右键翻阅《熔炉纪元》编年史");
+        tb.add("item.hotsteel.scorched_page.lore", "右键阅读，解锁下一章未读章节");
+        tb.add("item.hotsteel.slag_crawler_spawn_egg.lore", "召唤熔渣爬虫——掉落熔核碎片");
+        tb.add("item.hotsteel.ember_wisp_spawn_egg.lore", "召唤火翼灵——远距离发射小火球");
+        tb.add("item.hotsteel.ancient_forgeborn_spawn_egg.lore", "召唤终局BOSS——三阶段熔岩狂潮");
+        tb.add("block.hotsteel.molten_altar.lore", "仪式核心：放在3x3热钢块基座上，献上熔核");
+        tb.add("block.hotsteel.molten_steel_block.lore", "炽热的储存方块——同样提供暖炉光环");
 
         // 成就
         tb.add("advancements.hotsteel.crude_steel.title", "这是钢？");

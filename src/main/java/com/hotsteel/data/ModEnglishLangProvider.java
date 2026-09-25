@@ -83,7 +83,7 @@ public class ModEnglishLangProvider extends FabricLanguageProvider {
         tb.add("item.hotsteel.hot_steel_sword.lore", "Right-click: strike a burst of fire ahead (costs durability)");
         tb.add("item.hotsteel.hot_steel_axe.lore", "Fells entire trees — breaking one log drops the whole trunk");
         tb.add("item.hotsteel.hot_steel_shovel.lore", "Sneak + use: dig a 3x3 area of soft blocks at once");
-        tb.add("item.hotsteel.hot_steel_hoe.lore", "Right-click a ripe crop to harvest a 3x3 area and replant it");
+        tb.add("item.hotsteel.hot_steel_hoe.lore", "Tills a 3x3 patch of ground in one use (harvesting is the sickle's job)");
         tb.add("item.hotsteel.hot_steel_fireball.lore", "Throwable: explodes and sets the area alight");
         tb.add("item.hotsteel.lava_bottle.lore", "Throwable: floods the impact area with lava");
         tb.add("item.hotsteel.lava_golem_spawn_egg.lore", "Spawns a molten guardian — fireproof, floats on lava");
@@ -99,6 +99,26 @@ public class ModEnglishLangProvider extends FabricLanguageProvider {
         tb.add("block.hotsteel.hot_steel_chain.lore", "Glowing fireproof chain — hangs anywhere");
         tb.add("block.hotsteel.hot_steel_ladder.lore", "A ladder that never burns, glowing softly");
         tb.add("block.hotsteel.hot_steel_block.lore", "Nearby players gain passive Fire Resistance");
+
+        // Molten Age traits — the two sets read differently on purpose
+        tb.add("item.hotsteel.hot_steel_knife.lore", "Swift edge: every landed hit grants a burst of speed");
+        tb.add("item.hotsteel.hot_steel_mace.lore", "Ground breaker: hits bruise and shove everything beside the target");
+        tb.add("item.hotsteel.molten_steel_sword.lore", "Molten wave: right-click to scorch every enemy in a 12-block corridor");
+        tb.add("item.hotsteel.molten_steel_scythe.lore", "Sweeps the 3x3 around your target with fire; kills return health");
+        tb.add("item.hotsteel.molten_steel_pickaxe.lore", "Auto-smelts ores and reclaims Molten Shards from them");
+        tb.add("item.hotsteel.molten_steel_axe.lore", "Fells whole trees; part of the felled logs drop as charcoal");
+        tb.add("item.hotsteel.molten_steel_shovel.lore", "Sneak + use: 3x3 dig that turns sand straight into glass");
+        tb.add("item.hotsteel.molten_steel_hoe.lore", "Tills a 3x3 patch and ripens every crop within 5x5");
+        tb.add("item.hotsteel.molten_armor.lore", "Molten set: 2 pieces ignite attackers, 4 pieces heal you inside lava");
+        tb.add("item.hotsteel.molten_shard.lore", "Slag of the Molten Age — four of them make a Molten Core");
+        tb.add("item.hotsteel.forge_heart.lore", "Right-click: 60 seconds of Forge Blessing (fire + lava immunity)");
+        tb.add("item.hotsteel.hot_steel_codex.lore", "Right-click to read the Chronicle of the Molten Age");
+        tb.add("item.hotsteel.scorched_page.lore", "Right-click to recover the next unread chapter of the chronicle");
+        tb.add("item.hotsteel.slag_crawler_spawn_egg.lore", "Spawns a slag crawler — drops Molten Shards");
+        tb.add("item.hotsteel.ember_wisp_spawn_egg.lore", "Spawns an ember wisp — snipes with small fireballs");
+        tb.add("item.hotsteel.ancient_forgeborn_spawn_egg.lore", "Summons the final boss — three phases of molten fury");
+        tb.add("block.hotsteel.molten_altar.lore", "Ritual focus: set it on a 3x3 Hot Steel platform and offer a Molten Core");
+        tb.add("block.hotsteel.molten_steel_block.lore", "Blazing storage block — also counts as a warm hearth");
 
         // Advancements (kept punchy & a little tongue-in-cheek)
         tb.add("advancements.hotsteel.crude_steel.title", "Is This... Steel?");

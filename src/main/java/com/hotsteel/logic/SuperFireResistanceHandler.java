@@ -46,6 +46,10 @@ public final class SuperFireResistanceHandler {
     private SuperFireResistanceHandler() {}
 
     private static final int MAX_TICKS = 1200; // 60 seconds
+    /** Molten-forged pieces required for the "molten thorns" trait. */
+    private static final int MOLTEN_PIECES_FOR_THORNS = 2;
+    /** Fire ticks applied to whatever melee-hits a Molten-forged wearer (5s). */
+    private static final int MOLTEN_THORNS_TICKS = 100;
     private static final Map<UUID, Integer> TIMER = new HashMap<>();
     private static final Set<UUID> HAD_FULL_SET = new HashSet<>();
     private static final Set<UUID> HAD_TWO_SET = new HashSet<>();
@@ -119,7 +123,19 @@ public final class SuperFireResistanceHandler {
         //  - full set (timer active) OR having the Super Fire Resistance effect (armor or potion):
         //    full immunity including lava.
         ServerLivingEntityEvents.ALLOW_DAMAGE.register((entity, source, amount) -> {
-            if (entity instanceof ServerPlayer player && source.is(DamageTypeTags.IS_FIRE)) {
+            if (!(entity instanceof ServerPlayer player)) {
+                return true;
+            }
+            // 熔核护膜 (2+ Molten-forged pieces): anything that strikes you in melee
+            // is set alight — this is the Molten set's own trait, distinct from the
+            // Hot Steel chestplate's fire-only thorns.
+            if (countMoltenPieces(player) >= MOLTEN_PIECES_FOR_THORNS
+                && source.getDirectEntity() instanceof LivingEntity attacker
+                && attacker != player
+                && attacker.getRemainingFireTicks() < MOLTEN_THORNS_TICKS) {
+                attacker.setRemainingFireTicks(MOLTEN_THORNS_TICKS);
+            }
+            if (source.is(DamageTypeTags.IS_FIRE)) {
                 // Blocking with a Hot Steel shield makes you fully fireproof and
                 // instantly puts out any fire on you.
                 if (player.isBlocking()
@@ -133,12 +149,6 @@ public final class SuperFireResistanceHandler {
                     || (pieces >= 4 && TIMER.getOrDefault(player.getUUID(), 0) < MAX_TICKS);
                 boolean flameWard = pieces >= 2 && !"lava".equals(source.type().msgId());
                 if (fullSuper || flameWard) {
-                    // Molten-forged plating answers in kind: whatever strikes it burns.
-                    if (countMoltenPieces(player) >= 2
-                        && source.getDirectEntity() instanceof LivingEntity attacker
-                        && attacker != player) {
-                        attacker.setRemainingFireTicks(Math.max(attacker.getRemainingFireTicks(), 100));
-                    }
                     return false;
                 }
             }

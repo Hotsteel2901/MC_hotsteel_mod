@@ -21,7 +21,12 @@ import com.hotsteel.content.item.HotSteelTridentItem;
 import com.hotsteel.content.item.KnifeItem;
 import com.hotsteel.content.item.LavaBottleItem;
 import com.hotsteel.content.item.MoltenCoreItem;
+import com.hotsteel.content.item.MoltenSteelAxeItem;
+import com.hotsteel.content.item.MoltenSteelHoeItem;
+import com.hotsteel.content.item.MoltenSteelPickaxeItem;
 import com.hotsteel.content.item.MoltenSteelScytheItem;
+import com.hotsteel.content.item.MoltenSteelShovelItem;
+import com.hotsteel.content.item.MoltenSteelSwordItem;
 import com.hotsteel.content.item.ScorchedPageItem;
 
 import net.minecraft.core.Registry;
@@ -218,7 +223,7 @@ public final class ModItems {
 
     // ---- Molten-forged tools & weapons ----
     public static final Item MOLTEN_STEEL_SWORD = register("molten_steel_sword",
-        new HotSteelSwordItem(ModMaterials.MoltenSteelTier.INSTANCE, new Item.Properties().fireResistant()
+        new MoltenSteelSwordItem(ModMaterials.MoltenSteelTier.INSTANCE, new Item.Properties().fireResistant()
             .attributes(SwordItem.createAttributes(ModMaterials.MoltenSteelTier.INSTANCE, 5, -2.4f))));
 
     public static final Item MOLTEN_STEEL_SCYTHE = register("molten_steel_scythe",
@@ -226,19 +231,19 @@ public final class ModItems {
             .attributes(SwordItem.createAttributes(ModMaterials.MoltenSteelTier.INSTANCE, 4, -2.8f))));
 
     public static final Item MOLTEN_STEEL_PICKAXE = register("molten_steel_pickaxe",
-        new PickaxeItem(ModMaterials.MoltenSteelTier.INSTANCE, new Item.Properties().fireResistant()
+        new MoltenSteelPickaxeItem(ModMaterials.MoltenSteelTier.INSTANCE, new Item.Properties().fireResistant()
             .attributes(PickaxeItem.createAttributes(ModMaterials.MoltenSteelTier.INSTANCE, 1.5f, -2.8f))));
 
     public static final Item MOLTEN_STEEL_AXE = register("molten_steel_axe",
-        new HotSteelAxeItem(ModMaterials.MoltenSteelTier.INSTANCE, new Item.Properties().fireResistant()
+        new MoltenSteelAxeItem(ModMaterials.MoltenSteelTier.INSTANCE, new Item.Properties().fireResistant()
             .attributes(AxeItem.createAttributes(ModMaterials.MoltenSteelTier.INSTANCE, 7.0f, -3.0f))));
 
     public static final Item MOLTEN_STEEL_SHOVEL = register("molten_steel_shovel",
-        new HotSteelShovelItem(ModMaterials.MoltenSteelTier.INSTANCE, new Item.Properties().fireResistant()
+        new MoltenSteelShovelItem(ModMaterials.MoltenSteelTier.INSTANCE, new Item.Properties().fireResistant()
             .attributes(ShovelItem.createAttributes(ModMaterials.MoltenSteelTier.INSTANCE, 2.0f, -3.0f))));
 
     public static final Item MOLTEN_STEEL_HOE = register("molten_steel_hoe",
-        new HotSteelHoeItem(ModMaterials.MoltenSteelTier.INSTANCE, new Item.Properties().fireResistant()
+        new MoltenSteelHoeItem(ModMaterials.MoltenSteelTier.INSTANCE, new Item.Properties().fireResistant()
             .attributes(HoeItem.createAttributes(ModMaterials.MoltenSteelTier.INSTANCE, -3.0f, 0.0f))));
 
     // ---- Spawn eggs ----

@@ -1,6 +1,7 @@
 package com.hotsteel.content.item;
 
 import java.util.Set;
+import java.util.function.UnaryOperator;
 
 import com.hotsteel.logic.AdvancementHelper;
 import com.hotsteel.logic.BlockBreakHelper;
@@ -21,6 +22,9 @@ import net.minecraft.world.level.block.state.BlockState;
 /**
  * Hot Steel shovel: sneak + right-click a soft block (dirt, sand, gravel…) to
  * dig a 3x3 area at once. Drops are collected and durability is charged per block.
+ * <p>
+ * Subclasses can rewrite the drops through {@link #digDropTransform} — that is how
+ * the Molten-forged shovel turns sand straight into glass.
  */
 public class HotSteelShovelItem extends ShovelItem {
 
@@ -33,6 +37,11 @@ public class HotSteelShovelItem extends ShovelItem {
 
     public HotSteelShovelItem(Tier tier, Properties properties) {
         super(tier, properties);
+    }
+
+    /** Rewrites this block's drops; null means "leave them alone". */
+    protected UnaryOperator<ItemStack> digDropTransform(BlockState state) {
+        return null;
     }
 
     @Override
@@ -53,13 +62,14 @@ public class HotSteelShovelItem extends ShovelItem {
         return DIGGABLE.contains(state.getBlock());
     }
 
-    private static void digArea(Level level, BlockPos center, Player player, ItemStack tool) {
+    private void digArea(Level level, BlockPos center, Player player, ItemStack tool) {
         int dug = 0;
         for (int dx = -1; dx <= 1; dx++) {
             for (int dz = -1; dz <= 1; dz++) {
                 BlockPos pos = center.offset(dx, 0, dz);
-                if (isDiggable(level.getBlockState(pos))) {
-                    BlockBreakHelper.breakBlock(level, pos, player, tool);
+                BlockState state = level.getBlockState(pos);
+                if (isDiggable(state)) {
+                    BlockBreakHelper.breakBlock(level, pos, player, tool, digDropTransform(state));
                     dug++;
                 }
             }
