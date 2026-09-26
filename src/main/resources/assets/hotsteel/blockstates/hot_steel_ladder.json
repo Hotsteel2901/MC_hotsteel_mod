@@ -1,5 +1,9 @@
 {
   "variants": {
+    "facing=east": {
+      "model": "hotsteel:block/hot_steel_ladder",
+      "y": 90
+    },
     "facing=north": {
       "model": "hotsteel:block/hot_steel_ladder"
     },
@@ -10,10 +14,6 @@
     "facing=west": {
       "model": "hotsteel:block/hot_steel_ladder",
       "y": 270
-    },
-    "facing=east": {
-      "model": "hotsteel:block/hot_steel_ladder",
-      "y": 90
     }
   }
 }

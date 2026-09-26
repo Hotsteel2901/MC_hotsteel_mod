@@ -733,8 +733,10 @@ def t_armor(kind, fam, glow=False):
 # Ranged weapons
 # ===========================================================================
 def t_bow(pull=0):
+    """Hot Steel bow. Same shape as before, but the limbs are steel rather than
+    wood (it is a *steel* bow) with a molten grip and ember tips."""
     c = Canvas(16, 16)
-    d, dk, m, b, l, h, co = WOOD
+    d, dk, m, b, l, h, co = STEEL
     pts = [(13, 1), (10, 3), (8, 6), (8, 10), (10, 13), (13, 15)]
     for i in range(len(pts) - 1):
         c.line(*pts[i], *pts[i + 1], b)
@@ -742,8 +744,8 @@ def t_bow(pull=0):
     hl = [(13, 2), (11, 4), (9, 7), (9, 9), (11, 12), (13, 14)]
     for i in range(len(hl) - 1):
         c.line(*hl[i], *hl[i + 1], l)
-    c.set(13, 0, m); c.set(13, 15, d)
-    c.rect(7, 7, 8, 9, dk); c.set(7, 7, b)
+    c.set(13, 0, FIRE[5]); c.set(13, 15, FIRE[5])
+    c.rect(7, 7, 8, 9, FIRE[1]); c.set(7, 7, FIRE[4]); c.set(8, 8, FIRE[5])
     sx = 8 - pull
     sy = 8 + (1 if pull >= 2 else 0)
     c.line(13, 1, sx, sy, STRING[3])
@@ -751,21 +753,23 @@ def t_bow(pull=0):
     if pull >= 1:
         c.line(13, 2, sx, sy, STRING[4])
     if pull >= 2:
-        c.line(sx - 1, 8, 15, 8, WOOD[2])
-        c.line(sx - 1, 8, 15, 8, WOOD[3])
-        c.set(15, 8, STEEL[5]); c.set(14, 7, STEEL[4]); c.set(14, 9, STEEL[2])
+        c.line(sx - 1, 8, 15, 8, STEEL[2])
+        c.line(sx - 1, 8, 15, 8, STEEL[3])
+        c.set(15, 8, FIRE[6]); c.set(14, 7, STEEL[5]); c.set(14, 9, STEEL[2])
         c.set(4, 7, STRING[2]); c.set(4, 9, STRING[2])
     return c
 
 
 def _crossbow_base(c):
-    d, dk, m, b, l, h, co = WOOD
+    d, dk, m, b, l, h, co = STEEL
     c.rect(2, 7, 13, 8, b)
     c.hline(2, 13, 7, l); c.hline(2, 13, 8, dk)
     c.outline([(2, 7), (13, 7), (13, 8), (2, 8)], d)
     c.line(2, 7, 1, 4, m); c.hline(1, 3, 4, m); c.set(1, 4, dk)
     c.line(2, 8, 1, 11, m); c.hline(1, 3, 11, m); c.set(1, 11, dk)
     c.set(2, 4, l); c.set(2, 11, l)
+    # molten trigger housing, so the crossbow carries the mod's glow too
+    c.set(2, 6, FIRE[3]); c.set(2, 9, FIRE[3])
 
 
 def t_crossbow(pull=None):
@@ -777,10 +781,10 @@ def t_crossbow(pull=None):
         px = 6 - pull
         c.line(1, 4, px, 7, STRING[3])
         c.line(1, 11, px, 8, STRING[3])
-    c.set(11, 9, WOOD[1]); c.set(11, 10, WOOD[0])
+    c.set(11, 9, STEEL[1]); c.set(11, 10, STEEL[0])
     if pull == 2:
-        c.line(4, 7, 14, 7, WOOD[3]); c.line(4, 8, 14, 8, WOOD[2])
-        c.set(14, 7, STEEL[5]); c.set(13, 6, STEEL[4]); c.set(13, 8, STEEL[2])
+        c.line(4, 7, 14, 7, FIRE[3]); c.line(4, 8, 14, 8, FIRE[1])
+        c.set(14, 7, FIRE[6]); c.set(13, 6, FIRE[5]); c.set(13, 8, FIRE[2])
         c.set(4, 6, STRING[2]); c.set(4, 9, STRING[2])
     return c
 
@@ -789,8 +793,8 @@ def t_crossbow_arrow():
     c = Canvas(16, 16)
     _crossbow_base(c)
     c.vline(1, 4, 11, STRING[3])
-    c.line(3, 7, 14, 7, WOOD[3]); c.line(3, 8, 14, 8, WOOD[2])
-    c.set(14, 7, STEEL[5]); c.set(13, 6, STEEL[4]); c.set(13, 8, STEEL[2])
+    c.line(3, 7, 14, 7, STEEL[6]); c.line(3, 8, 14, 8, STEEL[3])
+    c.set(14, 7, FIRE[6]); c.set(13, 6, STEEL[5]); c.set(13, 8, STEEL[2])
     c.set(4, 6, STRING[2]); c.set(5, 6, STRING[2])
     c.set(4, 9, STRING[2]); c.set(5, 9, STRING[2])
     return c
@@ -839,21 +843,49 @@ def t_trident_item():
 
 
 def t_shield():
-    c = Canvas(16, 16)
-    d, dk, m, b, l, h, co = STEEL
-    pts = [(3, 3), (13, 3), (13, 8), (8, 14), (3, 8)]
-    c.poly(pts, b)
-    c.line(4, 4, 8, 4, h); c.line(3, 4, 3, 8, l)
-    c.outline(pts, d)
-    c.rect(7, 5, 10, 9, l)
-    c.rect(8, 6, 9, 8, h)
-    c.outline([(7, 5), (10, 5), (10, 9), (7, 9)], d)
-    c.set(8, 7, FIRE[5])
-    # glowing cross emblem
-    c.vline(8, 4, 12, FIRE[3]); c.hline(5, 11, 7, FIRE[3])
-    c.vline(8, 4, 6, FIRE[4]); c.hline(5, 6, 7, FIRE[5])
-    for (rx, ry) in [(4, 4), (12, 4), (4, 7), (12, 7)]:
+    """32x32 pavise. The old 16x16 sprite was too small to read: a shield is the
+    biggest thing a player holds, so it gets a double-resolution albedo (Minecraft
+    scales item textures to the model space, it does not have to be 16x16)."""
+    c = Canvas(32, 32)
+    s_d, s_dk, s_m, s_b, s_l, s_h, s_co = STEEL
+    f_d, f_dk, f_m, f_b, f_l, f_h, f_co = FIRE
+
+    # ---- silhouette: flat top, tapering to a point --------------------
+    pts = [(6, 3), (25, 3), (27, 9), (16, 30), (5, 9)]
+    c.poly(pts, s_b)
+
+    # ---- riveted rim -------------------------------------------------
+    c.outline(pts, s_d)
+    inner = [(7, 5), (24, 5), (25, 10), (16, 27), (7, 10)]
+    c.outline(inner, s_m)
+    for (rx, ry) in [(8, 5), (13, 4), (18, 4), (23, 5), (7, 9), (24, 9),
+                     (9, 12), (22, 12), (12, 20), (19, 20), (15, 25)]:
         rivet(c, rx, ry, STEEL)
+
+    # ---- plate seams, narrowing towards the point --------------------
+    for y in (9, 14, 19, 23):
+        half = max(2, 10 - int((y - 9) * 0.85))
+        c.hline(16 - half, 16 + half, y, s_dk)
+        c.hline(16 - half, 16 + half, y - 1, s_l)
+
+    # ---- central forged rib ------------------------------------------
+    c.vline(15, 4, 27, s_m)
+    c.vline(16, 4, 27, s_l)
+    c.set(15, 28, s_dk); c.set(16, 28, s_dk)
+
+    # ---- molten forge emblem ----------------------------------------
+    for dy in range(-5, 6):
+        for dx in range(-5, 6):
+            dist = abs(dx) + abs(dy)
+            if dist > 5:
+                continue
+            colour = f_co if dist <= 1 else (f_h if dist == 2 else (f_l if dist == 3 else f_b))
+            c.set(16 + dx, 12 + dy, colour)
+    for (dx, dy) in [(-6, 0), (6, 0), (0, -6), (0, 6), (-5, -4), (5, -4), (-5, 4), (5, 4)]:
+        c.set(16 + dx, 12 + dy, f_dk)
+    c.set(16, 12, (255, 255, 255, 255))
+    c.set(10, 7, f_dk); c.set(21, 7, f_dk)
+    c.set(11, 22, f_dk); c.set(20, 22, f_dk)
     return c
 
 
@@ -1339,13 +1371,24 @@ def t_molten_lantern():
 # but it can never produce transparent holes.
 # ===========================================================================
 VANILLA_ROOT = "/workspace/tools/vanilla_refs/assets/minecraft/textures"
+# Fallback: the official client jar that Fabric Loom already caches for the build.
+# Reading it directly means the recolour path below always works, even in a fresh
+# checkout where tools/vanilla_refs/ has not been populated by hand.
+VANILLA_JAR = "/root/.gradle/caches/fabric-loom/1.21.1/minecraft-client.jar"
 
 
 def _load_vanilla(rel):
     path = os.path.join(VANILLA_ROOT, rel)
-    if not os.path.exists(path):
-        return None
-    return Image.open(path).convert("RGBA")
+    if os.path.exists(path):
+        return Image.open(path).convert("RGBA")
+    if os.path.exists(VANILLA_JAR):
+        import io
+        import zipfile
+        with zipfile.ZipFile(VANILLA_JAR) as z:
+            name = "assets/minecraft/textures/" + rel
+            if name in z.namelist():
+                return Image.open(io.BytesIO(z.read(name))).convert("RGBA")
+    return None
 
 
 def _lum(r, g, b):
@@ -1720,10 +1763,42 @@ TEXTURES = [
 ]
 
 
+# ===========================================================================
+# Textures owned by the newer, more specialised generators.
+#
+#   tools/rebuild_wrong_textures.py   blocks that reuse a vanilla template model
+#                                     (chain / lantern / door / trapdoor / ladder),
+#                                     the armour layers, molten glass, and the
+#                                     per-block "tell them apart" cube art
+#   tools/gen_forgeborn_forms.py      the boss's phase-2 / phase-3 atlases
+#
+# Those scripts remap the *vanilla* textures (and pack exact UV rectangles), so
+# this script must not overwrite their output. Running this file regenerates
+# everything else; the two above are run separately.
+# ===========================================================================
+OWNED_ELSEWHERE = {
+    "block/crude_steel_block.png", "block/steel_block.png", "block/hot_steel_block.png",
+    "block/molten_steel_block.png", "block/hot_steel_bricks.png", "block/charred_bricks.png",
+    "block/hot_steel_forge.png", "block/hot_steel_smelter.png",
+    "block/hot_steel_lantern.png", "block/molten_lantern.png",
+    "block/hot_steel_chain.png", "block/molten_steel_chain.png",
+    "block/hot_steel_door_top.png", "block/hot_steel_door_bottom.png",
+    "block/hot_steel_trapdoor.png", "block/hot_steel_ladder.png",
+    "block/molten_glass.png",
+    "models/armor/hot_steel_layer_1.png", "models/armor/hot_steel_layer_2.png",
+    "models/armor/molten_steel_layer_1.png", "models/armor/molten_steel_layer_2.png",
+    "entity/ancient_forgeborn_ascendant.png", "entity/ancient_forgeborn_horror.png",
+}
+
+
 def main():
     root = "/workspace/src/main/resources/assets/hotsteel/textures"
     total = 0
+    skipped = 0
     for rel, fn in TEXTURES:
+        if rel in OWNED_ELSEWHERE:
+            skipped += 1
+            continue
         path = os.path.join(root, rel)
         canvas = fn()
         if isinstance(canvas, Image.Image):
@@ -1735,7 +1810,7 @@ def main():
             w, h = canvas.w, canvas.h
         total += 1
         print(f"  wrote {path}  ({w}x{h})")
-    print(f"\nRegenerated {total} textures.")
+    print(f"\nRegenerated {total} textures ({skipped} left to the other generators).")
 
 
 if __name__ == "__main__":

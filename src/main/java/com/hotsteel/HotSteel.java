@@ -64,6 +64,7 @@ public class HotSteel implements ModInitializer {
             net.minecraft.world.entity.MobCategory.MONSTER,
             ModEntities.EMBER_WISP, 6, 1, 2);
         SuperFireResistanceHandler.register();
+        com.hotsteel.logic.HotSteelRangedHandler.register();
         LOGGER.info("Hot Steel initialized");
     }
 }

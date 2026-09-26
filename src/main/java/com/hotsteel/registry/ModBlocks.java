@@ -6,6 +6,7 @@ import com.hotsteel.content.block.HotSteelLanternBlock;
 import com.hotsteel.content.block.HotSteelPressurePlateBlock;
 import com.hotsteel.content.block.HotSteelSmelterBlock;
 import com.hotsteel.content.block.MoltenAltarBlock;
+import com.hotsteel.content.block.MoltenGlassBlock;
 
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -21,7 +22,6 @@ import net.minecraft.world.level.block.LadderBlock;
 import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.StairBlock;
-import net.minecraft.world.level.block.TransparentBlock;
 import net.minecraft.world.level.block.TrapDoorBlock;
 import net.minecraft.world.level.block.WallBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -102,16 +102,19 @@ public final class ModBlocks {
 
     /** Hot steel door — fireproof metal door. */
     public static final Block HOT_STEEL_DOOR = registerBlock("hot_steel_door",
-        new DoorBlock(BlockSetType.IRON,
+        // BlockSetType.IRON has canOpenByHand = false (vanilla iron doors only open with
+        // redstone), which made the door feel completely dead when right-clicked. COPPER is
+        // the registered metal set that CAN be opened by hand, so the door actually works.
+        new DoorBlock(BlockSetType.COPPER,
             BlockBehaviour.Properties.ofFullCopy(Blocks.IRON_DOOR)
                 .mapColor(MapColor.FIRE)
                 .strength(6.0f, 10.0f)
                 .sound(SoundType.METAL)
                 .requiresCorrectToolForDrops()));
 
-    /** Hot steel trapdoor — fireproof metal trapdoor. */
+    /** Hot steel trapdoor — fireproof metal trapdoor (hand-openable). */
     public static final Block HOT_STEEL_TRAPDOOR = registerBlock("hot_steel_trapdoor",
-        new TrapDoorBlock(BlockSetType.IRON,
+        new TrapDoorBlock(BlockSetType.COPPER,
             BlockBehaviour.Properties.ofFullCopy(Blocks.IRON_TRAPDOOR)
                 .mapColor(MapColor.FIRE)
                 .strength(6.0f, 10.0f)
@@ -184,12 +187,12 @@ public final class ModBlocks {
             .noOcclusion()
             .requiresCorrectToolForDrops()));
 
-    /** Molten glass — translucent and faintly lit. */
+    /** Molten glass — translucent, lit from within, and it scorches whatever touches it. */
     public static final Block MOLTEN_GLASS = registerBlock("molten_glass",
-        new TransparentBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS)
+        new MoltenGlassBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS)
             .mapColor(MapColor.FIRE)
-            .strength(0.5f, 6.0f)
-            .lightLevel(state -> 8)
+            .strength(0.6f, 6.0f)
+            .lightLevel(state -> 12)
             .sound(SoundType.GLASS)
             .noOcclusion()));
 

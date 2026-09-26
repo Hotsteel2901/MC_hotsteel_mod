@@ -1,93 +1,89 @@
 {
   "multipart": [
     {
-      "when": {
-        "up": "true"
-      },
       "apply": {
         "model": "hotsteel:block/hot_steel_wall_post"
+      },
+      "when": {
+        "up": "true"
       }
     },
     {
-      "when": {
-        "north": "true"
-      },
       "apply": {
         "model": "hotsteel:block/hot_steel_wall_side",
         "uvlock": true
+      },
+      "when": {
+        "north": "low"
       }
     },
     {
-      "when": {
-        "north": "true",
-        "up": "true"
-      },
-      "apply": {
-        "model": "hotsteel:block/hot_steel_wall_side_tall",
-        "uvlock": true
-      }
-    },
-    {
-      "when": {
-        "east": "true"
-      },
       "apply": {
         "model": "hotsteel:block/hot_steel_wall_side",
-        "y": 90,
-        "uvlock": true
+        "uvlock": true,
+        "y": 90
+      },
+      "when": {
+        "east": "low"
       }
     },
     {
-      "when": {
-        "east": "true",
-        "up": "true"
-      },
-      "apply": {
-        "model": "hotsteel:block/hot_steel_wall_side_tall",
-        "y": 90,
-        "uvlock": true
-      }
-    },
-    {
-      "when": {
-        "south": "true"
-      },
       "apply": {
         "model": "hotsteel:block/hot_steel_wall_side",
-        "y": 180,
-        "uvlock": true
+        "uvlock": true,
+        "y": 180
+      },
+      "when": {
+        "south": "low"
       }
     },
     {
-      "when": {
-        "south": "true",
-        "up": "true"
-      },
-      "apply": {
-        "model": "hotsteel:block/hot_steel_wall_side_tall",
-        "y": 180,
-        "uvlock": true
-      }
-    },
-    {
-      "when": {
-        "west": "true"
-      },
       "apply": {
         "model": "hotsteel:block/hot_steel_wall_side",
-        "y": 270,
-        "uvlock": true
+        "uvlock": true,
+        "y": 270
+      },
+      "when": {
+        "west": "low"
       }
     },
     {
-      "when": {
-        "west": "true",
-        "up": "true"
-      },
       "apply": {
         "model": "hotsteel:block/hot_steel_wall_side_tall",
-        "y": 270,
         "uvlock": true
+      },
+      "when": {
+        "north": "tall"
+      }
+    },
+    {
+      "apply": {
+        "model": "hotsteel:block/hot_steel_wall_side_tall",
+        "uvlock": true,
+        "y": 90
+      },
+      "when": {
+        "east": "tall"
+      }
+    },
+    {
+      "apply": {
+        "model": "hotsteel:block/hot_steel_wall_side_tall",
+        "uvlock": true,
+        "y": 180
+      },
+      "when": {
+        "south": "tall"
+      }
+    },
+    {
+      "apply": {
+        "model": "hotsteel:block/hot_steel_wall_side_tall",
+        "uvlock": true,
+        "y": 270
+      },
+      "when": {
+        "west": "tall"
       }
     }
   ]
