@@ -120,6 +120,26 @@ public class ModChineseLangProvider extends FabricLanguageProvider {
         tb.add("block.hotsteel.molten_altar.lore", "仪式核心：放在3x3热钢块基座上，献上熔核");
         tb.add("block.hotsteel.molten_steel_block.lore", "炽热的储存方块——同样提供暖炉光环");
 
+        // 补齐此前"有特效没说明"的条目
+        tb.add("item.hotsteel.hot_steel_bow.lore", "灼热之矢：射出的任何箭矢都会引燃目标");
+        tb.add("item.hotsteel.hot_steel_crossbow.lore", "熔火爆矢：弩箭伤害更高，命中后爆燃并击退周围敌人");
+        tb.add("item.hotsteel.hot_steel_shield.lore", "熔炉壁垒：格挡时点燃并击退攻击者，同时获得短暂抗火");
+        tb.add("item.hotsteel.hot_steel_trident.lore", "灼热之刃：近战与投掷命中皆引燃目标");
+        tb.add("block.hotsteel.molten_glass.lore", "透明的炽热玻璃：发光·抗爆，接触到的生物会被灼烧");
+        tb.add("block.hotsteel.hot_steel_lantern.lore", "15级照明，且完全防火的热钢灯笼");
+        tb.add("block.hotsteel.molten_lantern.lore", "熔炉纪元最亮的灯火（15级），永燃不灭");
+        tb.add("block.hotsteel.hot_steel_door.lore", "徒手可开、完全防火的热钢门");
+        tb.add("block.hotsteel.hot_steel_trapdoor.lore", "徒手可开、完全防火的热钢活板门");
+        tb.add("block.hotsteel.hot_steel_fence.lore", "防火热钢栅栏——连成一片也不会燃烧");
+        tb.add("block.hotsteel.hot_steel_bricks.lore", "发光的热钢砖，适合砌炉壁");
+        tb.add("block.hotsteel.molten_steel_chain.lore", "熔铸锁链：比热钢锁链更亮（10级照明）");
+        tb.add("block.hotsteel.hot_steel_stairs.lore", "发光·防火·防爆的热钢建材");
+        tb.add("block.hotsteel.hot_steel_slab.lore", "发光·防火·防爆的热钢建材");
+        tb.add("block.hotsteel.hot_steel_wall.lore", "发光·防火·防爆的热钢建材");
+        tb.add("block.hotsteel.charred_bricks.lore", "焦黑的旧炉砖——余烬仍在砖缝里闪");
+        tb.add("entity.hotsteel.ancient_forgeborn.phase2", "远古熔铸者 · 烈焰喷发");
+        tb.add("entity.hotsteel.ancient_forgeborn.phase3", "远古熔铸者 · 岩浆狂潮");
+
         // 成就
         tb.add("advancements.hotsteel.crude_steel.title", "这是钢？");
         tb.add("advancements.hotsteel.crude_steel.description", "冶炼出你的第一块粗钢。看着还挺糙。");

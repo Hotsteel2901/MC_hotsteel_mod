@@ -76,8 +76,14 @@ public abstract class ItemTooltipMixin {
             hotsteel$line(tooltip, "item.hotsteel.hot_steel_sickle.lore");
         } else if (item == ModItems.HOT_STEEL_FISHING_ROD) {
             hotsteel$line(tooltip, "item.hotsteel.hot_steel_fishing_rod.lore");
+        } else if (item == ModItems.HOT_STEEL_BOW) {
+            hotsteel$line(tooltip, "item.hotsteel.hot_steel_bow.lore");
+        } else if (item == ModItems.HOT_STEEL_CROSSBOW) {
+            hotsteel$line(tooltip, "item.hotsteel.hot_steel_crossbow.lore");
+        } else if (item == ModItems.HOT_STEEL_SHIELD) {
+            hotsteel$line(tooltip, "item.hotsteel.hot_steel_shield.lore");
         } else if (item == ModItems.HOT_STEEL_TRIDENT) {
-            hotsteel$line(tooltip, "item.hotsteel.melee.lore");
+            hotsteel$line(tooltip, "item.hotsteel.hot_steel_trident.lore");
 
         // ---- Molten-forged tools & weapons -------------------------------
         } else if (item == ModItems.MOLTEN_STEEL_SWORD) {
@@ -132,6 +138,30 @@ public abstract class ItemTooltipMixin {
                 hotsteel$line(tooltip, "block.hotsteel.molten_altar.lore");
             } else if (block == ModBlocks.MOLTEN_STEEL_BLOCK) {
                 hotsteel$line(tooltip, "block.hotsteel.molten_steel_block.lore");
+            } else if (block == ModBlocks.MOLTEN_GLASS) {
+                hotsteel$line(tooltip, "block.hotsteel.molten_glass.lore");
+            } else if (block == ModBlocks.HOT_STEEL_LANTERN) {
+                hotsteel$line(tooltip, "block.hotsteel.hot_steel_lantern.lore");
+            } else if (block == ModBlocks.MOLTEN_LANTERN) {
+                hotsteel$line(tooltip, "block.hotsteel.molten_lantern.lore");
+            } else if (block == ModBlocks.HOT_STEEL_DOOR) {
+                hotsteel$line(tooltip, "block.hotsteel.hot_steel_door.lore");
+            } else if (block == ModBlocks.HOT_STEEL_TRAPDOOR) {
+                hotsteel$line(tooltip, "block.hotsteel.hot_steel_trapdoor.lore");
+            } else if (block == ModBlocks.HOT_STEEL_FENCE) {
+                hotsteel$line(tooltip, "block.hotsteel.hot_steel_fence.lore");
+            } else if (block == ModBlocks.HOT_STEEL_BRICKS) {
+                hotsteel$line(tooltip, "block.hotsteel.hot_steel_bricks.lore");
+            } else if (block == ModBlocks.MOLTEN_STEEL_CHAIN) {
+                hotsteel$line(tooltip, "block.hotsteel.molten_steel_chain.lore");
+            } else if (block == ModBlocks.HOT_STEEL_STAIRS) {
+                hotsteel$line(tooltip, "block.hotsteel.hot_steel_stairs.lore");
+            } else if (block == ModBlocks.HOT_STEEL_SLAB) {
+                hotsteel$line(tooltip, "block.hotsteel.hot_steel_slab.lore");
+            } else if (block == ModBlocks.HOT_STEEL_WALL) {
+                hotsteel$line(tooltip, "block.hotsteel.hot_steel_wall.lore");
+            } else if (block == ModBlocks.CHARRED_BRICKS) {
+                hotsteel$line(tooltip, "block.hotsteel.charred_bricks.lore");
             }
         }
     }

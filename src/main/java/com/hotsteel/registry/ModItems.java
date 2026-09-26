@@ -47,7 +47,7 @@ public final class ModItems {
 
     // ---- Materials ----
     public static final Item CRUDE_STEEL = register("crude_steel",
-        new Item(new Item.Properties()));
+        new Item(new Item.Properties().fireResistant()));
 
     public static final Item STEEL_INGOT = register("steel_ingot",
         new Item(new Item.Properties().fireResistant()));
@@ -80,7 +80,7 @@ public final class ModItems {
 
     /** Fishing rod that auto-cooks any fish it catches. */
     public static final Item HOT_STEEL_FISHING_ROD = register("hot_steel_fishing_rod",
-        new HotSteelFishingRodItem(new Item.Properties().durability(600)));
+        new HotSteelFishingRodItem(new Item.Properties().fireResistant().durability(600)));
 
     /** Sickle: harvests a 5x5 area of mature crops and replants them. */
     public static final Item HOT_STEEL_SICKLE = register("hot_steel_sickle",
@@ -163,7 +163,7 @@ public final class ModItems {
 
     // ---- New throwable: lava bottle ----
     public static final Item LAVA_BOTTLE = register("lava_bottle",
-        new LavaBottleItem(new Item.Properties()));
+        new LavaBottleItem(new Item.Properties().fireResistant()));
 
     // ---- Spawn egg: lava golem ----
     public static final Item LAVA_GOLEM_SPAWN_EGG = register("lava_golem_spawn_egg",

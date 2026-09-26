@@ -7,10 +7,13 @@ import com.hotsteel.registry.ModItems;
 
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.phys.Vec3;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -93,13 +96,30 @@ public abstract class LivingEntityMixin {
         }
     }
 
-    /** A Hot Steel shield sets the attacker on fire when it blocks a melee hit. */
+    /**
+     * 「熔炉壁垒」— a Hot Steel shield does more than block. The barrier of molten
+     * steel throws the attacker back and coats the wielder in a brief shell of
+     * heat-resistance on every block, so holding the line against fire is a real
+     * tactic rather than a flat damage reduction.
+     */
     @Inject(method = "blockUsingShield", at = @At("TAIL"))
-    private void hotsteel$igniteBlockedAttacker(LivingEntity attacker, CallbackInfo ci) {
+    private void hotsteel$shieldWard(LivingEntity attacker, CallbackInfo ci) {
         LivingEntity self = (LivingEntity) (Object) this;
-        if (!self.level().isClientSide()
-            && self.getUseItem().is(ModItems.HOT_STEEL_SHIELD)) {
-            attacker.setRemainingFireTicks(Math.max(attacker.getRemainingFireTicks(), IGNITE_TICKS));
+        if (self.level().isClientSide()
+            || !self.getUseItem().is(ModItems.HOT_STEEL_SHIELD)) {
+            return;
         }
+        // Set the attacker alight...
+        attacker.setRemainingFireTicks(Math.max(attacker.getRemainingFireTicks(), IGNITE_TICKS));
+        // ...and shove them off the shield.
+        Vec3 push = attacker.position().subtract(self.position());
+        Vec3 flat = new Vec3(push.x, 0.0, push.z);
+        if (flat.lengthSqr() > 1.0E-4) {
+            flat = flat.normalize().scale(0.9);
+            attacker.push(flat.x, 0.36, flat.z);
+            attacker.hurtMarked = true;
+        }
+        // The block itself leaves the wielder briefly warded against fire.
+        self.addEffect(new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 60, 0, false, false, false));
     }
 }

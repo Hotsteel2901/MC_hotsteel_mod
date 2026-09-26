@@ -120,6 +120,26 @@ public class ModEnglishLangProvider extends FabricLanguageProvider {
         tb.add("block.hotsteel.molten_altar.lore", "Ritual focus: set it on a 3x3 Hot Steel platform and offer a Molten Core");
         tb.add("block.hotsteel.molten_steel_block.lore", "Blazing storage block — also counts as a warm hearth");
 
+        // Effects that previously had no description of their own.
+        tb.add("item.hotsteel.hot_steel_bow.lore", "Scorching shot: every arrow it launches ignites what it hits");
+        tb.add("item.hotsteel.hot_steel_crossbow.lore", "Molten bolt: hits harder, then bursts and shoves everything at the impact");
+        tb.add("item.hotsteel.hot_steel_shield.lore", "Forge bulwark: blocking ignites and shoves the attacker, and briefly wards you against fire");
+        tb.add("item.hotsteel.hot_steel_trident.lore", "Scorching blade: ignites targets on both melee and thrown hits");
+        tb.add("block.hotsteel.molten_glass.lore", "Clear furnace glass: lit, blast-proof, and it burns whatever touches it");
+        tb.add("block.hotsteel.hot_steel_lantern.lore", "Light level 15 and completely fireproof");
+        tb.add("block.hotsteel.molten_lantern.lore", "The brightest light of the Molten Age (level 15), and it never goes out");
+        tb.add("block.hotsteel.hot_steel_door.lore", "Opens by hand, and entirely fireproof");
+        tb.add("block.hotsteel.hot_steel_trapdoor.lore", "Opens by hand, and entirely fireproof");
+        tb.add("block.hotsteel.hot_steel_fence.lore", "Fireproof Hot Steel fence — it will not burn even in a solid line");
+        tb.add("block.hotsteel.hot_steel_bricks.lore", "Glowing Hot Steel bricks — made for furnace walls");
+        tb.add("block.hotsteel.molten_steel_chain.lore", "Molten chain: brighter than the Hot Steel one (light level 10)");
+        tb.add("block.hotsteel.hot_steel_stairs.lore", "Glowing, fireproof, blast-proof Hot Steel building block");
+        tb.add("block.hotsteel.hot_steel_slab.lore", "Glowing, fireproof, blast-proof Hot Steel building block");
+        tb.add("block.hotsteel.hot_steel_wall.lore", "Glowing, fireproof, blast-proof Hot Steel building block");
+        tb.add("block.hotsteel.charred_bricks.lore", "Blackened masonry of the old forges — embers still glint in the mortar");
+        tb.add("entity.hotsteel.ancient_forgeborn.phase2", "Ancient Forgeborn · Eruption");
+        tb.add("entity.hotsteel.ancient_forgeborn.phase3", "Ancient Forgeborn · Molten Deluge");
+
         // Advancements (kept punchy & a little tongue-in-cheek)
         tb.add("advancements.hotsteel.crude_steel.title", "Is This... Steel?");
         tb.add("advancements.hotsteel.crude_steel.description", "Smelt your very first Crude Steel. Looks a bit rough, honestly.");
